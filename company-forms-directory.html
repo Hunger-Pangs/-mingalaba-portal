@@ -1,0 +1,496 @@
+<!-- Company Forms - Directory -->
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><title>Company Forms</title><link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+<style>
+  /* Entrance animation on page load -- kept identical across dashboard.html,
+     company-info-directory.html, this page and restaurant-details-directory.html
+     so arriving at any of them feels the same. */
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #pageContent {
+    animation: pageFadeIn 0.5s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #pageContent { animation: none; }
+  }
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed": "#3e0500",
+          "inverse-on-surface": "#ffede9",
+          "surface-container-low": "#fff0ee",
+          "on-error": "#ffffff",
+          "primary": "#3e0104",
+          "surface-variant": "#f1dedb",
+          "on-primary-container": "#de7a72",
+          "surface-container-highest": "#f1dedb",
+          "on-primary-fixed-variant": "#7a2d29",
+          "on-surface-variant": "#554241",
+          "secondary-fixed-dim": "#ffb4a4",
+          "surface-tint": "#99443e",
+          "border-brass-subtle": "rgba(200, 156, 93, 0.28)",
+          "background": "#fff8f6",
+          "border-warm": "#E4DAC7",
+          "error": "#ba1a1a",
+          "secondary-fixed": "#ffdad3",
+          "on-error-container": "#93000a",
+          "on-tertiary": "#ffffff",
+          "primary-container": "#5b1614",
+          "error-container": "#ffdad6",
+          "secondary-container": "#fd795d",
+          "surface-container": "#fdeae6",
+          "surface-container-lowest": "#ffffff",
+          "tertiary-container": "#bcaa75",
+          "on-tertiary-fixed": "#231b00",
+          "primary-fixed-dim": "#ffb3ac",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#392e2c",
+          "accent-brass": "#C89C5D",
+          "surface-dim": "#e9d6d2",
+          "surface-bright": "#fff8f6",
+          "on-secondary-fixed-variant": "#86220e",
+          "tertiary-fixed-dim": "#d9c58d",
+          "on-primary-fixed": "#3f0204",
+          "surface-sand": "#EDE6D8",
+          "surface-cream": "#FCFAF6",
+          "on-surface": "#231917",
+          "inverse-primary": "#ffb3ac",
+          "tertiary-fixed": "#f6e1a7",
+          "outline-variant": "#dbc1be",
+          "secondary": "#a73923",
+          "outline": "#887270",
+          "surface": "#fff8f6",
+          "on-background": "#231917",
+          "surface-container-high": "#f7e4e0",
+          "primary-fixed": "#ffdad6",
+          "surface-linen": "#F7F3EB",
+          "on-secondary-container": "#701101",
+          "on-secondary": "#ffffff",
+          "on-tertiary-fixed-variant": "#53461a",
+          "on-tertiary-container": "#4b3e13",
+          "accent-moss": "#6B6038",
+          "tertiary": "#6c5d2f"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-xs": "0.5rem",
+          "gutter-desktop": "2rem",
+          "margin-desktop": "3rem",
+          "space-2xl": "3rem",
+          "space-md": "1rem",
+          "space-lg": "1.5rem",
+          "space-xl": "2rem",
+          "space-4xl": "6rem",
+          "space-xxs": "0.25rem",
+          "space-3xl": "4.5rem",
+          "margin-tablet": "2rem",
+          "space-sm": "0.75rem",
+          "gutter-tablet": "1.5rem",
+          "gutter-mobile": "1rem",
+          "margin-mobile": "1rem"
+        },
+        "fontFamily": {
+          "sans": [
+            "Plus Jakarta Sans",
+            "sans-serif"
+          ],
+          "serif": [
+            "Noto Serif",
+            "serif"
+          ],
+          "label-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-sm": [
+            "Noto Serif"
+          ],
+          "headline-lg": [
+            "Noto Serif"
+          ],
+          "body-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "display-md": [
+            "Noto Serif"
+          ],
+          "label-md": [
+            "Plus Jakarta Sans"
+          ],
+          "display-lg": [
+            "Noto Serif"
+          ],
+          "headline-md": [
+            "Noto Serif"
+          ],
+          "title-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "title-md": [
+            "Plus Jakarta Sans"
+          ],
+          "display-lg-mobile": [
+            "Noto Serif"
+          ],
+          "display-md-mobile": [
+            "Noto Serif"
+          ],
+          "body-md": [
+            "Plus Jakarta Sans"
+          ],
+          "label-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "body-lg": [
+            "Plus Jakarta Sans"
+          ]
+        },
+        "fontSize": {
+          "label-sm": [
+            "10px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-sm": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "32px",
+            {
+              "lineHeight": "40px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "500"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.015em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-md": [
+            "40px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-lg": [
+            "56px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-md": [
+            "26px",
+            {
+              "lineHeight": "34px",
+              "letterSpacing": "0em",
+              "fontWeight": "500"
+            }
+          ],
+          "title-lg": [
+            "18px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.005em",
+              "fontWeight": "600"
+            }
+          ],
+          "title-md": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-lg-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-md-mobile": [
+            "30px",
+            {
+              "lineHeight": "38px",
+              "letterSpacing": "0em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "24px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.03em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "400"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><!-- HEADER:START -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
+<a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
+<div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
+<img alt="Hunger Pangs logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5GOZQaK_TCXSKbXTgtW9aPzlSzsnM1lORZDAiMGuYPmWbyQ28JyhJzxGnYB4o-pfwZOlSOLAV68U6iowJymYA8DYer_AbFYhrKw9HxkY29IvYMa-vyc7JIOzBbvfbREg4C6mQscLWp4ggRyFKJOveZ1FVazEQ0pZPk3Yqs4WXxcWKv4V_L7hX6vUHih6QXa6Px7uwdOwcPRxIboLsSGLYvWuG5XxY8ItqzAZHWmJOuCXCGrxBbyfYYFLJQCwiNqczeQ">
+</div>
+<div class="h-6 w-[1px] bg-[#E8DFD3] hidden sm:block"></div>
+<div class="hidden sm:flex flex-col">
+<span class="font-serif text-[17px] font-semibold text-[#5b1614] tracking-tight leading-tight">Mingalaba</span>
+</div>
+</a>
+<!-- Search Bar -->
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-[0.75rem] text-[#8c7b75] text-[20px]">search</span>
+<input id="siteSearch" class="w-full pl-10 pr-[0.75rem] py-2 rounded-full bg-[#F7F4EE] border border-[#E8DFD3] text-[#231917] placeholder:text-[#8c7b75] text-[13px] font-sans focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614]/40 transition-all" placeholder="Search documents, people, tasks... / Cmd+K" type="text">
+</div>
+</div>
+<!-- Action Icons & Profile -->
+<div class="flex items-center gap-[0.75rem]">
+<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+</button>
+<div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
+<div class="relative">
+<button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
+<div class="hidden xl:flex flex-col text-left pl-2">
+<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
+<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
+</div>
+<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+</button>
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div class="px-4 py-2.5 border-b border-[#E8DFD3]">
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
+<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+</div>
+<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Log Out
+</a>
+</div>
+</div>
+</div>
+</header>
+<script>
+  (function () {
+    var btn = document.getElementById('profileMenuBtn');
+    var menu = document.getElementById('profileMenu');
+    if (!btn || !menu) return;
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  function getCookie(name) {
+    var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    // Django's CSRF protection requires this header on state-changing
+    // requests; the csrftoken cookie is deliberately readable by JS (unlike
+    // the HttpOnly session cookie) so it can be echoed back this way.
+    fetch('/api/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
+    })
+      .catch(function () {})
+      .then(function () {
+        window.location.href = 'index.html';
+      });
+  }
+</script>
+<script src="site-search.js" defer></script>
+<!-- HEADER:END -->
+
+<div class=""><main id="pageContent" class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
+<div class="w-full px-6 pt-6 pb-space-md space-y-space-lg max-w-[1328px] mx-auto"><div class="flex flex-col gap-space-sm"><div class="flex flex-wrap items-start justify-between gap-x-3 gap-y-2"><nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]"><a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html"><span class="material-symbols-outlined text-[16px]">dashboard</span><span>Dashboard</span></a><span class="text-[#E8DFD3]">/</span><a class="hover:text-[#5b1614] transition-colors" href="knowledge-center.html">Knowledge Center</a><span class="text-[#E8DFD3]">/</span><a class="hover:text-[#5b1614] transition-colors" href="forms.html">Forms</a><span class="text-[#E8DFD3]">/</span><span class="text-[#5b1614] font-semibold">Company Forms</span></nav><div class="flex flex-wrap items-center gap-2 sm:-mt-[5px]"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-sand text-accent-moss font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-emerald-600"></span>Repository Online &middot; Realtime Sync</span><a class="inline-flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-cream border border-border-warm hover:bg-surface-sand text-on-surface font-label-sm text-label-sm transition-all shadow-sm" href="dashboard.html"><span class="material-symbols-outlined text-[16px]">dashboard</span><span class="">Dashboard</span></a></div></div><div class="bg-[#F0FDFA] border border-[#99F6E4] rounded-2xl p-4 md:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md transition-all"><div class="flex items-center gap-4 min-w-0"><div class="w-12 h-12 rounded-full bg-[#0F766E] text-white flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-[26px]">assignment</span></div><div class="space-y-0.5 min-w-0"><div class="flex items-center gap-2 flex-wrap"><h1 class="font-headline-md text-headline-md text-[#0B5C56] tracking-tight font-semibold">Company Forms</h1><span class="px-2 py-0.5 rounded-full bg-[#CCFBF1] text-[#0F766E] font-label-sm text-[10px] font-bold tracking-wider uppercase border border-[#99F6E4]">Forms Library</span></div><p class="font-body-md text-body-md text-[#115E56]">Central repository for HR, operations, finance and store forms used across Mingalaba.</p></div></div><div class="flex items-center gap-space-sm shrink-0"><div class="relative"><span class="material-symbols-outlined absolute left-3 top-2.5 text-[#115E56] text-[18px]">search</span><input class="bg-white text-on-surface placeholder:text-on-surface-variant/70 pl-9 pr-3 py-2 rounded-full font-body-sm text-body-sm focus:outline-none shadow-sm w-56 lg:w-64 border border-[#99F6E4] focus:border-[#0F766E] transition-all" id="repoSearch" placeholder="Quick search forms..." type="text" oninput="filterHierarchy(this.value)"></div><button class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-[#0F766E] hover:bg-[#0B5C56] text-white font-label-md text-label-md shadow-sm transition-all" type="button"><span class="material-symbols-outlined text-[18px]">cloud_upload</span><span class="">Upload New Form</span></button></div></div></div><div class="grid grid-cols-12 gap-space-lg items-start"><aside class="col-span-12 lg:col-span-4 xl:col-span-4 rounded-xl bg-surface-cream border border-border-warm/70 shadow-sm p-space-md space-y-space-md"><div class="space-y-space-xs pb-3 border-b border-border-warm/60"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[20px]">account_tree</span><span class="font-title-md text-title-md text-primary font-semibold">Forms Hierarchy</span></div><div class="flex items-center gap-2"><button onclick="toggleAllFolders(true)" class="text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors" type="button">Expand</button><span class="text-tertiary text-xs">|</span><button onclick="toggleAllFolders(false)" class="text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors" type="button">Collapse</button></div></div><div class="relative pt-1"><span class="material-symbols-outlined absolute left-2.5 top-3 text-on-surface-variant text-[16px]">filter_alt</span><input class="w-full bg-surface-linen text-on-surface text-body-sm font-body-sm pl-8 pr-3 py-1.5 rounded-full border border-border-warm/50 focus:outline-none transition-all placeholder:text-on-surface-variant/60" id="folderFilterInput" placeholder="Filter folders &amp; forms..." type="text" oninput="filterHierarchy(this.value)"></div></div><div class="space-y-1.5 max-h-[740px] overflow-y-auto pr-1" id="interactiveTree">
+
+<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-hr')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-hr-arrow">expand_more</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder_open</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">01 HR &amp; Workforce Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">4 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 block" id="folder-hr">
+
+<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-1-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-1-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">1.1 Leave &amp; Attendance</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-1-1" class="pl-3.5 space-y-1 block">
+<div id="tree-item-doc_hr_leave" class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-primary/10 border border-primary/30"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate font-medium text-primary">Leave Application Form.pdf</span></div><span class="text-[10px] font-label-sm shrink-0 font-mono text-on-surface-variant">210 KB</span></div>
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-indigo-50 text-indigo-700 shrink-0 uppercase tracking-wide">DOC</span><span class="text-body-sm text-xs truncate text-[#231917]">Attendance Regularisation Form.docx</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">180 KB</span></div>
+</div></div>
+
+<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-1-2')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-1-2-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">1.2 Onboarding &amp; Exit</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-1-2" class="pl-3.5 space-y-1 block">
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">New Joinee Information Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">240 KB</span></div>
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Exit Clearance Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">195 KB</span></div>
+</div></div>
+
+</div></div>
+
+<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-ops')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-ops-arrow">chevron_right</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">02 Operations &amp; Store Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">3 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 hidden" id="folder-ops">
+
+<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-2-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-2-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">2.1 Incident &amp; Safety</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">1</span></button><div id="sub-2-1" class="pl-3.5 space-y-1 block">
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Incident Report Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">310 KB</span></div>
+</div></div>
+
+<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-2-2')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-2-2-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">2.2 Maintenance &amp; Facilities</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-2-2" class="pl-3.5 space-y-1 block">
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Maintenance Request Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">150 KB</span></div>
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-indigo-50 text-indigo-700 shrink-0 uppercase tracking-wide">DOC</span><span class="text-body-sm text-xs truncate text-[#231917]">Equipment Breakdown Log.docx</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">130 KB</span></div>
+</div></div>
+
+</div></div>
+
+<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-fin')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-fin-arrow">chevron_right</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">03 Finance &amp; Procurement Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">2 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 hidden" id="folder-fin">
+
+<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-3-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-3-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">3.1 Purchase &amp; Reimbursement</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-3-1" class="pl-3.5 space-y-1 block">
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Purchase Requisition Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">175 KB</span></div>
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Petty Cash Reimbursement Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">160 KB</span></div>
+</div></div>
+
+</div></div>
+
+<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-admin')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-admin-arrow">chevron_right</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">04 Administrative Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">2 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 hidden" id="folder-admin">
+
+<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-4-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-4-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">4.1 Visitor &amp; Asset Management</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-4-1" class="pl-3.5 space-y-1 block">
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Visitor Pass Request Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">120 KB</span></div>
+<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Asset Issue &amp; Return Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">140 KB</span></div>
+</div></div>
+
+</div></div>
+
+</div><div class="pt-3 border-t border-border-warm/60 flex items-center justify-between text-xs text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-tertiary">shield</span><span class="">Internal Use Only</span></span><span class="font-semibold text-primary">11 Total Forms</span></div></aside><section class="col-span-12 lg:col-span-8 xl:col-span-8 space-y-space-md"><div class="rounded-xl bg-surface-cream border border-border-warm shadow-sm p-space-md space-y-space-md"><div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm border-b border-border-warm/60"><div class="space-y-1"><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold tracking-wider" id="docBadgeType">PDF</span><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-sm text-[11px] font-semibold" id="docBadgeStatus"><span class="material-symbols-outlined text-[14px]">verified</span>Current Version</span><span class="text-xs text-on-surface-variant" id="docSizeModified">210 KB &middot; Updated Apr 1, 2024</span></div><h2 class="font-headline-md text-headline-md text-primary tracking-tight" id="previewTitle">Leave Application Form.pdf</h2></div><div class="flex items-center gap-1.5 shrink-0"><button onclick="alert('Downloading selected form...')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm transition-all" type="button"><span class="material-symbols-outlined text-[16px]">download</span><span class="">Download</span></button><button onclick="window.print()" class="p-1.5 rounded-full hover:bg-surface-sand text-on-surface-variant hover:text-primary transition-colors border border-border-warm/60" title="Print Form" type="button"><span class="material-symbols-outlined text-[18px]">print</span></button><button onclick="alert('Form direct link copied to clipboard.')" class="p-1.5 rounded-full hover:bg-surface-sand text-on-surface-variant hover:text-primary transition-colors border border-border-warm/60" title="Share Link" type="button"><span class="material-symbols-outlined text-[18px]">share</span></button><button onclick="alert('Opening fillable form in a new window.')" class="p-1.5 rounded-full hover:bg-surface-sand text-on-surface-variant hover:text-primary transition-colors border border-border-warm/60" title="Open in New Window" type="button"><span class="material-symbols-outlined text-[18px]">open_in_new</span></button></div></div><div class="grid grid-cols-2 md:grid-cols-4 gap-3 p-3 rounded-lg bg-surface-linen/80 border border-border-warm/60 text-body-sm"><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Form Code</div><div class="font-semibold text-on-surface text-xs truncate" id="metaDocId">HR-LV-01</div></div><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Department Owner</div><div class="font-semibold text-on-surface text-xs truncate" id="metaCustodian">Human Resources</div></div><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Last Updated</div><div class="font-semibold text-on-surface text-xs truncate" id="metaEffectiveDate">1 April 2024</div></div><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Current Version</div><div class="font-semibold text-emerald-800 text-xs truncate" id="metaRenewalDate">v3 (In Use)</div></div></div><div class="rounded-xl bg-surface-sand/50 border border-border-warm p-space-md space-y-3"><div class="flex items-center justify-between px-space-sm py-1.5 bg-surface-cream rounded-lg border border-border-warm/70 shadow-sm"><div class="flex items-center gap-3 text-xs text-on-surface-variant"><span class="flex items-center gap-1 text-primary font-semibold"><span class="material-symbols-outlined text-[16px]">menu_book</span>Page <span id="pageCurrent" class="">1</span> of <span id="pageTotal" class="">1</span></span><div class="h-4 w-px bg-border-warm"></div><div class="flex items-center gap-1"><button onclick="adjustZoom(-10)" class="p-1 hover:bg-surface-sand rounded-full text-on-surface-variant" title="Zoom Out"><span class="material-symbols-outlined text-[16px]">zoom_out</span></button><span class="font-label-sm text-xs" id="zoomVal">100%</span><button onclick="adjustZoom(10)" class="p-1 hover:bg-surface-sand rounded-full text-on-surface-variant" title="Zoom In"><span class="material-symbols-outlined text-[16px]">zoom_in</span></button></div></div><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-surface-linen text-on-surface-variant text-[11px] font-label-sm flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-accent-brass">description</span>Fillable Template</span></div></div><div class="w-full min-h-[580px] bg-white rounded-lg border border-border-warm shadow-inner p-space-lg relative overflow-hidden transition-all duration-200 flex flex-col justify-between" id="docViewerCanvas"><div class="space-y-5" id="docCanvasContent"><div class="flex items-center justify-between border-b-2 border-primary/20 pb-4"><div class="flex items-center gap-3"><div class="w-12 h-12 rounded-full border-2 border-accent-brass/80 flex items-center justify-center p-1 bg-surface-cream"><span class="material-symbols-outlined text-primary text-[28px]">assignment</span></div><div><div class="font-headline-sm text-primary tracking-tight font-bold text-[18px]">HUNGER PANGS LIMITED</div><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[11px]">Human Resources &middot; Mingalaba Workspace</div></div></div><div class="text-right"><div class="font-label-sm text-xs text-on-surface-variant">Form No. HR-LV-01</div><div class="font-label-md text-xs font-bold text-primary">Version 3</div></div></div><div class="text-center py-1 space-y-1"><div class="font-label-sm uppercase tracking-widest text-accent-brass font-bold text-xs">Employee Request</div><h3 class="font-headline-md text-primary text-2xl font-bold">LEAVE APPLICATION FORM</h3></div><div class="grid grid-cols-2 md:grid-cols-4 gap-3 p-3 rounded-lg bg-surface-cream/60 border border-border-warm/60 text-body-sm"><div class="space-y-0.5 col-span-2"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Employee Name</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Employee ID</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Department</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Designation</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Store / Location</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5 col-span-2"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Leave Type</span><span class="text-xs text-on-surface block">&#9633; Casual &nbsp; &#9633; Sick &nbsp; &#9633; Earned &nbsp; &#9633; Unpaid</span></div></div><div class="grid grid-cols-3 gap-3 p-3 rounded-lg bg-surface-cream/60 border border-border-warm/60 text-body-sm"><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">From Date</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">To Date</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">No. of Days</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div></div><div class="p-3 rounded-lg bg-surface-cream/60 border border-border-warm/60 space-y-1"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Reason for Leave</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-3 pt-1">&nbsp;</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1 pt-1">&nbsp;</span></div><div class="grid grid-cols-2 gap-6 pt-4 items-end"><div class="space-y-1.5"><div class="text-xs text-on-surface border-b border-dashed border-border-warm pb-1">&nbsp;</div><p class="text-[11px] text-on-surface-variant leading-tight">Employee Signature &amp; Date</p></div><div class="space-y-1.5"><div class="text-xs text-on-surface border-b border-dashed border-border-warm pb-1">&nbsp;</div><p class="text-[11px] text-on-surface-variant leading-tight">Reporting Manager Signature, Date &amp; Decision</p></div></div><div class="pt-3 mt-2 border-t border-border-warm/50 flex items-center justify-between text-xs text-on-surface-variant"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-accent-brass">lock</span><span class="">HR Use Only &middot; Leave balance updated on approval</span></div><span class="text-[11px]">Internal Template &middot; Mingalaba Forms Library</span></div></div></div><div class="flex items-center justify-between px-space-sm pt-2 text-xs text-on-surface-variant"><div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">history</span><span class="">Last reviewed by HR on Apr 1, 2024</span></div></div></div></section></div></div>
+</div>
+<script>
+  // Document Hierarchy: expand/collapse + filter.
+  // Every folder and subfolder button in the tree calls toggleBranch(id) with
+  // the id of its content <div> (its own arrow icon is found automatically
+  // as <that-id>-arrow). Works for any depth -- top-level folders and
+  // subfolders both use it.
+  function toggleBranch(id) {
+    const content = document.getElementById(id);
+    const arrow = document.getElementById(id + '-arrow');
+    if (!content) return;
+    const willExpand = content.classList.contains('hidden');
+    content.classList.toggle('hidden', !willExpand);
+    content.classList.toggle('block', willExpand);
+    if (arrow) arrow.textContent = willExpand ? 'expand_more' : 'chevron_right';
+  }
+
+  // "Expand" / "Collapse" links at the top of the panel act on every
+  // branch (folders and subfolders) at once.
+  function toggleAllFolders(expand) {
+    document.querySelectorAll('#interactiveTree [id^="folder-"], #interactiveTree [id^="sub-"]').forEach((content) => {
+      if (content.id.endsWith('-arrow')) return;
+      const arrow = document.getElementById(content.id + '-arrow');
+      content.classList.toggle('hidden', !expand);
+      content.classList.toggle('block', expand);
+      if (arrow) arrow.textContent = expand ? 'expand_more' : 'chevron_right';
+    });
+  }
+
+  // Shared by both the toolbar search box and the sidebar filter box.
+  // Hides folders/files that don't match, and auto-expands whatever does
+  // match so results are actually visible rather than hidden inside a
+  // collapsed branch.
+  function filterHierarchy(query) {
+    const q = query.trim().toLowerCase();
+    document.querySelectorAll('#interactiveTree > .folder-group').forEach((group) => {
+      const matches = !q || group.textContent.toLowerCase().includes(q);
+      group.style.display = matches ? '' : 'none';
+      if (matches && q) {
+        group.querySelectorAll('[id^="folder-"], [id^="sub-"]').forEach((content) => {
+          if (content.id.endsWith('-arrow')) return;
+          content.classList.remove('hidden');
+          content.classList.add('block');
+          const arrow = document.getElementById(content.id + '-arrow');
+          if (arrow) arrow.textContent = 'expand_more';
+        });
+      }
+    });
+  }
+
+  function adjustZoom(delta) {
+    var el = document.getElementById('zoomVal');
+    if (!el) return;
+    var val = parseInt(el.textContent, 10) || 100;
+    val = Math.max(50, Math.min(200, val + delta));
+    el.textContent = val + '%';
+    var canvas = document.getElementById('docCanvasContent');
+    if (canvas) canvas.style.zoom = (val / 100);
+  }
+</script>
+<script>
+  // header search landing: ?q=<form name> shows only the folder that holds it and highlights the file.
+  (function () {
+    var q = new URLSearchParams(location.search).get('q');
+    if (!q) return;
+    var box = document.getElementById('folderFilterInput');
+    if (box) box.value = q;
+    filterHierarchy(q);
+    var want = q.toLowerCase();
+    var row = Array.prototype.slice.call(document.querySelectorAll('.tree-doc-row')).filter(function (r) { return r.textContent.toLowerCase().indexOf(want) >= 0; })[0];
+    if (!row) return;
+    row.style.transition = 'box-shadow .3s';
+    row.style.boxShadow = '0 0 0 3px rgba(15,118,110,.5)';
+    setTimeout(function () { row.style.boxShadow = ''; }, 2600);
+    row.scrollIntoView({ block: 'center' });
+  })();
+</script>
+</body></html>

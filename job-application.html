@@ -1,0 +1,719 @@
+﻿<!-- Mingalaba Workspace - Job Application -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Apply</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+    main > :first-child { margin-top: 0 !important; }
+    main > :last-child { margin-bottom: 0 !important; }
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #pageContent {
+    animation: pageFadeIn 0.5s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #pageContent { animation: none; }
+  }
+
+  /* ---- Job Application form ---- */
+  .ja-card { background: #fff; border: 1px solid #E8DFD3; border-radius: 20px; padding: 26px 28px; }
+  .ja-h3 { font-family: 'Noto Serif', Georgia, serif; font-size: 15.5px; font-weight: 600; color: #231917; display: flex; align-items: center; gap: 8px; margin: 0 0 4px; }
+  .ja-h3 .material-symbols-outlined { font-size: 19px; color: #B45309; }
+  .ja-sub { font-size: 12.5px; color: #8c7b75; margin: 0 0 18px; }
+
+  .ja-drop { border: 2px dashed #E8DFD3; border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; transition: border-color .15s, background-color .15s; }
+  .ja-drop:hover, .ja-drop:focus-visible { border-color: #B45309; background: #FEF8EB; outline: none; }
+  .ja-drop.drag { border-color: #B45309; background: #FEF8EB; }
+  .ja-drop .material-symbols-outlined { font-size: 34px; color: #B45309; }
+  .ja-drop p { margin: 8px 0 0; font-size: 13.5px; color: #4d4240; }
+  .ja-drop small { display: block; margin-top: 4px; font-size: 11.5px; color: #8c7b75; }
+
+  .ja-file { display: none; align-items: center; gap: 12px; background: #FCFAF6; border: 1px solid #EFE7D9; border-radius: 14px; padding: 12px 14px; }
+  .ja-file.show { display: flex; }
+  .ja-file .fic { width: 38px; height: 38px; border-radius: 10px; background: #FEF8EB; color: #B45309; display: flex; align-items: center; justify-content: center; flex: none; }
+  .ja-file .ftx { min-width: 0; flex: 1; }
+  .ja-file .fname { font-size: 13px; font-weight: 600; color: #231917; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ja-file .fsize { font-size: 11px; color: #8c7b75; }
+  .ja-file .frm { border: 0; background: rgba(0,0,0,.06); color: #635654; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+  .ja-file .frm:hover { background: rgba(0,0,0,.1); color: #ba1a1a; }
+
+  .ja-status { font-size: 12.5px; margin-top: 12px; display: none; align-items: center; gap: 6px; }
+  .ja-status.show { display: flex; }
+  .ja-status.busy { color: #8c7b75; }
+  .ja-status.ok { color: #1E4620; }
+  .ja-status.warn { color: #8A6A1F; }
+  .ja-status .material-symbols-outlined { font-size: 16px; }
+  @keyframes jaSpin { to { transform: rotate(360deg); } }
+  .ja-status.busy .material-symbols-outlined { animation: jaSpin 0.9s linear infinite; }
+
+  .ja-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .ja-field label { display: block; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #8c7b75; margin-bottom: 5px; }
+  .ja-field input, .ja-field textarea {
+    width: 100%; font: inherit; font-size: 13.5px; padding: 9px 12px; border-radius: 10px;
+    border: 1px solid #E8DFD3; background: #fff; color: #231917; transition: border-color .15s, box-shadow .15s;
+  }
+  .ja-field input:focus, .ja-field textarea:focus { outline: none; border-color: #B45309; box-shadow: 0 0 0 3px rgba(180,83,9,.12); }
+  .ja-field input.err { border-color: #ba1a1a; }
+  .ja-field .errtx { display: none; font-size: 11px; color: #ba1a1a; margin-top: 4px; }
+  .ja-field.invalid .errtx { display: block; }
+
+  .ja-auto-field label { display: flex; align-items: center; gap: 4px; }
+  .ja-auto-field label .material-symbols-outlined { font-size: 13px; color: #B45309; }
+  .ja-auto-field input.filled { border-color: #CBE4D3; background: #F7FCF8; }
+
+  .ja-btn { font: inherit; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 999px; border: 1px solid #B45309; background: #B45309; color: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: background-color .15s; }
+  .ja-btn:hover { background: #92400E; }
+  .ja-btn:disabled { background: #EFE9DD; border-color: #EFE9DD; color: #a99b90; cursor: not-allowed; }
+  .ja-btn.ghost { background: #fff; color: #B45309; }
+  .ja-btn.ghost:hover { background: #FEF8EB; }
+  .ja-btn .material-symbols-outlined { font-size: 17px; }
+
+  .ja-success { text-align: center; padding: 30px 10px; }
+  .ja-success .ic { width: 64px; height: 64px; border-radius: 50%; background: #E5F2E8; color: #1E4620; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .ja-success .ic .material-symbols-outlined { font-size: 34px; }
+  .ja-success h2 { font-family: 'Noto Serif', Georgia, serif; font-size: 20px; margin: 0 0 8px; color: #231917; }
+  .ja-success p { font-size: 13.5px; color: #635654; margin: 0 0 22px; }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#5b1614",
+          "primary-dark": "#3e0104",
+          "primary-container": "#5b1614",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#ffdad6",
+          "primary-fixed-dim": "#ffb3ac",
+          "on-primary-fixed": "#3f0204",
+          "secondary": "#a73923",
+          "secondary-container": "#fd795d",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#ffdad3",
+          "secondary-fixed-dim": "#ffb4a4",
+          "tertiary": "#6c5d2f",
+          "tertiary-container": "#bcaa75",
+          "tertiary-fixed": "#f6e1a7",
+          "background": "#FBF9F5",
+          "surface": "#FBF9F5",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#F7F3EC",
+          "surface-container": "#fdeae6",
+          "surface-container-high": "#f7e4e0",
+          "surface-cream": "#FCFAF6",
+          "surface-linen": "#F7F3EB",
+          "surface-sand": "#EDE6D8",
+          "on-surface": "#231917",
+          "on-surface-variant": "#635654",
+          "outline-variant": "#E8DFD3",
+          "border-warm": "#E8DFD3",
+          "accent-brass": "#C89C5D",
+          "accent-moss": "#6B6038",
+          "error": "#ba1a1a"
+        },
+        fontFamily: {
+          "serif": ["Noto Serif", "serif"],
+          "sans": ["Plus Jakarta Sans", "sans-serif"],
+          "body-md": ["Plus Jakarta Sans", "sans-serif"],
+          "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "label-md": ["Plus Jakarta Sans", "sans-serif"],
+          "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "headline-sm": ["Noto Serif", "serif"]
+        },
+        spacing: {
+          "space-xl": "1.5rem",
+          "space-lg": "1.25rem",
+          "space-md": "0.75rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "space-2xl": "2rem",
+          "app-max-width": "100rem"
+        }
+      }
+    }
+  };
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary/15 selection:text-primary">
+<div>
+<!-- Header -->
+<!-- HEADER:START -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
+<a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
+<div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
+<img alt="Hunger Pangs logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5GOZQaK_TCXSKbXTgtW9aPzlSzsnM1lORZDAiMGuYPmWbyQ28JyhJzxGnYB4o-pfwZOlSOLAV68U6iowJymYA8DYer_AbFYhrKw9HxkY29IvYMa-vyc7JIOzBbvfbREg4C6mQscLWp4ggRyFKJOveZ1FVazEQ0pZPk3Yqs4WXxcWKv4V_L7hX6vUHih6QXa6Px7uwdOwcPRxIboLsSGLYvWuG5XxY8ItqzAZHWmJOuCXCGrxBbyfYYFLJQCwiNqczeQ">
+</div>
+<div class="h-6 w-[1px] bg-[#E8DFD3] hidden sm:block"></div>
+<div class="hidden sm:flex flex-col">
+<span class="font-serif text-[17px] font-semibold text-[#5b1614] tracking-tight leading-tight">Mingalaba</span>
+</div>
+</a>
+<!-- Search Bar -->
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-[0.75rem] text-[#8c7b75] text-[20px]">search</span>
+<input id="siteSearch" class="w-full pl-10 pr-[0.75rem] py-2 rounded-full bg-[#F7F4EE] border border-[#E8DFD3] text-[#231917] placeholder:text-[#8c7b75] text-[13px] font-sans focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614]/40 transition-all" placeholder="Search documents, people, tasks... / Cmd+K" type="text">
+</div>
+</div>
+<!-- Action Icons & Profile -->
+<div class="flex items-center gap-[0.75rem]">
+<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+</button>
+<div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
+<div class="relative">
+<button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
+<div class="hidden xl:flex flex-col text-left pl-2">
+<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
+<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
+</div>
+<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+</button>
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div class="px-4 py-2.5 border-b border-[#E8DFD3]">
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
+<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+</div>
+<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Log Out
+</a>
+</div>
+</div>
+</div>
+</header>
+<script>
+  (function () {
+    var btn = document.getElementById('profileMenuBtn');
+    var menu = document.getElementById('profileMenu');
+    if (!btn || !menu) return;
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  function getCookie(name) {
+    var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    // Django's CSRF protection requires this header on state-changing
+    // requests; the csrftoken cookie is deliberately readable by JS (unlike
+    // the HttpOnly session cookie) so it can be echoed back this way.
+    fetch('/api/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
+    })
+      .catch(function () {})
+      .then(function () {
+        window.location.href = 'index.html';
+      });
+  }
+</script>
+<script src="site-search.js" defer></script>
+<!-- HEADER:END -->
+
+<main id="pageContent" class="w-full pt-16 bg-background min-h-screen px-space-xl py-space-lg max-w-app-max-width mx-auto">
+<div class="py-space-xl max-w-4xl mx-auto flex flex-col gap-space-xl">
+
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]">
+<a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html">
+<span class="material-symbols-outlined text-[16px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<span class="text-[#E8DFD3]">/</span>
+<a class="hover:text-[#5b1614] transition-colors" href="job-openings.html">Job Openings</a>
+<span class="text-[#E8DFD3]">/</span>
+<span class="text-[#78350F] font-semibold">Apply</span>
+</nav>
+
+<div id="jaRoot"></div>
+
+</div>
+</main>
+
+<script src="jobs-data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+(function () {
+  // Preview mode: there is no server here, so a submitted application is
+  // accepted on screen and goes nowhere. The full version saves it.
+  var DEMO_MODE = true;
+  var realFetch = window.fetch.bind(window);
+  function apiFetch(url, opts) {
+    if (DEMO_MODE && String(url).indexOf('/api/') === 0) {
+      return Promise.resolve({ ok: true, status: 201,
+        json: function () { return Promise.resolve({ success: true, id: 1 }); } });
+    }
+    return realFetch(url, opts);
+  }
+
+  var root = document.getElementById('jaRoot');
+  var S = window.JobsStore;
+  var jobId = parseInt(new URLSearchParams(location.search).get('job'), 10);
+  var job = null;
+  var resumeFile = null;
+
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+  }
+  function icon(name) { return '<span class="material-symbols-outlined">' + name + '</span>'; }
+
+  function notFound() {
+    root.innerHTML =
+      '<div class="ja-card" style="text-align:center;padding:40px 20px">' +
+        icon('search_off') +
+        '<h2 style="font-family:\'Noto Serif\',Georgia,serif;font-size:19px;margin:14px 0 6px;color:#231917">This role isn\'t available</h2>' +
+        '<p style="font-size:13.5px;color:#635654;margin:0 0 20px">It may have closed, or the link is out of date.</p>' +
+        '<a class="ja-btn" href="job-openings.html">' + icon('arrow_back') + 'Back to Job Openings</a>' +
+      '</div>';
+  }
+
+  /* ---------------------------------------------------------------------
+     Resume text extraction (client-side, offline).
+     PDF and .docx are read with pdf.js / mammoth.js; legacy .doc files
+     can't be parsed in the browser, so those just skip straight to manual
+     entry for the auto-detected fields.
+  --------------------------------------------------------------------- */
+  function extractPdfText(file) {
+    return file.arrayBuffer().then(function (buf) {
+      return pdfjsLib.getDocument({ data: buf }).promise;
+    }).then(function (doc) {
+      var pages = [];
+      var chain = Promise.resolve();
+      for (var i = 1; i <= doc.numPages; i++) {
+        (function (n) {
+          chain = chain.then(function () {
+            return doc.getPage(n).then(function (page) {
+              return page.getTextContent();
+            }).then(function (content) {
+              // pdf.js gives positioned text runs, not lines -- group runs
+              // into lines by their Y position so section-based heuristics
+              // (which look line by line) actually have lines to look at.
+              var lineList = [], cur = '', lastY = null;
+              content.items.forEach(function (it) {
+                var y = it.transform ? it.transform[5] : null;
+                if (lastY !== null && y !== null && Math.abs(y - lastY) > 2) {
+                  lineList.push(cur);
+                  cur = '';
+                }
+                cur += it.str + ' ';
+                if (y !== null) lastY = y;
+              });
+              if (cur) lineList.push(cur);
+              pages.push(lineList.join('\n'));
+            });
+          });
+        })(i);
+      }
+      return chain.then(function () { return pages.join('\n'); });
+    });
+  }
+
+  function extractDocxText(file) {
+    return file.arrayBuffer().then(function (buf) {
+      return mammoth.extractRawText({ arrayBuffer: buf });
+    }).then(function (result) { return result.value || ''; });
+  }
+
+  /* ---- best-effort heuristics: pattern-matching, not real NLP ---- */
+  function guessExperience(text) {
+    var re = /(\d{1,2}(?:\.\d{1,2})?)\s*\+?\s*(?:years|yrs|year)\b/gi;
+    var vals = [], m;
+    while ((m = re.exec(text))) {
+      var n = parseFloat(m[1]);
+      if (n > 0 && n <= 45) vals.push(n);
+    }
+    if (!vals.length) return '';
+    var max = Math.max.apply(null, vals);
+    return max + (max === 1 ? ' year' : ' years');
+  }
+
+  var EDU_LEVELS = [
+    { rank: 5, res: [/ph\.?d/i, /doctorate/i] },
+    { rank: 4, res: [/\bmba\b/i, /\bm\.?tech\b/i, /\bm\.?e\.?\b/i, /\bm\.?sc\b/i, /\bm\.?a\b/i, /\bmca\b/i, /master'?s?\s+degree|master'?s?\s+in/i] },
+    { rank: 3, res: [/\bb\.?tech\b/i, /\bb\.?e\.?\b/i, /\bb\.?sc\b/i, /\bb\.?a\b/i, /\bbba\b/i, /\bbca\b/i, /bachelor'?s?\s+degree|bachelor'?s?\s+in/i] },
+    { rank: 2, res: [/diploma/i] },
+    { rank: 1, res: [/high school|hsc\b|hse\b|12th|hslc|senior secondary/i] }
+  ];
+  function guessEducation(text) {
+    var lines = text.split(/\r?\n/);
+    var best = null;
+    lines.forEach(function (line) {
+      if (line.length > 140) return;
+      EDU_LEVELS.forEach(function (level) {
+        if (level.res.some(function (re) { return re.test(line); })) {
+          if (!best || level.rank > best.rank) best = { rank: level.rank, line: line.trim() };
+        }
+      });
+    });
+    return best ? best.line.replace(/\s{2,}/g, ' ') : '';
+  }
+
+  function guessOrganisations(text) {
+    var lines = text.split(/\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var startIdx = lines.findIndex(function (l) { return /^(work\s+|professional\s+)?experience$|employment\s+history/i.test(l); });
+    if (startIdx === -1) startIdx = -1;
+    var searchFrom = startIdx === -1 ? 0 : startIdx + 1;
+    var endIdx = lines.findIndex(function (l, i) { return i > searchFrom && /^education$|^skills$|^projects?$|^certifications?$|^achievements?$/i.test(l); });
+    if (endIdx === -1) endIdx = lines.length;
+    var slice = lines.slice(searchFrom, endIdx);
+    var found = [];
+    var COMPANY_HINT = /\b(pvt\.?\s*ltd|private limited|limited|llc|inc\.?|technologies|solutions|systems|labs|group|company|corp\.?|co\.|restaurants?|hospitality)\b/i;
+    var TITLE_HINT = /\b(manager|executive|chef|analyst|director|associate|assistant|head|lead|engineer|specialist|coordinator|officer|consultant|intern|host|captain)\b/i;
+    var YEAR = /\b(19|20)\d{2}\b/;
+    var DATE_RANGE = /\b(19|20)\d{2}\s*(?:[-–—]|to)\s*((19|20)\d{2}|present)\b/gi;
+    var TRAILING_PUNCT = /[-–—|,:\s]+$/;
+    slice.forEach(function (line) {
+      if (found.length >= 4) return;
+      if (line.length < 3 || line.length > 80) return;
+      if (/^[-*•]/.test(line)) return;
+      var hasDate = YEAR.test(line) || /present/i.test(line);
+      if (TITLE_HINT.test(line) && hasDate) return; // looks like "Role, 2019 - Present", not a company
+      if (COMPANY_HINT.test(line) || (hasDate && /^[A-Z]/.test(line) && !TITLE_HINT.test(line))) {
+        var name = line.replace(DATE_RANGE, '').replace(YEAR, '').replace(/present/i, '').replace(TRAILING_PUNCT, '').trim();
+        if (name && found.indexOf(name) === -1) found.push(name);
+      }
+    });
+    return found.join(', ');
+  }
+
+  function guessAddress(text) {
+    var lines = text.split(/\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var labelLine = lines.find(function (l) { return /^address\s*[:\-]/i.test(l); });
+    if (labelLine) return labelLine.replace(/^address\s*[:\-]\s*/i, '');
+    var pinLine = lines.find(function (l) { return /\b\d{6}\b/.test(l) && l.length < 100 && /[a-zA-Z]/.test(l); });
+    if (pinLine) return pinLine;
+    return '';
+  }
+
+  function guessEmail(text) {
+    var m = text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
+    return m ? m[0] : '';
+  }
+
+  function guessPhone(text) {
+    var m = text.match(/(?:\+?91[-\s]?)?[6-9]\d{9}\b/) || text.match(/\+?\d[\d\s-]{8,14}\d/);
+    return m ? m[0].trim() : '';
+  }
+
+  function guessName(text) {
+    var lines = text.split(/\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
+    for (var i = 0; i < Math.min(lines.length, 6); i++) {
+      var l = lines[i];
+      if (l.length < 3 || l.length > 40) continue;
+      if (/[@\d]/.test(l)) continue;
+      if (/resume|curriculum|vitae|address|email|phone|contact/i.test(l)) continue;
+      var words = l.split(/\s+/);
+      if (words.length >= 2 && words.length <= 4 && words.every(function (w) { return /^[A-Za-z.'-]+$/.test(w); })) {
+        return l.replace(/\s{2,}/g, ' ');
+      }
+    }
+    return '';
+  }
+
+  function autoFieldHtml(id, iconName, label, placeholder) {
+    return '<div class="ja-field ja-auto-field"><label for="' + id + '">' + icon(iconName) + esc(label) + '</label>' +
+      '<input id="' + id + '" type="text" placeholder="' + esc(placeholder) + '"></div>';
+  }
+
+  // Fills an auto-detected field only if the candidate hasn't already typed
+  // something there themselves (e.g. re-uploading a second resume shouldn't
+  // stomp on an edit they already made).
+  function setAutoField(id, value, force) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (!force && el.dataset.userEdited === '1') return;
+    el.value = value || '';
+    el.classList.toggle('filled', !!value);
+  }
+
+  function fmtSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function setStatus(kind, iconName, text) {
+    var el = document.getElementById('jaStatus');
+    if (!el) return;
+    el.className = 'ja-status show ' + kind;
+    el.innerHTML = icon(iconName) + '<span>' + esc(text) + '</span>';
+  }
+  function clearStatus() {
+    var el = document.getElementById('jaStatus');
+    if (el) { el.className = 'ja-status'; el.innerHTML = ''; }
+  }
+
+  function processResume(file) {
+    var name = file.name.toLowerCase();
+    setStatus('busy', 'progress_activity', 'Reading your resume...');
+    var extract;
+    if (name.endsWith('.pdf')) extract = extractPdfText(file);
+    else if (name.endsWith('.docx')) extract = extractDocxText(file);
+    else extract = Promise.reject(new Error('unsupported-for-parsing'));
+
+    extract.then(function (text) {
+      text = text || '';
+      var experience = guessExperience(text);
+      var education = guessEducation(text);
+      var orgs = guessOrganisations(text);
+      var address = guessAddress(text);
+      var candName = guessName(text);
+      var phone = guessPhone(text);
+      var email = guessEmail(text);
+      setAutoField('afExperience', experience);
+      setAutoField('afEducation', education);
+      setAutoField('afOrgs', orgs);
+      setAutoField('afAddress', address);
+      setAutoField('fName', candName);
+      setAutoField('fPhone', phone);
+      setAutoField('fEmail', email);
+      if (experience || education || orgs || address || candName || phone || email) {
+        setStatus('ok', 'task_alt', 'We pulled a few details from your resume -- please double-check them below.');
+      } else {
+        setStatus('warn', 'info', "We couldn't confidently pick out details from this resume -- please fill them in below.");
+      }
+    }).catch(function (err) {
+      setAutoField('afExperience', '');
+      setAutoField('afEducation', '');
+      setAutoField('afOrgs', '');
+      setAutoField('afAddress', '');
+      if (err && err.message === 'unsupported-for-parsing') {
+        setStatus('warn', 'info', "We can't automatically read old .doc files -- please fill in the details below.");
+      } else {
+        console.error('Resume parsing failed', err);
+        setStatus('warn', 'info', "We couldn't read this file automatically -- please fill in the details below.");
+      }
+    });
+  }
+
+  function renderForm() {
+    var st = S.deptStyle(job.department);
+    root.innerHTML =
+      '<div class="rounded-2xl p-space-xl flex flex-col md:flex-row md:items-center gap-space-lg" style="background:' + st.tint + ';border:1px solid ' + st.line + '">' +
+        '<div class="w-14 h-14 shrink-0 rounded-full text-white flex items-center justify-center shadow-sm" style="background:' + st.color + '">' + icon(st.icon) + '</div>' +
+        '<div><h1 class="text-[20px] font-serif font-semibold tracking-tight" style="color:' + st.color + '">' + esc(job.title) + '</h1>' +
+        '<p class="text-[13px] font-sans text-on-surface-variant mt-1">' + esc(job.department) + ' &middot; ' + esc(job.city) + (job.place ? ', ' + esc(job.place) : '') + ' &middot; ' + esc(job.type) + '</p></div>' +
+      '</div>' +
+
+      '<form id="jaForm" class="flex flex-col gap-space-xl" novalidate>' +
+
+        '<div class="ja-card">' +
+          '<h3 class="ja-h3">' + icon('upload_file') + 'Resume / CV</h3>' +
+          '<p class="ja-sub">PDF or Word (.doc/.docx), up to 5 MB. We\'ll try to pull a few details from it automatically.</p>' +
+          '<div id="jaDrop" class="ja-drop" role="button" tabindex="0" aria-label="Upload your resume">' +
+            icon('cloud_upload') +
+            '<p><b>Click to browse</b> or drag & drop your resume here</p>' +
+            '<small>PDF, DOC or DOCX &middot; max 5 MB</small>' +
+          '</div>' +
+          '<input id="jaFileInput" type="file" accept=".pdf,.doc,.docx" hidden>' +
+          '<div id="jaFile" class="ja-file mt-space-md">' +
+            '<div class="fic">' + icon('description') + '</div>' +
+            '<div class="ftx"><div id="jaFileName" class="fname"></div><div id="jaFileSize" class="fsize"></div></div>' +
+            '<button type="button" id="jaFileRemove" class="frm" aria-label="Remove file">' + icon('close') + '</button>' +
+          '</div>' +
+          '<div id="jaStatus" class="ja-status"></div>' +
+        '</div>' +
+
+        '<div class="ja-card">' +
+          '<h3 class="ja-h3">' + icon('auto_awesome') + 'Auto-detected from resume</h3>' +
+          '<p class="ja-sub">Filled in automatically once a resume is read -- all editable, so please double-check them.</p>' +
+          '<div class="ja-grid">' +
+            autoFieldHtml('afExperience', 'work_history', 'Total Experience', 'Upload your resume to fill this in automatically') +
+            autoFieldHtml('afEducation', 'school', 'Highest Education', 'Upload your resume to fill this in automatically') +
+            autoFieldHtml('afOrgs', 'apartment', 'Previous Organisations', 'Upload your resume to fill this in automatically') +
+            autoFieldHtml('afAddress', 'home', 'Address', 'Upload your resume to fill this in automatically') +
+          '</div>' +
+        '</div>' +
+
+        '<div class="ja-card">' +
+          '<h3 class="ja-h3">' + icon('person') + 'Your details</h3>' +
+          '<p class="ja-sub">Required fields are marked with *. Name, phone, email and CV can also be picked up from your resume -- check they\'re right before submitting.</p>' +
+          '<div class="ja-grid">' +
+            '<div class="ja-field"><label for="fName">Full Name *</label><input id="fName" name="name" type="text" autocomplete="name" required><div class="errtx">Please enter your name.</div></div>' +
+            '<div class="ja-field"><label for="fPhone">Contact Number *</label><input id="fPhone" name="phone" type="tel" autocomplete="tel" required><div class="errtx">Please enter a contact number.</div></div>' +
+            '<div class="ja-field"><label for="fEmail">Email</label><input id="fEmail" name="email" type="email" autocomplete="email"><div class="errtx">Please enter a valid email.</div></div>' +
+            '<div class="ja-field"><label for="fLocation">Current Location</label><input id="fLocation" name="location" type="text" placeholder="City, State"></div>' +
+            '<div class="ja-field"><label for="fDesignation">Current Designation</label><input id="fDesignation" name="designation" type="text" placeholder="e.g. Restaurant Manager"></div>' +
+            '<div class="ja-field"><label for="fCtc">Current CTC</label><input id="fCtc" name="ctc" type="text" placeholder="e.g. Rs. 6,00,000 per annum"></div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="flex flex-wrap items-center gap-space-sm">' +
+          '<button type="submit" class="ja-btn">' + icon('send') + 'Submit Application</button>' +
+          '<a href="job-openings.html" class="ja-btn ghost">' + icon('arrow_back') + 'Back to Job Openings</a>' +
+        '</div>' +
+
+      '</form>';
+
+    wireForm();
+  }
+
+  function wireForm() {
+    var drop = document.getElementById('jaDrop');
+    var input = document.getElementById('jaFileInput');
+    var fileBox = document.getElementById('jaFile');
+    var removeBtn = document.getElementById('jaFileRemove');
+
+    // Once the candidate types into a field we picked up from the resume,
+    // stop overwriting it if they upload another (or the same) file again.
+    ['afExperience', 'afEducation', 'afOrgs', 'afAddress', 'fName', 'fPhone', 'fEmail'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function () { el.dataset.userEdited = '1'; });
+    });
+
+    function openPicker() { input.click(); }
+    drop.addEventListener('click', openPicker);
+    drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(); } });
+    ['dragenter', 'dragover'].forEach(function (evt) {
+      drop.addEventListener(evt, function (e) { e.preventDefault(); drop.classList.add('drag'); });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+      drop.addEventListener(evt, function (e) { e.preventDefault(); drop.classList.remove('drag'); });
+    });
+    drop.addEventListener('drop', function (e) {
+      var files = e.dataTransfer && e.dataTransfer.files;
+      if (files && files.length) acceptFile(files[0]);
+    });
+    input.addEventListener('change', function () { if (input.files[0]) acceptFile(input.files[0]); });
+
+    function acceptFile(file) {
+      if (!/\.(pdf|docx?)$/i.test(file.name)) { setStatus('warn', 'error', 'Please upload a PDF or Word file.'); return; }
+      if (file.size > 5 * 1024 * 1024) { setStatus('warn', 'error', 'That file is over 5 MB -- please upload a smaller one.'); return; }
+      resumeFile = file;
+      document.getElementById('jaFileName').textContent = file.name;
+      document.getElementById('jaFileSize').textContent = fmtSize(file.size);
+      fileBox.classList.add('show');
+      processResume(file);
+    }
+
+    removeBtn.addEventListener('click', function () {
+      resumeFile = null;
+      input.value = '';
+      fileBox.classList.remove('show');
+      clearStatus();
+      setAutoField('afExperience', '');
+      setAutoField('afEducation', '');
+      setAutoField('afOrgs', '');
+      setAutoField('afAddress', '');
+    });
+
+    var form = document.getElementById('jaForm');
+    var submitBtn = form.querySelector('button[type=submit]');
+
+    function csrfToken() {
+      var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = true;
+      [['fName', /\S/], ['fPhone', /\S/]].forEach(function (pair) {
+        var el = document.getElementById(pair[0]);
+        var valid = pair[1].test(el.value.trim());
+        el.classList.toggle('err', !valid);
+        el.closest('.ja-field').classList.toggle('invalid', !valid);
+        if (!valid) ok = false;
+      });
+      var emailEl = document.getElementById('fEmail');
+      var emailVal = emailEl.value.trim();
+      var emailValid = !emailVal || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      emailEl.classList.toggle('err', !emailValid);
+      emailEl.closest('.ja-field').classList.toggle('invalid', !emailValid);
+      if (!emailValid) ok = false;
+      if (!resumeFile) { setStatus('warn', 'error', 'Please attach your resume before submitting.'); ok = false; }
+      if (!ok) return;
+
+      var fd = new FormData();
+      fd.append('jobTitle', job.title);
+      fd.append('name', document.getElementById('fName').value.trim());
+      fd.append('phone', document.getElementById('fPhone').value.trim());
+      fd.append('email', emailVal);
+      fd.append('location', document.getElementById('fLocation').value.trim());
+      fd.append('designation', document.getElementById('fDesignation').value.trim());
+      fd.append('ctc', document.getElementById('fCtc').value.trim());
+      fd.append('experience', document.getElementById('afExperience').value.trim());
+      fd.append('education', document.getElementById('afEducation').value.trim());
+      fd.append('organisations', document.getElementById('afOrgs').value.trim());
+      fd.append('address', document.getElementById('afAddress').value.trim());
+      fd.append('resume', resumeFile, resumeFile.name);
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = icon('progress_activity') + ' Submitting...';
+      clearStatus();
+
+      apiFetch('/api/jobs/' + job.id + '/applications/', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'X-CSRFToken': csrfToken() },
+        body: fd
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (result) {
+        if (!result.res.ok) {
+          var msg = result.data && result.data.error ? result.data.error : 'Something went wrong submitting your application.';
+          throw new Error(msg);
+        }
+        var name = document.getElementById('fName').value.trim();
+        root.innerHTML =
+          '<div class="ja-card ja-success">' +
+            '<div class="ic">' + icon('check_circle') + '</div>' +
+            '<h2>Application submitted</h2>' +
+            '<p>Thanks, ' + esc(name) + ' -- your application for <b>' + esc(job.title) + '</b> has been received. Our team will reach out if there\'s a match.</p>' +
+            '<a href="job-openings.html" class="ja-btn">' + icon('arrow_back') + 'Back to Job Openings</a>' +
+          '</div>';
+      }).catch(function (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = icon('send') + 'Submit Application';
+        setStatus('warn', 'error', (err && err.message) || "Couldn't reach the server -- please try again in a moment.");
+      });
+    });
+  }
+
+  if (!S) { notFound(); return; }
+  S.load().then(function (data) {
+    job = data.jobs.filter(function (j) { return j.id === jobId; })[0];
+    if (!job) { notFound(); return; }
+    renderForm();
+  }).catch(function () { notFound(); });
+})();
+</script>
+
+</div>
+</body></html>

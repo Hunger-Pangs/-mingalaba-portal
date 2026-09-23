@@ -1,0 +1,332 @@
+<!-- Mingalaba Portal - Employee Login (Hunger Pangs Theme) -->
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Outfit:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "tertiary-fixed": "#f6e1a7",
+          "accent-moss": "#6B6038",
+          "surface-tint": "#99443e",
+          "on-background": "#231917",
+          "surface-bright": "#fff8f6",
+          "error": "#ba1a1a",
+          "primary-fixed": "#ffdad6",
+          "surface-sand": "#EDE6D8",
+          "tertiary-fixed-dim": "#d9c58d",
+          "border-warm": "#E4DAC7",
+          "surface-container-lowest": "#ffffff",
+          "inverse-on-surface": "#ffede9",
+          "surface": "#fff8f6",
+          "outline-variant": "#dbc1be",
+          "on-tertiary-container": "#4b3e13",
+          "on-tertiary-fixed": "#231b00",
+          "inverse-primary": "#ffb3ac",
+          "on-tertiary": "#ffffff",
+          "on-primary-fixed": "#3f0204",
+          "primary-fixed-dim": "#ffb3ac",
+          "surface-linen": "#F7F3EB",
+          "on-surface": "#231917",
+          "on-secondary-fixed": "#3e0500",
+          "tertiary": "#6c5d2f",
+          "on-primary-fixed-variant": "#7a2d29",
+          "outline": "#887270",
+          "on-surface-variant": "#554241",
+          "on-secondary-container": "#701101",
+          "border-brass-subtle": "rgba(200, 156, 93, 0.28)",
+          "secondary": "#a73923",
+          "on-secondary": "#ffffff",
+          "on-tertiary-fixed-variant": "#53461a",
+          "on-primary": "#ffffff",
+          "secondary-fixed-dim": "#ffb4a4",
+          "accent-brass": "#C89C5D",
+          "primary": "#3e0104",
+          "on-error": "#ffffff",
+          "on-error-container": "#93000a",
+          "primary-container": "#5b1614",
+          "tertiary-container": "#bcaa75",
+          "surface-container-high": "#f7e4e0",
+          "on-primary-container": "#de7a72",
+          "error-container": "#ffdad6",
+          "surface-variant": "#f1dedb",
+          "inverse-surface": "#392e2c",
+          "secondary-fixed": "#ffdad3",
+          "surface-container-low": "#fff0ee",
+          "on-secondary-fixed-variant": "#86220e",
+          "surface-container-highest": "#f1dedb",
+          "surface-dim": "#e9d6d2",
+          "background": "#fff8f6",
+          "surface-container": "#fdeae6",
+          "surface-cream": "#FCFAF6",
+          "secondary-container": "#fd795d"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin-mobile": "1rem",
+          "space-md": "1rem",
+          "space-sm": "0.75rem",
+          "gutter-mobile": "1rem",
+          "gutter-desktop": "2rem",
+          "margin-desktop": "3rem",
+          "margin-tablet": "2rem",
+          "space-xxs": "0.25rem",
+          "space-xs": "0.5rem",
+          "space-3xl": "4.5rem",
+          "space-4xl": "6rem",
+          "space-lg": "1.5rem",
+          "space-xl": "2rem",
+          "gutter-tablet": "1.5rem",
+          "space-2xl": "3rem"
+        },
+        "fontFamily": {
+          "serif": ["Noto Serif", "Georgia", "serif"],
+          "sans": ["Plus Jakarta Sans", "sans-serif"],
+          "display-lg": ["Noto Serif"],
+          "display-md": ["Noto Serif"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "title-lg": ["Plus Jakarta Sans"],
+          "label-md": ["Plus Jakarta Sans"],
+          "body-sm": ["Plus Jakarta Sans"],
+          "title-md": ["Plus Jakarta Sans"],
+          "headline-md": ["Noto Serif"],
+          "headline-sm": ["Noto Serif"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "body-md": ["Plus Jakarta Sans"],
+          "headline-lg": ["Noto Serif"],
+          "body-lg": ["Plus Jakarta Sans"]
+        }
+      }
+    }
+  };
+</script></head><body class="bg-[#fbf9f5] font-sans text-on-surface min-h-screen flex flex-col justify-between selection:bg-primary-fixed selection:text-primary"><div class="w-full flex justify-center pt-space-xl"><div class="flex items-center gap-space-sm"><span class="font-serif text-[20px] text-primary font-semibold tracking-[-0.02em]"> </span></div></div><main class="w-full flex-1 flex items-center justify-center p-space-md"><div class="flex flex-col w-full">
+<div class="relative w-full max-w-lg mx-auto my-space-sm sm:my-space-xl">
+<!-- Subtle warm hospitality ambient backdrop light glow -->
+<div class="absolute -top-14 -left-12 w-64 h-64 bg-primary-fixed-dim/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -right-10 w-72 h-72 bg-tertiary-fixed/40 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Main Authentication Container Card -->
+<div id="authCard" class="relative bg-white border border-[#e9d6d2]/80 shadow-[0_12px_40px_-12px_rgba(91,22,20,0.08)] rounded-xl p-space-xl sm:p-space-2xl transition-all duration-500 ease-out">
+<!-- Brand Logo & Header -->
+<div class="flex flex-col items-center text-center">
+<div class="flex items-center justify-center mb-space-md">
+<img alt="Hunger Pangs Logo" class="h-36 sm:h-38 w-auto object-contain max-w-[480px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWx_TxcMdpYxkMkvdyTSLkR_djEwsJSdHpWtawgp-1RW5HHR0V3i80GEnhJAD6ep4QZNVl7qg6QA1IykDkKx0leSfdhAkKtnc8QUdcikyYX_Pn1OYHaCFF7VH5l33q5_5K7cXE5mJtQS3AVcduUHZJ-OdaGUr6U-3T0PTyw9vgCidLb3U1m6TDNPmQQ5wymr7xwG5MgJb-7CAmWNNKbP57Y_qxUPYpttKq79DdKz4wFfUt6VOhPojXVgoAKNBKLIH2cw">
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fdeae6] border border-[#f1dedb] text-[#5b1614] text-[11px] font-semibold mb-space-xs tracking-wider uppercase">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span class="">Employee Single Window Portal</span>
+</div>
+<h1 class="text-[30px] sm:text-[34px] leading-tight font-bold tracking-[-0.025em] text-[#231917] mt-space-xs mb-space-xxs font-serif"><span class="text-[#5b1614]">Mingalaba</span></h1>
+</div>
+<!-- Authentication Form -->
+<form class="mt-space-xl space-y-space-md" id="loginForm" onsubmit="handleAuth(event); return false;">
+<!-- Work Email / Employee ID Input -->
+<div class="flex flex-col space-y-1.5 text-left">
+<label class="text-xs font-semibold text-[#231917] flex items-center justify-between" for="identifier">
+<span class="">Employee ID</span>
+<span class="text-[11px] text-[#554241] font-normal tracking-wide">Single Identity</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-[20px] text-[#887270] pointer-events-none transition-colors">
+              badge
+            </span>
+<input autocomplete="username" class="w-full pl-11 pr-space-md py-2.5 bg-[#FCFAF6] border border-[#E4DAC7] text-[#231917] text-sm rounded-lg shadow-sm placeholder:text-[#887270]/70 focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614] focus:bg-white transition-all" id="identifier" placeholder="e.g., EMP-84920" required="" type="text">
+</div>
+<p class="text-[11px] text-[#554241]/85 pl-1">Use your corporate employee ID provided by IT Systems.</p>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col space-y-1.5 text-left">
+<label class="text-xs font-semibold text-[#231917]" for="password">
+            Password
+          </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-[20px] text-[#887270] pointer-events-none transition-colors">
+              lock
+            </span>
+<input autocomplete="current-password" class="w-full pl-11 pr-11 py-2.5 bg-[#FCFAF6] border border-[#E4DAC7] text-[#231917] text-sm rounded-lg shadow-sm placeholder:text-[#887270]/70 focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614] focus:bg-white transition-all" id="password" placeholder="Enter your security password" required="" type="password">
+<button aria-label="Toggle password visibility" class="absolute right-3.5 flex items-center justify-center text-[#887270] hover:text-[#231917] transition-colors" id="togglePasswordBtn" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="eyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Auxiliary Action Row: Remember Device & Forgot Password -->
+<div class="flex items-center justify-end pt-1"><a class="text-xs font-semibold text-[#a73923] hover:text-[#5b1614] transition-colors focus:outline-none" href="#">Forgot password?</a></div>
+<!-- Login Error Banner (hidden until a login attempt actually fails) -->
+<div class="hidden items-start gap-2 rounded-lg border border-[#f2c6c6] bg-[#fdeeee] px-3 py-2.5" id="loginErrorBanner" role="alert">
+<span class="material-symbols-outlined text-[18px] text-[#ba1a1a] shrink-0">error</span>
+<span class="text-xs text-[#8a1c1c] leading-snug" id="loginErrorText"></span>
+</div>
+<!-- Primary Sign In CTA Button -->
+<button class="w-full mt-2 py-3 px-space-lg bg-[#5b1614] hover:bg-[#3e0104] text-white font-semibold text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#5b1614] focus:ring-offset-2 active:scale-[0.99]" id="submitButton" type="submit">
+<span class="">Sign In to <span class="font-bold tracking-tight font-serif">Mingalaba</span></span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Security & Compliance Status Banner -->
+<div class="mt-space-xl pt-3 pb-3 bg-[#fff0ee]/70 border border-[#f1dedb]/60 rounded-lg px-3 flex items-center justify-center gap-2 text-center">
+<span class="material-symbols-outlined text-[16px] text-[#6c5d2f] flex-shrink-0">
+          verified
+        </span>
+<span class="text-[11px] text-[#554241] font-medium">
+          256-bit SSL Encrypted • SSO Protected • ISO 27001 Certified
+        </span>
+</div>
+</div>
+<!-- Portal Direct Support & Resource Micro-links -->
+<div class="mt-space-lg flex flex-wrap items-center justify-center gap-x-space-lg gap-y-1 text-center">
+<a class="text-xs text-[#554241] hover:text-[#5b1614] transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">support_agent</span>
+<span class="">IT Service Desk</span>
+</a>
+<span class="text-[#dbc1be] select-none">•</span>
+<a class="text-xs text-[#554241] hover:text-[#5b1614] transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">cell_tower</span>
+<span class="">System Status</span>
+</a>
+<span class="text-[#dbc1be] select-none">•</span>
+<a class="text-xs text-[#554241] hover:text-[#5b1614] transition-colors" href="#">
+        Privacy Policy
+      </a>
+<span class="text-[#dbc1be] select-none">•</span>
+<a class="text-xs text-[#554241] hover:text-[#5b1614] transition-colors" href="#">
+        Terms of Service
+      </a>
+</div>
+</div>
+</div>
+<script>
+  function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    if (!passwordInput || !eyeIcon) return;
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eyeIcon.textContent = 'visibility_off';
+    } else {
+      passwordInput.type = 'password';
+      eyeIcon.textContent = 'visibility';
+    }
+  }
+
+  // Flip this to true once this page is deployed alongside the Django +
+  // SQL Server backend (same origin, e.g. IIS reverse-proxying /api/ to
+  // Django -- see backend/README or the deployment notes). Until then this
+  // page is being deployed standalone with no backend behind it, so it
+  // falls back to the old simulated always-succeeds flow instead of
+  // calling an API that isn't there.
+  const USE_BACKEND_AUTH = false;   // demo: no server, any details sign you in
+
+  // Relative on purpose: this page is meant to be served from the same
+  // origin as the Django API (locally, Django serves this file directly in
+  // DEBUG mode; in production, IIS reverse-proxies /api/ to the Django app
+  // under the site's own domain). Session cookies only survive same-origin
+  // requests without extra HTTPS-only cookie configuration, so keep it this
+  // way rather than hardcoding a different host/port here.
+  const API_BASE_URL = '';
+
+  // Where to go after a successful sign-in (the server may send the
+  // employee to the set-new-password page instead).
+  let nextUrl = 'dashboard.html';
+
+  function getCookie(name) {
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function showLoginError(message) {
+    const banner = document.getElementById('loginErrorBanner');
+    const text = document.getElementById('loginErrorText');
+    if (!banner || !text) return;
+    text.textContent = message;
+    banner.classList.remove('hidden');
+    banner.classList.add('flex');
+  }
+
+  function hideLoginError() {
+    const banner = document.getElementById('loginErrorBanner');
+    if (!banner) return;
+    banner.classList.add('hidden');
+    banner.classList.remove('flex');
+  }
+
+  function resetSubmitButton(btn, originalContent) {
+    btn.disabled = false;
+    btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-600');
+    btn.classList.add('bg-[#5b1614]', 'hover:bg-[#3e0104]');
+    btn.innerHTML = originalContent;
+  }
+
+  async function handleAuth(event) {
+    if (event) event.preventDefault();
+    const btn = document.getElementById('submitButton');
+    const card = document.getElementById('authCard');
+    if (!btn) return;
+
+    // Guard against double-submits while a request is already in flight.
+    if (btn.disabled) return;
+
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
+    const originalContent = btn.innerHTML;
+
+    hideLoginError();
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span><span>Verifying Credentials...</span>';
+
+    if (USE_BACKEND_AUTH) {
+      let result;
+      try {
+        const response = await fetch(API_BASE_URL + '/api/login/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') || '',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ identifier, password }),
+        });
+        result = await response.json();
+      } catch (err) {
+        resetSubmitButton(btn, originalContent);
+        showLoginError('Could not reach the authentication server. Please try again.');
+        return;
+      }
+
+      if (result.success && result.redirect) {
+        nextUrl = result.redirect;
+      }
+      if (!result.success) {
+        resetSubmitButton(btn, originalContent);
+        showLoginError(result.error || 'Sign in failed. Please check your credentials.');
+        return;
+      }
+    } else {
+      // No backend deployed here yet -- simulate the same verification
+      // delay so the animation still feels right, without an actual check.
+      await new Promise((resolve) => setTimeout(resolve, 600));
+    }
+
+    // Success -- play the existing checkmark + fade-out sequence, then go.
+    btn.classList.remove('bg-[#5b1614]', 'hover:bg-[#3e0104]');
+    btn.classList.add('bg-emerald-600', 'hover:bg-emerald-600');
+    btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>Authenticated</span>';
+
+    setTimeout(() => {
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(-10px) scale(0.97)';
+      }
+      setTimeout(() => {
+        window.location.href = nextUrl;
+      }, 450);
+    }, 700);
+  }
+</script></main><footer class="w-full py-space-lg border-t border-[#e9d6d2]/50 bg-[#fff8f6]/50"><div class="max-w-7xl mx-auto px-gutter-desktop flex flex-col sm:flex-row items-center justify-between gap-space-sm text-[#554241] text-xs"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px] text-[#6c5d2f]">verified_user</span><span class="">Mingalaba Identity &amp; Access Management • End-to-End Encrypted</span></div><div class="flex items-center gap-space-lg"><a class="hover:text-[#231917] transition-colors" href="#">Privacy Statement</a><a class="hover:text-[#231917] transition-colors" href="#">Terms of Access</a><a class="hover:text-[#231917] transition-colors" href="#">IT Support</a></div><div><span class="">© 2025 Hunger Pangs Global Holdings. All rights reserved.</span></div></div></footer>
+
+
+</body></html>

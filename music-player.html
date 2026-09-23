@@ -1,0 +1,545 @@
+﻿<!-- Mingalaba Workspace - Music Player -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Music</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+    main > :first-child { margin-top: 0 !important; }
+    main > :last-child { margin-bottom: 0 !important; }
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #pageContent {
+    animation: pageFadeIn 0.5s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #pageContent { animation: none; }
+  }
+
+  /* Player */
+  @keyframes mpSpin { to { transform: rotate(360deg); } }
+  #mpArt { transition: box-shadow .2s ease; }
+  #mpArt.playing { animation: mpSpin 8s linear infinite; }
+  @media (prefers-reduced-motion: reduce) { #mpArt.playing { animation: none; } }
+
+  #mpPlayBtn { transition: transform .12s ease, background-color .15s ease; }
+  #mpPlayBtn:hover { transform: scale(1.05); }
+  #mpPlayBtn:active { transform: scale(0.96); }
+
+  #mpProgressTrack { cursor: pointer; }
+  #mpProgressFill { transition: width .1s linear; }
+  #mpProgressHandle { transition: left .1s linear; }
+
+  .mp-shuffle-btn { transition: background-color .15s ease, color .15s ease; }
+  .mp-shuffle-btn.active { background-color: #A6337A; color: #fff; }
+  .mp-shuffle-btn.active:hover { background-color: #8f2a68; }
+
+  .mp-track { transition: background-color .12s ease; cursor: pointer; }
+  .mp-track:hover { background-color: #FBE0EF; }
+  .mp-track.playing { background-color: #FDF0F7; }
+  .mp-track.playing .mp-track-title { color: #7D2760; font-weight: 700; }
+
+  @keyframes mpBars {
+    0%, 100% { height: 4px; }
+    50% { height: 12px; }
+  }
+  .mp-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+  .mp-eq span { width: 2.5px; background: #A6337A; border-radius: 1px; animation: mpBars 0.9s ease-in-out infinite; }
+  .mp-eq span:nth-child(2) { animation-delay: .15s; }
+  .mp-eq span:nth-child(3) { animation-delay: .3s; }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#5b1614",
+          "primary-dark": "#3e0104",
+          "primary-container": "#5b1614",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#ffdad6",
+          "primary-fixed-dim": "#ffb3ac",
+          "on-primary-fixed": "#3f0204",
+          "secondary": "#a73923",
+          "secondary-container": "#fd795d",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#ffdad3",
+          "secondary-fixed-dim": "#ffb4a4",
+          "tertiary": "#6c5d2f",
+          "tertiary-container": "#bcaa75",
+          "tertiary-fixed": "#f6e1a7",
+          "background": "#FBF9F5",
+          "surface": "#FBF9F5",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#F7F3EC",
+          "surface-container": "#fdeae6",
+          "surface-container-high": "#f7e4e0",
+          "surface-cream": "#FCFAF6",
+          "surface-linen": "#F7F3EB",
+          "surface-sand": "#EDE6D8",
+          "on-surface": "#231917",
+          "on-surface-variant": "#635654",
+          "outline-variant": "#E8DFD3",
+          "border-warm": "#E8DFD3",
+          "accent-brass": "#C89C5D",
+          "accent-moss": "#6B6038",
+          "error": "#ba1a1a"
+        },
+        fontFamily: {
+          "serif": ["Noto Serif", "serif"],
+          "sans": ["Plus Jakarta Sans", "sans-serif"],
+          "body-md": ["Plus Jakarta Sans", "sans-serif"],
+          "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "label-md": ["Plus Jakarta Sans", "sans-serif"],
+          "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "headline-sm": ["Noto Serif", "serif"]
+        },
+        spacing: {
+          "space-xl": "1.5rem",
+          "space-lg": "1.25rem",
+          "space-md": "0.75rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "space-2xl": "2rem",
+          "app-max-width": "100rem"
+        }
+      }
+    }
+  };
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary/15 selection:text-primary">
+<div>
+<!-- Header -->
+<!-- HEADER:START -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
+<a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
+<div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
+<img alt="Hunger Pangs logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5GOZQaK_TCXSKbXTgtW9aPzlSzsnM1lORZDAiMGuYPmWbyQ28JyhJzxGnYB4o-pfwZOlSOLAV68U6iowJymYA8DYer_AbFYhrKw9HxkY29IvYMa-vyc7JIOzBbvfbREg4C6mQscLWp4ggRyFKJOveZ1FVazEQ0pZPk3Yqs4WXxcWKv4V_L7hX6vUHih6QXa6Px7uwdOwcPRxIboLsSGLYvWuG5XxY8ItqzAZHWmJOuCXCGrxBbyfYYFLJQCwiNqczeQ">
+</div>
+<div class="h-6 w-[1px] bg-[#E8DFD3] hidden sm:block"></div>
+<div class="hidden sm:flex flex-col">
+<span class="font-serif text-[17px] font-semibold text-[#5b1614] tracking-tight leading-tight">Mingalaba</span>
+</div>
+</a>
+<!-- Search Bar -->
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-[0.75rem] text-[#8c7b75] text-[20px]">search</span>
+<input id="siteSearch" class="w-full pl-10 pr-[0.75rem] py-2 rounded-full bg-[#F7F4EE] border border-[#E8DFD3] text-[#231917] placeholder:text-[#8c7b75] text-[13px] font-sans focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614]/40 transition-all" placeholder="Search documents, people, tasks... / Cmd+K" type="text">
+</div>
+</div>
+<!-- Action Icons & Profile -->
+<div class="flex items-center gap-[0.75rem]">
+<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+</button>
+<div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
+<div class="relative">
+<button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
+<div class="hidden xl:flex flex-col text-left pl-2">
+<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
+<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
+</div>
+<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+</button>
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div class="px-4 py-2.5 border-b border-[#E8DFD3]">
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
+<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+</div>
+<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Log Out
+</a>
+</div>
+</div>
+</div>
+</header>
+<script>
+  (function () {
+    var btn = document.getElementById('profileMenuBtn');
+    var menu = document.getElementById('profileMenu');
+    if (!btn || !menu) return;
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  function getCookie(name) {
+    var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    // Django's CSRF protection requires this header on state-changing
+    // requests; the csrftoken cookie is deliberately readable by JS (unlike
+    // the HttpOnly session cookie) so it can be echoed back this way.
+    fetch('/api/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
+    })
+      .catch(function () {})
+      .then(function () {
+        window.location.href = 'index.html';
+      });
+  }
+</script>
+<script src="site-search.js" defer></script>
+<!-- HEADER:END -->
+
+<main id="pageContent" class="w-full pt-16 bg-background min-h-screen px-space-xl py-space-lg max-w-app-max-width mx-auto">
+<div class="py-space-xl max-w-6xl mx-auto flex flex-col gap-space-2xl">
+
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]">
+<a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html">
+<span class="material-symbols-outlined text-[16px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<span class="text-[#E8DFD3]">/</span>
+<a class="hover:text-[#5b1614] transition-colors" href="knowledge-center.html">Knowledge Center</a>
+<span class="text-[#E8DFD3]">/</span>
+<span class="text-[#7D2760] font-semibold">Music</span>
+</nav>
+
+<!-- Page Header -->
+<div class="bg-[#FDF0F7] border border-[#F5C6E0] rounded-2xl p-space-xl flex flex-col md:flex-row md:items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 shrink-0 rounded-full bg-[#A6337A] text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[28px]">music_note</span>
+</div>
+<div>
+<h1 class="text-[22px] font-serif font-semibold text-[#7D2760] tracking-tight">Music</h1>
+<p class="text-[13px] font-sans text-on-surface-variant mt-1 max-w-xl">Background ambience playlist for the floor. Opened in its own tab so it keeps playing while you work.</p>
+</div>
+</div>
+</div>
+
+<!-- Playlist (left) + Player (right) -->
+<div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-space-xl items-start">
+
+<!-- Track list -->
+<div class="bg-white border border-[#F5C6E0] rounded-2xl overflow-hidden order-2 lg:order-1">
+<div class="px-space-lg py-space-md border-b border-[#F5C6E0] flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-[#A6337A]">queue_music</span>
+<h2 class="text-[13px] font-sans font-bold uppercase tracking-wider text-[#7D2760]">Playlist</h2>
+</div>
+<div id="mpList" class="max-h-[520px] overflow-y-auto"></div>
+<div id="mpEmpty" class="hidden px-space-lg py-space-xl text-center">
+<span class="material-symbols-outlined text-[32px] text-[#F5C6E0]">library_music</span>
+<p id="mpEmptyMsg" class="text-[13px] font-sans text-on-surface-variant mt-2">The playlist isn&#8217;t included in this preview. The player works in the full version.</p>
+</div>
+</div>
+
+<!-- Player -->
+<div class="bg-white border border-[#F5C6E0] rounded-2xl p-space-xl shadow-[0_2px_10px_rgba(166,51,122,0.06)] flex flex-col gap-space-lg order-1 lg:order-2 lg:sticky lg:top-24">
+
+<div class="flex items-center gap-space-lg">
+<div id="mpArt" class="w-20 h-20 shrink-0 rounded-full bg-gradient-to-br from-[#A6337A] to-[#5b1614] text-white flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[36px]">music_note</span>
+</div>
+<div class="min-w-0 flex-1">
+<p id="mpTitle" class="text-[16px] font-serif font-bold text-[#231917] truncate">Nothing to play yet</p>
+<p id="mpSub" class="text-[12px] font-sans text-on-surface-variant mt-0.5">Mingalaba Playlist</p>
+</div>
+</div>
+
+<!-- Progress -->
+<div class="flex items-center gap-space-md">
+<span id="mpTime" class="text-[11px] font-sans text-on-surface-variant tabular-nums w-9 text-right">0:00</span>
+<div id="mpProgressTrack" class="relative flex-1 h-1.5 rounded-full bg-[#F0DDA0]/0 bg-[#F5C6E0]">
+<div id="mpProgressFill" class="absolute left-0 top-0 h-full rounded-full bg-[#A6337A]" style="width:0%"></div>
+<div id="mpProgressHandle" class="absolute top-1/2 w-3 h-3 rounded-full bg-[#A6337A] shadow -translate-y-1/2 -translate-x-1/2" style="left:0%"></div>
+</div>
+<span id="mpDuration" class="text-[11px] font-sans text-on-surface-variant tabular-nums w-9">0:00</span>
+</div>
+
+<!-- Controls -->
+<div class="flex items-center justify-center gap-space-lg">
+<button id="mpShuffleBtn" type="button" aria-label="Shuffle" aria-pressed="false" class="mp-shuffle-btn p-2 rounded-full text-[#635654] hover:bg-[#FDF0F7] transition-colors">
+<span class="material-symbols-outlined text-[20px]">shuffle</span>
+</button>
+<button id="mpPrevBtn" type="button" aria-label="Previous track" class="p-2 rounded-full text-[#7D2760] hover:bg-[#FDF0F7] transition-colors">
+<span class="material-symbols-outlined text-[26px]">skip_previous</span>
+</button>
+<button id="mpPlayBtn" type="button" aria-label="Play" class="w-14 h-14 rounded-full bg-[#A6337A] text-white flex items-center justify-center shadow-md hover:bg-[#8f2a68]">
+<span id="mpPlayIcon" class="material-symbols-outlined text-[30px]">play_arrow</span>
+</button>
+<button id="mpNextBtn" type="button" aria-label="Next track" class="p-2 rounded-full text-[#7D2760] hover:bg-[#FDF0F7] transition-colors">
+<span class="material-symbols-outlined text-[26px]">skip_next</span>
+</button>
+<div class="w-9 h-9"></div>
+</div>
+
+<!-- Volume -->
+<div class="flex items-center gap-space-sm max-w-[220px] mx-auto w-full">
+<span id="mpVolIcon" class="material-symbols-outlined text-[18px] text-[#635654]">volume_up</span>
+<input id="mpVolume" type="range" min="0" max="100" value="80" class="w-full accent-[#A6337A]" aria-label="Volume">
+</div>
+
+</div>
+
+</div>
+
+</div>
+</main>
+
+<audio id="mpAudio" preload="metadata"></audio>
+
+<script>
+(function () {
+  var audio = document.getElementById('mpAudio');
+  var art = document.getElementById('mpArt');
+  var titleEl = document.getElementById('mpTitle');
+  var subEl = document.getElementById('mpSub');
+  var playBtn = document.getElementById('mpPlayBtn');
+  var playIcon = document.getElementById('mpPlayIcon');
+  var prevBtn = document.getElementById('mpPrevBtn');
+  var nextBtn = document.getElementById('mpNextBtn');
+  var progressTrack = document.getElementById('mpProgressTrack');
+  var progressFill = document.getElementById('mpProgressFill');
+  var progressHandle = document.getElementById('mpProgressHandle');
+  var timeEl = document.getElementById('mpTime');
+  var durationEl = document.getElementById('mpDuration');
+  var volume = document.getElementById('mpVolume');
+  var volIcon = document.getElementById('mpVolIcon');
+  var list = document.getElementById('mpList');
+  var empty = document.getElementById('mpEmpty');
+  var shuffleBtn = document.getElementById('mpShuffleBtn');
+
+  var tracks = [];
+  var current = -1;
+  var shuffled = false;
+  var order = [];
+
+  function titleFromFile(name) {
+    var stem = name.replace(/\.mp3$/i, '');
+    var words = stem.replace(/[-_]+/g, ' ').split(/\s+/).filter(Boolean);
+    return words.map(function (w) {
+      return w.length <= 1 ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1);
+    }).join(' ');
+  }
+
+  // No manifest to hand-maintain: ask whatever is serving the site to list
+  // what's actually in music/ right now. Tries the real backend API first
+  // (once the Django backend is live), then falls back to fetching the
+  // music/ folder itself -- our local preview server answers that with a
+  // JSON listing, and a web server with directory browsing turned on
+  // (e.g. IIS) answers with an HTML index, which we scrape for .mp3 links.
+  function discoverTracks() {
+    function fromJson(url) {
+      return fetch(url, { cache: 'no-store' }).then(function (r) {
+        if (!r.ok) throw new Error('not ok');
+        return r.json();
+      }).then(function (data) {
+        return Array.isArray(data.files) ? data.files : [];
+      });
+    }
+    function fromDirectoryIndex() {
+      return fetch('music/', { cache: 'no-store' }).then(function (r) {
+        if (!r.ok) throw new Error('not ok');
+        return r.text();
+      }).then(function (text) {
+        try {
+          var data = JSON.parse(text);
+          if (Array.isArray(data.files)) return data.files;
+        } catch (e) { /* not JSON -- probably an HTML directory index */ }
+        var files = [];
+        var re = /href="([^"?#]+\.mp3)"/gi, m;
+        while ((m = re.exec(text))) {
+          var name = decodeURIComponent(m[1].split('/').pop());
+          if (files.indexOf(name) === -1) files.push(name);
+        }
+        return files;
+      });
+    }
+    return fromJson('/api/music-tracks/')
+      .catch(fromDirectoryIndex)
+      .catch(function () { return []; })
+      .then(function (files) {
+        var seen = {};
+        return files.filter(function (f) {
+          var key = f.toLowerCase();
+          if (seen[key]) return false;
+          seen[key] = true;
+          return true;
+        }).sort().map(function (f) { return { file: f, title: titleFromFile(f) }; });
+      });
+  }
+
+  function buildOrder() {
+    order = tracks.map(function (_, i) { return i; });
+    if (shuffled) {
+      for (var i = order.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+      }
+    }
+  }
+
+  function step(dir) {
+    if (!tracks.length) return;
+    var i = order.indexOf(current);
+    if (i === -1) i = 0;
+    load(order[(i + dir + order.length) % order.length], true);
+  }
+
+  function fmt(sec) {
+    if (!isFinite(sec) || sec < 0) sec = 0;
+    var m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function renderList() {
+    if (!tracks.length) {
+      empty.classList.remove('hidden');
+      list.innerHTML = '';
+      return;
+    }
+    list.innerHTML = tracks.map(function (t, i) {
+      return '<div class="mp-track flex items-center gap-space-md px-space-lg py-space-md border-b border-[#FBE0EF] last:border-b-0" data-idx="' + i + '">' +
+        '<span class="w-6 text-center text-[12px] font-sans text-on-surface-variant mp-track-num">' + (i + 1) + '</span>' +
+        '<span class="material-symbols-outlined text-[20px] text-[#A6337A]">music_note</span>' +
+        '<span class="mp-track-title flex-1 text-[13px] font-sans text-[#231917] truncate">' + t.title + '</span>' +
+        '<span class="text-[11px] font-sans text-on-surface-variant mp-track-dur"></span>' +
+      '</div>';
+    }).join('');
+    [].forEach.call(list.querySelectorAll('.mp-track'), function (row) {
+      row.addEventListener('click', function () { load(+row.getAttribute('data-idx'), true); });
+    });
+  }
+
+  function highlightRow() {
+    [].forEach.call(list.querySelectorAll('.mp-track'), function (row, i) {
+      var on = i === current;
+      row.classList.toggle('playing', on);
+      var numCell = row.querySelector('.mp-track-num');
+      numCell.innerHTML = on && !audio.paused ? '<span class="mp-eq"><span></span><span></span><span></span></span>' : String(i + 1);
+    });
+  }
+
+  function attemptPlay() {
+    audio.play().catch(function (err) {
+      console.error('Music player: could not start playback', err);
+      subEl.textContent = 'Could not play this track';
+      setTimeout(function () {
+        if (current > -1) subEl.textContent = 'Track ' + (current + 1) + ' of ' + tracks.length;
+      }, 2500);
+    });
+  }
+
+  function load(idx, autoplay) {
+    if (!tracks.length) return;
+    current = (idx + tracks.length) % tracks.length;
+    var t = tracks[current];
+    audio.src = 'music/' + t.file;
+    titleEl.textContent = t.title;
+    subEl.textContent = 'Track ' + (current + 1) + ' of ' + tracks.length;
+    progressFill.style.width = '0%';
+    progressHandle.style.left = '0%';
+    timeEl.textContent = '0:00';
+    durationEl.textContent = '0:00';
+    highlightRow();
+    if (autoplay) attemptPlay();
+  }
+
+  function setPlaying(playing) {
+    playIcon.textContent = playing ? 'pause' : 'play_arrow';
+    playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    art.classList.toggle('playing', playing);
+    highlightRow();
+  }
+
+  playBtn.addEventListener('click', function () {
+    if (current === -1) { load(0, true); return; }
+    if (audio.paused) attemptPlay();
+    else audio.pause();
+  });
+  prevBtn.addEventListener('click', function () { step(-1); });
+  nextBtn.addEventListener('click', function () { step(1); });
+  shuffleBtn.addEventListener('click', function () {
+    shuffled = !shuffled;
+    buildOrder();
+    shuffleBtn.classList.toggle('active', shuffled);
+    shuffleBtn.setAttribute('aria-pressed', shuffled ? 'true' : 'false');
+  });
+
+  audio.addEventListener('play', function () { setPlaying(true); });
+  audio.addEventListener('pause', function () { setPlaying(false); });
+  audio.addEventListener('ended', function () { step(1); });
+  audio.addEventListener('timeupdate', function () {
+    if (!audio.duration) return;
+    var pct = (audio.currentTime / audio.duration) * 100;
+    progressFill.style.width = pct + '%';
+    progressHandle.style.left = pct + '%';
+    timeEl.textContent = fmt(audio.currentTime);
+  });
+  audio.addEventListener('loadedmetadata', function () {
+    durationEl.textContent = fmt(audio.duration);
+    if (current > -1) {
+      var row = list.querySelector('.mp-track[data-idx="' + current + '"] .mp-track-dur');
+      if (row) row.textContent = fmt(audio.duration);
+    }
+  });
+
+  progressTrack.addEventListener('click', function (e) {
+    if (!audio.duration) return;
+    var rect = progressTrack.getBoundingClientRect();
+    var pct = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    audio.currentTime = pct * audio.duration;
+  });
+
+  volume.addEventListener('input', function () {
+    audio.volume = volume.value / 100;
+    volIcon.textContent = volume.value == 0 ? 'volume_off' : (volume.value < 50 ? 'volume_down' : 'volume_up');
+  });
+  audio.volume = volume.value / 100;
+
+  subEl.textContent = 'Loading playlist…';
+  discoverTracks().then(function (found) {
+    tracks = found;
+    buildOrder();
+    renderList();
+    if (tracks.length) {
+      load(0, false);
+    } else {
+      subEl.textContent = 'Mingalaba Playlist';
+      if (location.protocol === 'file:') {
+        document.getElementById('mpEmptyMsg').innerHTML =
+          'This page was opened directly as a file, and browsers won\'t let a page like that read a folder\'s contents. ' +
+          'Double-click <code class="px-1 py-0.5 bg-[#F7F3EC] rounded text-[11px]">start-local-server.bat</code> in the project folder instead, then open Music from there.';
+      }
+    }
+  });
+})();
+</script>
+
+</div>
+</body></html>

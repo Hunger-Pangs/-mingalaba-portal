@@ -1,0 +1,393 @@
+<!-- Mingalaba Workspace - Log Book (formerly Task & Checklist) -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Log Book</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+    main > :first-child { margin-top: 0 !important; }
+    main > :last-child { margin-bottom: 0 !important; }
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  /* Entrance animation on page load -- kept identical across dashboard.html,
+     company-info-directory.html, restaurant-details-directory.html and this
+     page so arriving at any of them feels the same. */
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #pageContent {
+    animation: pageFadeIn 0.5s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #pageContent { animation: none; }
+  }
+
+  /* Department-filtered cards: hidden cards collapse out of the grid
+     entirely rather than just being invisible, so the layout re-flows. */
+  .checklist-card[hidden] { display: none; }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#5b1614",
+          "primary-dark": "#3e0104",
+          "primary-container": "#5b1614",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#ffdad6",
+          "primary-fixed-dim": "#ffb3ac",
+          "on-primary-fixed": "#3f0204",
+          "secondary": "#a73923",
+          "secondary-container": "#fd795d",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#ffdad3",
+          "secondary-fixed-dim": "#ffb4a4",
+          "tertiary": "#6c5d2f",
+          "tertiary-container": "#bcaa75",
+          "tertiary-fixed": "#f6e1a7",
+          "background": "#FBF9F5",
+          "surface": "#FBF9F5",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#F7F3EC",
+          "surface-container": "#fdeae6",
+          "surface-container-high": "#f7e4e0",
+          "surface-cream": "#FCFAF6",
+          "surface-linen": "#F7F3EB",
+          "surface-sand": "#EDE6D8",
+          "on-surface": "#231917",
+          "on-surface-variant": "#635654",
+          "outline-variant": "#E8DFD3",
+          "border-warm": "#E8DFD3",
+          "accent-brass": "#C89C5D",
+          "accent-moss": "#6B6038",
+          "error": "#ba1a1a"
+        },
+        fontFamily: {
+          "serif": ["Noto Serif", "serif"],
+          "sans": ["Plus Jakarta Sans", "sans-serif"],
+          "body-md": ["Plus Jakarta Sans", "sans-serif"],
+          "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "label-md": ["Plus Jakarta Sans", "sans-serif"],
+          "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "headline-sm": ["Noto Serif", "serif"]
+        },
+        spacing: {
+          "space-xl": "1.5rem",
+          "space-lg": "1.25rem",
+          "space-md": "0.75rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "space-2xl": "2rem",
+          "app-max-width": "100rem"
+        }
+      }
+    }
+  };
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary/15 selection:text-primary">
+<div>
+<!-- Header -->
+<!-- HEADER:START -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
+<a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
+<div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
+<img alt="Hunger Pangs logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5GOZQaK_TCXSKbXTgtW9aPzlSzsnM1lORZDAiMGuYPmWbyQ28JyhJzxGnYB4o-pfwZOlSOLAV68U6iowJymYA8DYer_AbFYhrKw9HxkY29IvYMa-vyc7JIOzBbvfbREg4C6mQscLWp4ggRyFKJOveZ1FVazEQ0pZPk3Yqs4WXxcWKv4V_L7hX6vUHih6QXa6Px7uwdOwcPRxIboLsSGLYvWuG5XxY8ItqzAZHWmJOuCXCGrxBbyfYYFLJQCwiNqczeQ">
+</div>
+<div class="h-6 w-[1px] bg-[#E8DFD3] hidden sm:block"></div>
+<div class="hidden sm:flex flex-col">
+<span class="font-serif text-[17px] font-semibold text-[#5b1614] tracking-tight leading-tight">Mingalaba</span>
+</div>
+</a>
+<!-- Search Bar -->
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-[0.75rem] text-[#8c7b75] text-[20px]">search</span>
+<input id="siteSearch" class="w-full pl-10 pr-[0.75rem] py-2 rounded-full bg-[#F7F4EE] border border-[#E8DFD3] text-[#231917] placeholder:text-[#8c7b75] text-[13px] font-sans focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614]/40 transition-all" placeholder="Search documents, people, tasks... / Cmd+K" type="text">
+</div>
+</div>
+<!-- Action Icons & Profile -->
+<div class="flex items-center gap-[0.75rem]">
+<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+</button>
+<div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
+<div class="relative">
+<button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
+<div class="hidden xl:flex flex-col text-left pl-2">
+<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
+<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
+</div>
+<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+</button>
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div class="px-4 py-2.5 border-b border-[#E8DFD3]">
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
+<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+</div>
+<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Log Out
+</a>
+</div>
+</div>
+</div>
+</header>
+<script>
+  (function () {
+    var btn = document.getElementById('profileMenuBtn');
+    var menu = document.getElementById('profileMenu');
+    if (!btn || !menu) return;
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  function getCookie(name) {
+    var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    // Django's CSRF protection requires this header on state-changing
+    // requests; the csrftoken cookie is deliberately readable by JS (unlike
+    // the HttpOnly session cookie) so it can be echoed back this way.
+    fetch('/api/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
+    })
+      .catch(function () {})
+      .then(function () {
+        window.location.href = 'index.html';
+      });
+  }
+</script>
+<script src="site-search.js" defer></script>
+<!-- HEADER:END -->
+
+<main id="pageContent" class="w-full pt-16 bg-background min-h-screen px-space-xl py-space-lg max-w-app-max-width mx-auto">
+<div class="py-space-xl max-w-7xl mx-auto flex flex-col gap-space-2xl">
+
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]">
+<a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html">
+<span class="material-symbols-outlined text-[16px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<span class="text-[#E8DFD3]">/</span>
+<span class="text-[#5b1614] font-semibold">Log Book</span>
+</nav>
+
+<!-- Page Header -->
+<div class="bg-[#FDF2F0] border border-[#F4C5C0] rounded-2xl p-space-xl flex flex-col md:flex-row md:items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 shrink-0 rounded-full bg-[#8E281F] text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[28px]">checklist</span>
+</div>
+<div>
+<h1 class="text-[22px] font-serif font-semibold text-[#5b1614] tracking-tight">Log Book</h1>
+<p class="text-[13px] font-sans text-on-surface-variant mt-1 max-w-xl">Quick-launch links to the Store checklists. Each opens in a new tab.</p>
+</div>
+</div>
+</div>
+
+<!-- Checklist Icon Grid -->
+<div id="checklistGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+
+<a href="https://checklists.mingalaba.example/kitchen/temperature-log" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">thermostat</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Food Safety<br>Temperature Log</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/tips-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">savings</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Tips Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/aggregators-order-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">delivery_dining</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Aggregators Order<br>Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/uniform-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">checkroom</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Uniform Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/spoilage-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">compost</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Spoilage Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/lost-and-found-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">luggage</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Lost and Found<br>Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/pest-control-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">pest_control</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Pest Control<br>Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/shift-handover-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">handshake</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Shift Handover<br>Register</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<a href="https://checklists.mingalaba.example/store-activity/banking-slip" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
+<span class="material-symbols-outlined text-[32px]">account_balance</span>
+</div>
+<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Banking Slip</h2>
+<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+</div>
+
+<!-- Empty state when a department has no cards (not reachable today with the fixed list above, but guards against future edits) -->
+<div id="checklistEmptyState" hidden class="text-center py-space-2xl text-on-surface-variant">
+<span class="material-symbols-outlined text-[40px] text-outline-variant">inbox</span>
+<p class="text-[13px] font-sans mt-2">No checklists are assigned to this department yet.</p>
+</div>
+
+</div>
+</main>
+
+<script>
+  // Flip this to true once the checklists app (Department / ChecklistIcon /
+  // IconAccessGrant models) is deployed alongside this page on the same
+  // origin as the API. Until then this page is standalone with no backend
+  // behind it, so it simply shows every checklist card that's written into
+  // the markup below (no per-user filtering is possible without a backend)
+  // -- same pattern as USE_BACKEND_AUTH in index.html.
+  var USE_BACKEND_ICONS = false;
+
+  if (USE_BACKEND_ICONS) {
+    // --- Real, server-computed access (checklists app) --------------------
+    (function () {
+      // Visual theme, presentation-only -- WHO sees WHICH icon is decided
+      // entirely server-side in checklists/views.py, never here. This page
+      // only ever shows the Store checklists, so there's just one theme.
+      var THEME = { bg: '#FEF8EB', bgHover: '#FDF0D5', border: '#FDE5B5', accent: '#A66E2E', shadow: 'rgba(166,110,46,', title: '#78350F', titleHover: '#522307' };
+
+      function buildCard(item) {
+        var theme = THEME;
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'checklist-card group relative rounded-xl p-space-xl border transition-all flex flex-col items-center justify-center text-center';
+        a.style.backgroundColor = theme.bg;
+        a.style.borderColor = theme.border;
+        a.style.boxShadow = '0 2px 10px ' + theme.shadow + '0.06)';
+        a.addEventListener('mouseenter', function () { a.style.backgroundColor = theme.bgHover; a.style.boxShadow = '0 8px 24px ' + theme.shadow + '0.12)'; });
+        a.addEventListener('mouseleave', function () { a.style.backgroundColor = theme.bg; a.style.boxShadow = '0 2px 10px ' + theme.shadow + '0.06)'; });
+
+        a.innerHTML =
+          '<div class="w-16 h-16 shrink-0 rounded-full text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md" style="background-color:' + theme.accent + '">' +
+            '<span class="material-symbols-outlined text-[32px]">' + item.icon + '</span>' +
+          '</div>' +
+          '<h2 class="text-[15px] font-serif font-bold leading-snug transition-colors" style="color:' + theme.title + '">' + item.name + '</h2>' +
+          '<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>';
+        return a;
+      }
+
+      function render(data) {
+        var grid = document.getElementById('checklistGrid');
+        var emptyState = document.getElementById('checklistEmptyState');
+        grid.innerHTML = '';
+        data.icons.forEach(function (item) { grid.appendChild(buildCard(item)); });
+        emptyState.hidden = data.icons.length !== 0;
+      }
+
+      fetch('/api/checklist-icons/', { credentials: 'include' })
+        .then(function (response) {
+          if (response.status === 401) {
+            // Not signed in (or session expired) -- send them to login
+            // rather than showing a page with nothing on it.
+            window.location.href = 'index.html';
+            return null;
+          }
+          return response.json();
+        })
+        .then(function (data) { if (data) render(data); })
+        .catch(function () {
+          document.getElementById('checklistGrid').innerHTML = '';
+          var emptyState = document.getElementById('checklistEmptyState');
+          emptyState.querySelector('p').textContent = 'Could not load your checklists. Please try again later.';
+          emptyState.hidden = false;
+        });
+    })();
+  }
+</script>
+
+</div>
+<script>
+  // header search landing: ?tool=<checklist name> scrolls to it and flashes it.
+  (function () {
+    var name = new URLSearchParams(location.search).get('tool');
+    if (!name) return;
+    function key(s) { return String(s).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, ''); }
+    var want = key(name), tries = 0;
+    var style = document.createElement('style');
+    style.textContent = '@keyframes toolFlash{0%,100%{box-shadow:0 0 0 0 rgba(142,40,31,0)}35%{box-shadow:0 0 0 7px rgba(142,40,31,.32)}}.tool-flash{animation:toolFlash 1.2s ease-in-out 2}';
+    document.head.appendChild(style);
+    (function find() {
+      var cards = Array.prototype.slice.call(document.querySelectorAll('#checklistGrid .checklist-card'));
+      var card = cards.filter(function (c) { var h = c.querySelector('h2'); return h && key(h.textContent) === want; })[0];
+      // The cards can arrive a moment later when they come from the server, so keep looking briefly.
+      if (!card) { if (++tries < 30) setTimeout(find, 150); return; }
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('tool-flash');
+    })();
+  })();
+</script>
+</body></html>
