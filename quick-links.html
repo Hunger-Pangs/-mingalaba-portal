@@ -237,7 +237,7 @@ Log Out
 </div>
 
 <!-- 2: Frontlyne -->
-<a href="https://bbacademy.gofrontlyne.com/my-learning" data-android-package="com.mlpl.burmaburma" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
+<a href="https://bbacademy.gofrontlyne.com/my-learning" data-android-store="https://play.google.com/store/apps/details?id=com.mlpl.burmaburma&amp;hl=en_IN" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#B45309] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">support_agent</span>
 </div>
@@ -279,20 +279,16 @@ Log Out
 
 </div>
 <script>
-  // Tiles with data-android-package hand the website link to that Android app
-  // when it's installed AND has registered that web address (Chrome only opens
-  // an app for an address the app itself declares); otherwise Chrome loads the
-  // plain website via the fallback. Everything else (desktop, iPhone) keeps the
-  // ordinary website link in a new tab.
+  // A web link can't launch an Android app unless the vendor has registered
+  // that address with the app (Frontlyne hasn't), so on Android these tiles go
+  // to the app's Play Store page instead: the Play Store app opens there and
+  // shows "Open" if the app is installed, "Install" if not. Desktop and iPhone
+  // keep the ordinary website link in a new tab.
   (function () {
     if (!/Android/i.test(navigator.userAgent)) return;
-    Array.prototype.forEach.call(document.querySelectorAll('a[data-android-package]'), function (a) {
-      var web = a.getAttribute('href');
-      var u = new URL(web);
-      a.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=' + u.protocol.replace(':', '') +
-        ';package=' + a.getAttribute('data-android-package') +
-        ';S.browser_fallback_url=' + encodeURIComponent(web) + ';end';
-      a.removeAttribute('target'); // let Chrome hand the intent straight to Android
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-android-store]'), function (a) {
+      a.href = a.getAttribute('data-android-store');
+      a.removeAttribute('target'); // hand off to the Play Store app rather than leave a blank tab
     });
   })();
 </script>
