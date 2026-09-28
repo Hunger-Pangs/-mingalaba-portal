@@ -279,15 +279,18 @@ Log Out
 
 </div>
 <script>
-  // Tiles with data-android-package open the installed Android app when there
-  // is one, and fall back to the website link otherwise. Everything else
-  // (desktop, iPhone, Android without the app) keeps the plain website link,
-  // opened in a new tab.
+  // Tiles with data-android-package hand the website link to that Android app
+  // when it's installed AND has registered that web address (Chrome only opens
+  // an app for an address the app itself declares); otherwise Chrome loads the
+  // plain website via the fallback. Everything else (desktop, iPhone) keeps the
+  // ordinary website link in a new tab.
   (function () {
     if (!/Android/i.test(navigator.userAgent)) return;
     Array.prototype.forEach.call(document.querySelectorAll('a[data-android-package]'), function (a) {
       var web = a.getAttribute('href');
-      a.href = 'intent://#Intent;package=' + a.getAttribute('data-android-package') +
+      var u = new URL(web);
+      a.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=' + u.protocol.replace(':', '') +
+        ';package=' + a.getAttribute('data-android-package') +
         ';S.browser_fallback_url=' + encodeURIComponent(web) + ';end';
       a.removeAttribute('target'); // let Chrome hand the intent straight to Android
     });
