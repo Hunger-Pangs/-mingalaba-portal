@@ -1,25 +1,634 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport">
+﻿<!-- Mingalaba Workspace - Manage Job Postings -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Manage Job Postings</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
-  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-         background:#FBF9F5; color:#231917; font-family:'Plus Jakarta Sans',sans-serif; }
-  .card { background:#fff; border:1px solid #E8DFD3; border-radius:22px; padding:44px 40px;
-          max-width:460px; text-align:center; box-shadow:0 8px 28px rgba(62,1,4,.07); }
-  .ic { width:64px; height:64px; border-radius:50%; background:#FDF2F0; color:#8E281F;
-        display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
-  .ic span { font-family:'Material Symbols Outlined'; font-size:30px; }
-  h1 { font-family:'Noto Serif',serif; font-size:21px; margin:0 0 10px; color:#5b1614; }
-  p { font-size:14px; line-height:1.6; color:#635654; margin:0 0 26px; }
-  a { display:inline-flex; align-items:center; gap:7px; background:#5b1614; color:#fff;
-      text-decoration:none; font-weight:700; font-size:13px; padding:11px 22px; border-radius:999px; }
-  a:hover { background:#3e0104; }
-</style></head><body>
-<div class="card">
-  <div class="ic"><span>construction</span></div>
-  <h1>Manage Job Postings</h1>
-  <p>This page is part of the portal but isn&#8217;t included in this preview. It works in the full version.</p>
-  <a href="dashboard.html">Back to Dashboard</a>
-</div></body></html>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+    main > :first-child { margin-top: 0 !important; }
+    main > :last-child { margin-bottom: 0 !important; }
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  /* Entrance animation on page load -- kept identical across dashboard.html,
+     company-info-directory.html, restaurant-details-directory.html and this
+     page so arriving at any of them feels the same. */
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #pageContent {
+    animation: pageFadeIn 0.5s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #pageContent { animation: none; }
+  }
+
+  /* Department-filtered cards: hidden cards collapse out of the grid
+     entirely rather than just being invisible, so the layout re-flows. */
+  .checklist-card[hidden] { display: none; }
+
+  /* Tailwind's flex/grid utilities would otherwise override the hidden attribute. */
+  [hidden] { display: none !important; }
+
+  /* ---- Manage job postings ---- */
+  .mj-circ { border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; flex: none; }
+  .mj-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .mj-kpi { border: 1px solid #E8DFD3; border-radius: 16px; padding: 12px 14px; background: #fff; display: flex; gap: 12px; align-items: center; }
+  .mj-kpi b { display: block; font-family: 'Noto Serif', Georgia, serif; font-size: 22px; font-weight: 600; line-height: 1.1; color: #231917; }
+  .mj-kpi small { display: block; color: #635654; font-size: 11.5px; }
+  .mj-search { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #E8DFD3; border-radius: 999px; padding: 6px 14px; min-width: 230px; }
+  .mj-search input { border: 0; outline: 0; box-shadow: none; font: inherit; font-size: 13px; flex: 1; background: transparent; min-width: 0; padding: 0; }
+  .mj-select { font: inherit; font-size: 12px; font-weight: 600; padding: 7px 32px 7px 14px; border-radius: 999px; border: 1px solid #E8DFD3; background-color: #fff; color: #635654; cursor: pointer; }
+
+  .mj-tbl { background: #fff; border: 1px solid #E8DFD3; border-radius: 20px; overflow: hidden; }
+  .mj-row { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr) minmax(0, 1.1fr) 64px 84px 84px 92px 156px; gap: 12px; align-items: center; padding: 12px 18px; border-top: 1px solid #F0EBE0; font-size: 12.5px; }
+  .mj-row.th { background: #FAF7F2; border-top: 0; font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; color: #635654; }
+  .mj-row:not(.th):hover { background: #FCFAF6; }
+  .mj-row .role { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .mj-row .role b { display: block; font-size: 13.5px; font-weight: 600; color: #231917; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mj-row .role small { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .mj-row .sm-meta { display: none; font-size: 11.5px; color: #635654; margin-top: 2px; }
+  .mj-row .muted { color: #635654; }
+  .mj-row .cut { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mj-status { display: inline-flex; align-items: center; gap: 5px; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .mj-status i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .mj-acts { display: flex; gap: 4px; justify-content: flex-end; }
+  .mj-ib { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E8DFD3; background: #fff; color: #635654; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color .12s, color .12s, border-color .12s; }
+  .mj-ib:hover { background: #FEF8EB; color: #B45309; border-color: #FDE5B5; }
+  .mj-ib.danger:hover { background: #fdeaea; color: #ba1a1a; border-color: #f4c5c0; }
+  .mj-ib .material-symbols-outlined { font-size: 17px; }
+  .mj-empty { text-align: center; color: #8c7b75; padding: 44px 20px; font-size: 13.5px; }
+
+  .mj-btn { font: inherit; font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: 999px; border: 1px solid #B45309; background: #B45309; color: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: background-color .15s; }
+  .mj-btn:hover { background: #92400E; }
+  .mj-btn.ghost { background: #fff; color: #B45309; }
+  .mj-btn.ghost:hover { background: #FEF8EB; }
+  .mj-btn.danger { background: #ba1a1a; border-color: #ba1a1a; }
+  .mj-btn.danger:hover { background: #93000a; }
+  .mj-btn[disabled] { opacity: .6; cursor: default; }
+  .mj-btn .material-symbols-outlined { font-size: 16px; }
+
+  /* dialogs */
+  .mj-ov { position: fixed; inset: 0; background: rgba(35,25,23,.55); display: none; align-items: flex-start; justify-content: center; padding: 76px 16px 24px; z-index: 100; overflow-y: auto; }
+  .mj-ov.on { display: flex; }
+  .mj-dlg { background: #fff; border-radius: 22px; width: min(720px, 100%); box-shadow: 0 30px 70px rgba(0,0,0,.35); animation: mjPop .18s ease-out; }
+  .mj-dlg.small { width: min(440px, 100%); }
+  @keyframes mjPop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+  .mj-dlg header { display: flex; align-items: center; gap: 12px; padding: 18px 22px; border-bottom: 1px solid #F0EBE0; }
+  .mj-dlg header h2 { margin: 0; font-family: 'Noto Serif', Georgia, serif; font-size: 19px; font-weight: 600; color: #231917; }
+  .mj-dlg header button { margin-left: auto; }
+  .mj-form { padding: 20px 22px 6px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+  .mj-form .full { grid-column: 1 / -1; }
+  .mj-field label { display: block; font-size: 11.5px; font-weight: 700; color: #4d4240; margin-bottom: 4px; letter-spacing: .02em; }
+  .mj-field label em { color: #ba1a1a; font-style: normal; }
+  .mj-field input[type=text], .mj-field input[type=number], .mj-field input[type=date], .mj-field select, .mj-field textarea {
+    width: 100%; font: inherit; font-size: 13.5px; padding: 9px 12px; border: 1px solid #E3D8C4; border-radius: 12px; background: #fff; color: #231917; box-shadow: none; }
+  .mj-field textarea { resize: vertical; min-height: 84px; line-height: 1.5; }
+  .mj-field input:focus, .mj-field select:focus, .mj-field textarea:focus { outline: none; border-color: #B45309; box-shadow: 0 0 0 3px rgba(180,83,9,.15); }
+  .mj-field.bad input, .mj-field.bad select, .mj-field.bad textarea { border-color: #ba1a1a; }
+  .mj-field .err { display: none; color: #ba1a1a; font-size: 11.5px; margin-top: 3px; }
+  .mj-field.bad .err { display: block; }
+  .mj-field .hint { font-size: 11.5px; color: #8c7b75; margin-top: 3px; }
+  .mj-check { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #231917; cursor: pointer; }
+  .mj-check input { width: 18px; height: 18px; accent-color: #B45309; }
+  .mj-dlg footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; padding: 16px 22px 20px; }
+  .mj-banner-err { grid-column: 1 / -1; background: #fdeaea; color: #93000a; border: 1px solid #f4c5c0; border-radius: 12px; padding: 9px 12px; font-size: 12.5px; }
+  .mj-toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #231917; color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 120; display: flex; align-items: center; gap: 8px; max-width: calc(100vw - 32px); }
+  .mj-toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 1080px) {
+    .mj-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mj-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .mj-row.th { display: none; }
+    .mj-row .c-loc, .mj-row .c-type, .mj-row .c-open, .mj-row .c-posted, .mj-row .c-closes { display: none; }
+    .mj-row .sm-meta { display: block; }
+    .mj-row .c-status { grid-column: 1; grid-row: 2; }
+    .mj-row .mj-acts { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  }
+  @media (max-width: 600px) {
+    .mj-kpis { grid-template-columns: minmax(0, 1fr); }
+    .mj-form { grid-template-columns: minmax(0, 1fr); }
+    .mj-ov { padding-top: 72px; padding-left: 8px; padding-right: 8px; }
+    .mj-row { padding: 12px 14px; }
+    .mj-acts { flex-wrap: wrap; max-width: 76px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .mj-dlg { animation: none; } .mj-toast { transition: none; } }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#5b1614",
+          "primary-dark": "#3e0104",
+          "primary-container": "#5b1614",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#ffdad6",
+          "primary-fixed-dim": "#ffb3ac",
+          "on-primary-fixed": "#3f0204",
+          "secondary": "#a73923",
+          "secondary-container": "#fd795d",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#ffdad3",
+          "secondary-fixed-dim": "#ffb4a4",
+          "tertiary": "#6c5d2f",
+          "tertiary-container": "#bcaa75",
+          "tertiary-fixed": "#f6e1a7",
+          "background": "#FBF9F5",
+          "surface": "#FBF9F5",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#F7F3EC",
+          "surface-container": "#fdeae6",
+          "surface-container-high": "#f7e4e0",
+          "surface-cream": "#FCFAF6",
+          "surface-linen": "#F7F3EB",
+          "surface-sand": "#EDE6D8",
+          "on-surface": "#231917",
+          "on-surface-variant": "#635654",
+          "outline-variant": "#E8DFD3",
+          "border-warm": "#E8DFD3",
+          "accent-brass": "#C89C5D",
+          "accent-moss": "#6B6038",
+          "error": "#ba1a1a"
+        },
+        fontFamily: {
+          "serif": ["Noto Serif", "serif"],
+          "sans": ["Plus Jakarta Sans", "sans-serif"],
+          "body-md": ["Plus Jakarta Sans", "sans-serif"],
+          "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "label-md": ["Plus Jakarta Sans", "sans-serif"],
+          "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "headline-sm": ["Noto Serif", "serif"]
+        },
+        spacing: {
+          "space-xl": "1.5rem",
+          "space-lg": "1.25rem",
+          "space-md": "0.75rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "space-2xl": "2rem",
+          "app-max-width": "100rem"
+        }
+      }
+    }
+  };
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary/15 selection:text-primary">
+<div>
+<!-- Header -->
+<!-- HEADER:START -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
+<a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
+<div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
+<img alt="Hunger Pangs logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5GOZQaK_TCXSKbXTgtW9aPzlSzsnM1lORZDAiMGuYPmWbyQ28JyhJzxGnYB4o-pfwZOlSOLAV68U6iowJymYA8DYer_AbFYhrKw9HxkY29IvYMa-vyc7JIOzBbvfbREg4C6mQscLWp4ggRyFKJOveZ1FVazEQ0pZPk3Yqs4WXxcWKv4V_L7hX6vUHih6QXa6Px7uwdOwcPRxIboLsSGLYvWuG5XxY8ItqzAZHWmJOuCXCGrxBbyfYYFLJQCwiNqczeQ">
+</div>
+<div class="h-6 w-[1px] bg-[#E8DFD3] hidden sm:block"></div>
+<div class="hidden sm:flex flex-col">
+<span class="font-serif text-[17px] font-semibold text-[#5b1614] tracking-tight leading-tight">Mingalaba</span>
+</div>
+</a>
+<!-- Search Bar -->
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-[0.75rem] text-[#8c7b75] text-[20px]">search</span>
+<input id="siteSearch" class="w-full pl-10 pr-[0.75rem] py-2 rounded-full bg-[#F7F4EE] border border-[#E8DFD3] text-[#231917] placeholder:text-[#8c7b75] text-[13px] font-sans focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614]/40 transition-all" placeholder="Search documents, people, tasks... / Cmd+K" type="text">
+</div>
+</div>
+<!-- Action Icons & Profile -->
+<div class="flex items-center gap-[0.75rem]">
+<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+</button>
+<div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
+<div class="relative">
+<button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
+<div class="hidden xl:flex flex-col text-left pl-2">
+<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
+<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
+</div>
+<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+</button>
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div class="px-4 py-2.5 border-b border-[#E8DFD3]">
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
+<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+</div>
+<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Log Out
+</a>
+</div>
+</div>
+</div>
+</header>
+<script>
+  (function () {
+    var btn = document.getElementById('profileMenuBtn');
+    var menu = document.getElementById('profileMenu');
+    if (!btn || !menu) return;
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  function getCookie(name) {
+    var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    // Django's CSRF protection requires this header on state-changing
+    // requests; the csrftoken cookie is deliberately readable by JS (unlike
+    // the HttpOnly session cookie) so it can be echoed back this way.
+    fetch('/api/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
+    })
+      .catch(function () {})
+      .then(function () {
+        window.location.href = 'index.html';
+      });
+  }
+</script>
+<script src="site-search.js" defer></script>
+<!-- HEADER:END -->
+
+<main id="pageContent" class="w-full pt-16 bg-background min-h-screen px-space-xl py-space-lg max-w-app-max-width mx-auto">
+<div class="py-space-xl max-w-7xl mx-auto flex flex-col gap-space-xl">
+
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]">
+<a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html">
+<span class="material-symbols-outlined text-[16px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<span class="text-[#E8DFD3]">/</span>
+<a class="hover:text-[#5b1614] transition-colors" href="job-openings.html">Job Openings</a>
+<span class="text-[#E8DFD3]">/</span>
+<span class="text-[#5b1614] font-semibold">Manage Postings</span>
+</nav>
+
+<!-- Page Header -->
+<div class="bg-[#FEF8EB] border border-[#FDE5B5] rounded-2xl p-space-xl flex flex-col md:flex-row md:items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 shrink-0 rounded-full bg-[#B45309] text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[28px]">edit_note</span>
+</div>
+<div>
+<h1 class="text-[22px] font-serif font-semibold text-[#78350F] tracking-tight">Manage Job Postings</h1>
+<p class="text-[13px] font-sans text-on-surface-variant mt-1 max-w-xl">Add, edit, close or remove openings. Only open postings appear on the Job Openings page.</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<a class="mj-btn ghost" href="job-openings.html"><span class="material-symbols-outlined">visibility</span>View job openings</a>
+<button id="newPosting" type="button" class="mj-btn"><span class="material-symbols-outlined">add</span>New posting</button>
+</div>
+</div>
+
+<!-- Shown instead of the tools when the signed-in person is not allowed to manage postings -->
+<div id="noAccess" hidden class="bg-white border border-[#E8DFD3] rounded-2xl p-space-2xl text-center">
+<div class="w-14 h-14 mx-auto mb-space-md rounded-full bg-[#F4EFE6] text-on-surface-variant flex items-center justify-center"><span class="material-symbols-outlined text-[28px]">lock</span></div>
+<h2 class="text-[18px] font-serif font-semibold text-on-surface">You don't have access to manage job postings</h2>
+<p class="text-[13px] font-sans text-on-surface-variant mt-1">Ask HR to give your account the job postings permission.</p>
+<a class="mj-btn mt-space-lg" href="job-openings.html">Back to job openings</a>
+</div>
+
+<div id="tools" class="flex flex-col gap-space-xl">
+<div id="kpis" class="mj-kpis"></div>
+
+<div class="flex flex-wrap items-center gap-x-space-md gap-y-space-sm">
+<label class="mj-search"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">search</span><input id="q" type="search" placeholder="Search postings" aria-label="Search postings"></label>
+<div id="statusFilters" class="flex flex-wrap items-center gap-space-sm"></div>
+<select id="deptFilter" class="mj-select" aria-label="Filter by department"></select>
+</div>
+
+<div class="mj-tbl">
+<div class="mj-row th"><span>Role</span><span class="c-loc">Location</span><span class="c-type">Type</span><span class="c-open">Open</span><span class="c-posted">Posted</span><span class="c-closes">Closes</span><span>Status</span><span style="text-align:right">Actions</span></div>
+<div id="rows"></div>
+</div>
+</div>
+
+</div>
+</main>
+
+<!-- Add / edit dialog (outside <main> so its fade-in transform can't trap the fixed overlay) -->
+<div id="editorOv" class="mj-ov" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+<form id="editor" class="mj-dlg" novalidate>
+<header>
+<span class="mj-circ" style="width:38px;height:38px;background:#B45309"><span class="material-symbols-outlined text-[20px]">edit_note</span></span>
+<h2 id="editorTitle">New posting</h2>
+<button type="button" class="mj-ib" data-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+</header>
+<div class="mj-form">
+<div id="formError" class="mj-banner-err" hidden></div>
+<div class="mj-field full" data-f="title"><label for="fTitle">Job title <em>*</em></label><input id="fTitle" type="text" maxlength="120" placeholder="e.g. Sous Chef"><div class="err"></div></div>
+<div class="mj-field" data-f="department"><label for="fDept">Department <em>*</em></label><select id="fDept"></select><div class="err"></div></div>
+<div class="mj-field" data-f="type"><label for="fType">Employment type</label><select id="fType"></select></div>
+<div class="mj-field" data-f="city"><label for="fCity">City <em>*</em></label><input id="fCity" type="text" maxlength="60" placeholder="e.g. Mumbai"><div class="err"></div></div>
+<div class="mj-field" data-f="place"><label for="fPlace">Store or office</label><input id="fPlace" type="text" maxlength="100" placeholder="e.g. Kala Ghoda"></div>
+<div class="mj-field" data-f="experience"><label for="fExp">Experience</label><input id="fExp" type="text" maxlength="30" placeholder="e.g. 3â€“5 yrs"></div>
+<div class="mj-field" data-f="openings"><label for="fOpenings">Number of openings</label><input id="fOpenings" type="number" min="1" max="500" value="1"><div class="err"></div></div>
+<div class="mj-field full" data-f="summary"><label for="fSummary">About the role</label><textarea id="fSummary" maxlength="1000" placeholder="One or two sentences on what the person will do."></textarea></div>
+<div class="mj-field full" data-f="requirements"><label for="fReqs">What we are looking for</label><textarea id="fReqs" placeholder="One point per line"></textarea><div class="hint">Each line becomes a bullet point.</div></div>
+<div class="mj-field full" data-f="applyTo"><label for="fApply">How to apply</label><input id="fApply" type="text" maxlength="200" placeholder="An email address or a link"><div class="hint">The Apply button opens this. Leave empty to show "Contact HR to apply".</div><div class="err"></div></div>
+<div class="mj-field" data-f="closingDate"><label for="fClose">Apply by</label><input id="fClose" type="date"><div class="hint">Leave empty to keep it open until you close it.</div><div class="err"></div></div>
+<div class="mj-field" data-f="status"><label for="fStatus">Status</label><select id="fStatus"><option value="draft">Draft (hidden)</option><option value="open">Open (visible)</option><option value="closed">Closed (hidden)</option></select></div>
+<label class="mj-check full"><input id="fUrgent" type="checkbox"> Hiring urgently (shows an "Urgent" tag and moves the role to the top)</label>
+</div>
+<footer>
+<button type="button" class="mj-btn ghost" data-close>Cancel</button>
+<button type="submit" id="saveBtn" class="mj-btn"><span class="material-symbols-outlined">check</span><span>Save posting</span></button>
+</footer>
+</form>
+</div>
+
+<!-- Delete confirmation -->
+<div id="confirmOv" class="mj-ov" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+<div class="mj-dlg small">
+<header>
+<span class="mj-circ" style="width:38px;height:38px;background:#ba1a1a"><span class="material-symbols-outlined text-[20px]">delete</span></span>
+<h2 id="confirmTitle">Delete this posting?</h2>
+</header>
+<div style="padding:16px 22px 4px;font-size:13.5px;color:#4d4240" id="confirmText"></div>
+<footer>
+<button type="button" class="mj-btn ghost" data-cancel>Keep it</button>
+<button type="button" class="mj-btn danger" id="confirmDelete">Delete</button>
+</footer>
+</div>
+</div>
+
+<div id="toast" class="mj-toast" role="status" aria-live="polite"></div>
+
+<script src="jobs-data.js"></script>
+<script>
+  (function () {
+    var S = window.JobsStore;
+    var jobs = [], deptNames = Object.keys(S.DEPTS);
+    var statusF = 'all', deptF = 'All departments', query = '';
+    var editingId = null, deleteId = null, lastFocus = null, toastTimer = null;
+
+    var PILL_BASE = 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-sans font-semibold border transition-colors cursor-pointer ';
+    var PILL_ON = 'bg-primary text-white border-primary';
+    var PILL_OFF = 'bg-white text-on-surface-variant border-[#E8DFD3] hover:bg-[#F7F4EE] hover:text-primary';
+    var STATE = {
+      open:    { label: 'Open',    bg: '#dcefdc', color: '#1F5C26' },
+      draft:   { label: 'Draft',   bg: '#F4EFE6', color: '#635654' },
+      closed:  { label: 'Closed',  bg: '#fdeaea', color: '#93000a' },
+      expired: { label: 'Expired', bg: '#fbefd2', color: '#8a6a1f' }
+    };
+
+    function $(id) { return document.getElementById(id); }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+    }
+    function icon(name, size) { return '<span class="material-symbols-outlined"' + (size ? ' style="font-size:' + size + 'px"' : '') + '>' + name + '</span>'; }
+    function fmtDate(iso) { return iso ? new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }) : 'â€”'; }
+    function where(j) { return j.place ? j.city + ' Â· ' + j.place : j.city; }
+    function byId(id) { return jobs.filter(function (j) { return j.id === id; })[0]; }
+
+    function toast(msg, ok) {
+      var t = $('toast');
+      t.innerHTML = icon(ok === false ? 'error' : 'check_circle', 18) + '<span>' + esc(msg) + '</span>';
+      t.classList.add('on');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2600);
+    }
+
+    /* ---------- table ---------- */
+    function filtered() {
+      var q = query.trim().toLowerCase();
+      return jobs.filter(function (j) {
+        return (statusF === 'all' || S.stateOf(j) === statusF) && (deptF === 'All departments' || j.department === deptF) &&
+          (!q || (j.title + ' ' + j.city + ' ' + j.place + ' ' + j.department).toLowerCase().indexOf(q) >= 0);
+      }).sort(function (a, b) {
+        var order = { open: 0, draft: 1, expired: 2, closed: 3 };
+        return (order[S.stateOf(a)] - order[S.stateOf(b)]) || String(b.postedAt || '').localeCompare(String(a.postedAt || '')) || (b.id - a.id);
+      });
+    }
+
+    function renderKpis() {
+      var live = jobs.filter(S.isLive);
+      var positions = live.reduce(function (n, j) { return n + j.openings; }, 0);
+      var drafts = jobs.filter(function (j) { return j.status === 'draft'; }).length;
+      var ended = jobs.filter(function (j) { var s = S.stateOf(j); return s === 'closed' || s === 'expired'; }).length;
+      function k(i, col, val, label) {
+        return '<div class="mj-kpi"><span class="mj-circ" style="width:38px;height:38px;background:' + col + '">' + icon(i, 20) + '</span><div><b>' + val + '</b><small>' + label + '</small></div></div>';
+      }
+      $('kpis').innerHTML = k('work', '#B45309', live.length, 'Open roles') + k('groups', '#5B2C6F', positions, 'Positions to fill') + k('draft', '#635654', drafts, 'Drafts') + k('inventory_2', '#8E281F', ended, 'Closed or expired');
+    }
+
+    function renderFilters() {
+      var counts = { all: jobs.length, open: 0, draft: 0, closed: 0, expired: 0 };
+      jobs.forEach(function (j) { counts[S.stateOf(j)] += 1; });
+      var chips = [['all', 'All'], ['open', 'Open'], ['draft', 'Draft'], ['closed', 'Closed'], ['expired', 'Expired']];
+      $('statusFilters').innerHTML = chips.map(function (c) {
+        var on = c[0] === statusF;
+        return '<button type="button" data-status="' + c[0] + '" aria-pressed="' + on + '" class="' + PILL_BASE + (on ? PILL_ON : PILL_OFF) + '"><span>' + c[1] + '</span>' +
+          '<span class="text-[10px] px-1.5 py-0.5 rounded-full ' + (on ? 'bg-white/20' : 'bg-[#F4EFE6]') + '">' + counts[c[0]] + '</span></button>';
+      }).join('');
+      var names = ['All departments'].concat(allDeptNames());
+      if (names.indexOf(deptF) < 0) deptF = 'All departments';
+      $('deptFilter').innerHTML = names.map(function (n) { return '<option' + (n === deptF ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('');
+    }
+    function allDeptNames() {
+      var names = deptNames.slice();
+      jobs.forEach(function (j) { if (j.department && names.indexOf(j.department) < 0) names.push(j.department); });
+      return names;
+    }
+
+    function renderRows() {
+      var list = filtered();
+      if (!list.length) {
+        $('rows').innerHTML = '<div class="mj-empty">' + (jobs.length ? 'No postings match your filters.' : 'No postings yet. Use "New posting" to add the first one.') + '</div>';
+        return;
+      }
+      $('rows').innerHTML = list.map(function (j) {
+        var st = S.deptStyle(j.department), state = S.stateOf(j), sc = STATE[state];
+        var toggle = state === 'open'
+          ? '<button type="button" class="mj-ib" data-act="close" data-id="' + j.id + '" title="Close posting" aria-label="Close posting">' + icon('lock') + '</button>'
+          : state === 'draft'
+            ? '<button type="button" class="mj-ib" data-act="publish" data-id="' + j.id + '" title="Publish" aria-label="Publish posting">' + icon('publish') + '</button>'
+            : '<button type="button" class="mj-ib" data-act="reopen" data-id="' + j.id + '" title="Reopen" aria-label="Reopen posting">' + icon('lock_open') + '</button>';
+        return '<div class="mj-row">' +
+          '<div class="role"><span class="mj-circ" style="width:40px;height:40px;background:' + st.color + '">' + icon(st.icon, 21) + '</span><div style="min-width:0"><b title="' + esc(j.title) + '">' + esc(j.title) + (j.urgent ? ' <span style="color:#ba1a1a" title="Urgent">' + icon('bolt', 15) + '</span>' : '') + '</b>' +
+            '<small style="color:' + st.color + '">' + esc(j.department) + '</small><div class="sm-meta">' + esc(where(j)) + ' Â· ' + esc(j.type) + ' Â· ' + j.openings + (j.openings > 1 ? ' openings' : ' opening') + '</div></div></div>' +
+          '<span class="c-loc cut muted" title="' + esc(where(j)) + '">' + esc(where(j)) + '</span>' +
+          '<span class="c-type cut muted">' + esc(j.type) + (j.experience ? ' Â· ' + esc(j.experience) : '') + '</span>' +
+          '<span class="c-open"><b>' + j.openings + '</b></span>' +
+          '<span class="c-posted muted">' + fmtDate(j.postedAt) + '</span>' +
+          '<span class="c-closes muted">' + (j.closingDate ? fmtDate(j.closingDate) : 'Until filled') + '</span>' +
+          '<span class="c-status"><span class="mj-status" style="background:' + sc.bg + ';color:' + sc.color + '"><i></i>' + sc.label + '</span></span>' +
+          '<div class="mj-acts">' +
+            '<button type="button" class="mj-ib" data-act="edit" data-id="' + j.id + '" title="Edit" aria-label="Edit posting">' + icon('edit') + '</button>' + toggle +
+            '<button type="button" class="mj-ib" data-act="dup" data-id="' + j.id + '" title="Duplicate as draft" aria-label="Duplicate posting">' + icon('content_copy') + '</button>' +
+            '<button type="button" class="mj-ib danger" data-act="del" data-id="' + j.id + '" title="Delete" aria-label="Delete posting">' + icon('delete') + '</button></div></div>';
+      }).join('');
+    }
+    function renderAll() { renderKpis(); renderFilters(); renderRows(); }
+
+    /* ---------- editor ---------- */
+    function fillSelects(selectedDept) {
+      $('fDept').innerHTML = '<option value="">Select department</option>' + allDeptNames().map(function (n) { return '<option' + (n === selectedDept ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('');
+      $('fType').innerHTML = S.TYPES.map(function (t) { return '<option>' + t + '</option>'; }).join('');
+    }
+    function clearErrors() {
+      [].forEach.call(document.querySelectorAll('.mj-field'), function (f) { f.classList.remove('bad'); var e = f.querySelector('.err'); if (e) e.textContent = ''; });
+      $('formError').hidden = true;
+    }
+    function fieldError(name, msg) {
+      var f = document.querySelector('.mj-field[data-f="' + name + '"]');
+      if (!f) return;
+      f.classList.add('bad');
+      var e = f.querySelector('.err'); if (e) e.textContent = msg;
+    }
+    function openOverlay(id) { lastFocus = document.activeElement; $(id).classList.add('on'); document.body.style.overflow = 'hidden'; }
+    function closeOverlay(id) {
+      $(id).classList.remove('on');
+      if (!document.querySelector('.mj-ov.on')) document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    function openEditor(job, opts) {
+      opts = opts || {};
+      editingId = job && job.id ? job.id : null;
+      var j = job || { title: '', department: '', city: '', place: '', type: 'Full-time', experience: '', openings: 1, closingDate: '', summary: '', requirements: [], applyTo: '', urgent: false, status: 'draft' };
+      clearErrors();
+      fillSelects(j.department);
+      $('editorTitle').textContent = opts.copy ? 'Duplicated as a draft' : (editingId ? 'Edit posting' : 'New posting');
+      $('fTitle').value = j.title; $('fType').value = j.type; $('fCity').value = j.city; $('fPlace').value = j.place;
+      $('fExp').value = j.experience; $('fOpenings').value = j.openings; $('fSummary').value = j.summary;
+      $('fReqs').value = (j.requirements || []).join('\n'); $('fApply').value = j.applyTo; $('fClose').value = j.closingDate || '';
+      $('fStatus').value = j.status; $('fUrgent').checked = !!j.urgent;
+      openOverlay('editorOv');
+      (opts.focus ? $(opts.focus) : $('fTitle')).focus();
+    }
+
+    function readForm() {
+      return {
+        id: editingId, title: $('fTitle').value, department: $('fDept').value, city: $('fCity').value, place: $('fPlace').value, type: $('fType').value,
+        experience: $('fExp').value, openings: $('fOpenings').value, closingDate: $('fClose').value, summary: $('fSummary').value,
+        requirements: $('fReqs').value, applyTo: $('fApply').value, urgent: $('fUrgent').checked, status: $('fStatus').value,
+        postedAt: editingId && byId(editingId) ? byId(editingId).postedAt : ''
+      };
+    }
+    function validate(v) {
+      var ok = true;
+      if (!v.title.trim()) { fieldError('title', 'Enter the job title.'); ok = false; }
+      if (!v.department) { fieldError('department', 'Choose a department.'); ok = false; }
+      if (!v.city.trim()) { fieldError('city', 'Enter the city.'); ok = false; }
+      var n = parseInt(v.openings, 10);
+      if (!(n >= 1 && n <= 500)) { fieldError('openings', 'Enter a number from 1 to 500.'); ok = false; }
+      var a = v.applyTo.trim();
+      if (a && !/^https?:\/\/\S+$/i.test(a) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(a)) { fieldError('applyTo', 'Enter an email address or a link starting with http.'); ok = false; }
+      if (v.status === 'open' && v.closingDate && v.closingDate < S.todayIso()) { fieldError('closingDate', 'The apply-by date has already passed.'); ok = false; }
+      return ok;
+    }
+
+    $('editor').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+      var v = readForm();
+      if (!validate(v)) { var first = document.querySelector('.mj-field.bad input, .mj-field.bad select'); if (first) first.focus(); return; }
+      var btn = $('saveBtn'); btn.disabled = true;
+      S.save(v).then(function (saved) {
+        return reload().then(function () {
+          closeOverlay('editorOv');
+          toast(editingId ? 'Posting updated' : 'Posting created');
+        });
+      }).catch(function (err) {
+        $('formError').textContent = err.message || 'Could not save the posting.'; $('formError').hidden = false;
+        if (err.fields) Object.keys(err.fields).forEach(function (k) { fieldError(k, [].concat(err.fields[k])[0]); });
+      }).then(function () { btn.disabled = false; });
+    });
+
+    /* ---------- row actions ---------- */
+    function setStatus(id, status, message) {
+      var j = byId(id); if (!j) return;
+      var next = Object.assign({}, j, { status: status });
+      if (status === 'open' && !next.postedAt) next.postedAt = S.todayIso();
+      S.save(next).then(reload).then(function () { toast(message); }).catch(function (err) { toast(err.message || 'Could not update the posting.', false); });
+    }
+
+    $('rows').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      var id = +b.getAttribute('data-id'), j = byId(id), act = b.getAttribute('data-act');
+      if (!j) return;
+      if (act === 'edit') openEditor(j);
+      else if (act === 'close') setStatus(id, 'closed', 'Posting closed');
+      else if (act === 'publish') {
+        if (j.closingDate && j.closingDate < S.todayIso()) openEditor(Object.assign({}, j, { status: 'open', closingDate: '' }), { focus: 'fClose' });
+        else setStatus(id, 'open', 'Posting published');
+      } else if (act === 'reopen') {
+        if (j.closingDate && j.closingDate < S.todayIso()) openEditor(Object.assign({}, j, { status: 'open', closingDate: '' }), { focus: 'fClose' });
+        else setStatus(id, 'open', 'Posting reopened');
+      } else if (act === 'dup') {
+        var copy = Object.assign({}, j, { id: null, title: j.title + ' (copy)', status: 'draft', postedAt: '' });
+        S.save(copy).then(function (saved) { return reload().then(function () { toast('Duplicated as a draft'); openEditor(byId(saved.id) || saved, { copy: true }); }); })
+          .catch(function (err) { toast(err.message || 'Could not duplicate the posting.', false); });
+      } else if (act === 'del') {
+        deleteId = id; $('confirmText').textContent = '"' + j.title + '" (' + where(j) + ') will be removed for good. To hide it without deleting, close it instead.';
+        openOverlay('confirmOv');
+      }
+    });
+
+    $('confirmDelete').addEventListener('click', function () {
+      var id = deleteId; deleteId = null;
+      closeOverlay('confirmOv');
+      S.remove(id).then(reload).then(function () { toast('Posting deleted'); }).catch(function (err) { toast(err.message || 'Could not delete the posting.', false); });
+    });
+    $('confirmOv').addEventListener('click', function (e) { if (e.target === this || e.target.closest('[data-cancel]')) { deleteId = null; closeOverlay('confirmOv'); } });
+    $('editorOv').addEventListener('click', function (e) { if (e.target === this || e.target.closest('[data-close]')) closeOverlay('editorOv'); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if ($('confirmOv').classList.contains('on')) { deleteId = null; closeOverlay('confirmOv'); }
+      else if ($('editorOv').classList.contains('on')) closeOverlay('editorOv');
+    });
+
+    /* ---------- filters + new ---------- */
+    $('newPosting').addEventListener('click', function () { openEditor(null); });
+    $('statusFilters').addEventListener('click', function (e) { var b = e.target.closest('button[data-status]'); if (!b) return; statusF = b.getAttribute('data-status'); renderAll(); });
+    $('deptFilter').addEventListener('change', function () { deptF = this.value; renderRows(); });
+    $('q').addEventListener('input', function () { query = this.value; renderRows(); });
+
+    /* ---------- load ---------- */
+    function reload() {
+      return S.load().then(function (data) {
+        jobs = data.jobs;
+        if (data.departments && data.departments.length) deptNames = data.departments;
+        $('noAccess').hidden = data.canManage;
+        $('tools').hidden = !data.canManage;
+        $('newPosting').hidden = !data.canManage;
+        renderAll();
+      });
+    }
+    $('rows').innerHTML = '<div class="mj-empty">Loading postingsâ€¦</div>';
+    reload().catch(function (err) {
+      $('rows').innerHTML = '<div class="mj-empty">Could not load the postings. ' + esc(err.message || '') + '</div>';
+    });
+  })();
+</script>
+
+</body></html>

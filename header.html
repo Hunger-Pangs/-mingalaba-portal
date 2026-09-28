@@ -1,5 +1,23 @@
-<!-- Mingalaba Workspace - Icon-Only Dashboard (2-Line Titles) -->
-<!DOCTYPE html><html lang="en" style=""><head>
+<!-- ============================================================================
+     SINGLE SOURCE OF TRUTH for the site header.
+     dashboard.html, company-info-directory.html and
+     restaurant-details-directory.html each carry their own copy of the
+     <header>...</header> block below (between HEADER:START/HEADER:END
+     comments) baked directly into their markup — not loaded at runtime —
+     so the header displays identically whether a page is opened by
+     double-clicking the file or served from a real web server.
+
+     TO CHANGE THE HEADER: edit the block between HEADER:START and
+     HEADER:END below, then run sync-header.ps1 in this folder. It copies
+     this exact block into the matching markers in every page, so they
+     stay byte-for-byte identical:
+
+         powershell -ExecutionPolicy Bypass -File sync-header.ps1
+
+     This file itself is never loaded by the other pages — it's only the
+     editable master copy the sync script reads from.
+     ============================================================================ -->
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -9,33 +27,9 @@
 <style>
   @layer base {
     html, body { margin: 0; padding: 0; }
-    body { overscroll-behavior: none; }
-    main > :first-child { margin-top: 0 !important; }
-    main > :last-child { margin-bottom: 0 !important; }
+    body { overscroll-behavior: none; overflow: hidden; background: transparent; }
   }
   ::-webkit-scrollbar { display: none; }
-
-  /* Entrance animation on page load -- kept identical across dashboard.html,
-     company-info-directory.html and restaurant-details-directory.html so
-     arriving at any of them feels the same. */
-  @keyframes pageFadeIn {
-    from { opacity: 0; transform: translateY(10px) scale(0.99); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  #pageContent {
-    animation: pageFadeIn 0.5s ease-out both;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #pageContent { animation: none; }
-  }
-
-  /* Simple icon tiles -- same look as the other icon-grid pages (Knowledge
-     Center, Log Book): hover background/border change and a small icon
-     scale, nothing more. */
-  .kc-tile { transition: background-color .15s, border-color .15s, box-shadow .15s; }
-  .kc-ic { transition: transform .2s ease; }
-  .kc-tile:hover .kc-ic, .kc-tile:focus-visible .kc-ic { transform: scale(1.06); }
-  .kc-tile:focus-visible { outline: 3px solid var(--tint-solid, #5b1614); outline-offset: 2px; }
 </style>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -99,9 +93,8 @@
   };
 </script>
 </head>
-<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary/15 selection:text-primary">
-<div>
-<!-- Header -->
+<body class="antialiased">
+
 <!-- HEADER:START -->
 <header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
 <a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
@@ -191,77 +184,5 @@ Log Out
 </script>
 <script src="site-search.js" defer></script>
 <!-- HEADER:END -->
-
-<main id="pageContent" class="w-full bg-background min-h-screen px-space-xl pt-[5.5rem] pb-space-md max-w-app-max-width mx-auto">
-<div class="max-w-7xl w-full mx-auto flex flex-col gap-space-lg">
-<!-- Welcome note -->
-<div class="flex items-center gap-space-md bg-[#FDF2F0] border border-[#F4C5C0]/60 rounded-2xl px-space-lg py-space-sm shadow-[0_2px_10px_rgba(142,40,31,0.05)]">
-<div class="w-10 h-10 shrink-0 rounded-full bg-primary text-white flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px]">waving_hand</span>
-</div>
-<div class="min-w-0">
-<p id="welcomeGreeting" class="text-[15px] font-serif font-semibold text-primary leading-tight">Welcome back</p>
-<p class="text-[12px] font-sans text-on-surface-variant mt-0.5 leading-tight">Here&#8217;s your Mingalaba workspace for today.</p>
-</div>
-</div>
-<!-- 6 Icons, in sequence: Knowledge Center, Job Openings, Announcements, Sales, Quick Links, Log Book -->
-<div class="flex flex-wrap justify-center gap-space-xl">
-<!-- 1: Knowledge Center (Sage / Forest Green Tint) -->
-<a href="knowledge-center.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#F0F7F2] hover:bg-[#E5F2E8] rounded-[1.75rem] p-space-2xl border border-[#CBE4D3] hover:border-[#2D5A27]/40 shadow-[0_2px_10px_rgba(45,90,39,0.06)] hover:shadow-[0_8px_24px_rgba(45,90,39,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#2D5A27">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#2D5A27] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">policy</span>
-</div>
-<h2 class="text-[18px] font-serif text-[#1E4620] group-hover:text-[#133015] transition-colors text-center font-bold">Knowledge Center</h2>
-</a>
-<!-- 2: Job Openings (Golden Honey / Amber Tint) -->
-<a href="job-openings.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-[1.75rem] p-space-2xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#B45309] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">badge</span>
-</div>
-<h2 class="text-[18px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors text-center font-bold">Job Openings</h2>
-</a>
-<!-- 3: Announcements (Royal Lavender / Plum Tint) -->
-<a href="announcements.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#F7F2FA] hover:bg-[#EFE6F6] rounded-[1.75rem] p-space-2xl border border-[#E2D5F0] hover:border-[#5B2C6F]/40 shadow-[0_2px_10px_rgba(91,44,111,0.06)] hover:shadow-[0_8px_24px_rgba(91,44,111,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#5B2C6F">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#5B2C6F] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">campaign</span>
-</div>
-<h2 class="text-[18px] font-serif text-[#4A235A] group-hover:text-[#32163E] transition-colors text-center font-bold">Announcements</h2>
-</a>
-<!-- 4: Sales (Ocean / Prussian Navy Tint) -->
-<a href="sales.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#F0F5FA] hover:bg-[#E2ECF5] rounded-[1.75rem] p-space-2xl border border-[#CBE0F2] hover:border-[#1A365D]/40 shadow-[0_2px_10px_rgba(26,54,93,0.06)] hover:shadow-[0_8px_24px_rgba(26,54,93,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#1A365D">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#1A365D] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">monitoring</span>
-</div>
-<h2 class="text-[18px] font-serif text-[#1A365D] group-hover:text-[#0F223D] transition-colors text-center font-bold">Sales</h2>
-</a>
-<!-- 5: Quick Links (Warm Neutral / Brass Tint) -->
-<a href="quick-links.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FAF7F2] hover:bg-[#F5F0E8] rounded-[1.75rem] p-space-2xl border border-[#E8DFD3] hover:border-primary/40 shadow-[0_2px_10px_rgba(91,22,20,0.04)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.1)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8A6A3A">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#8A6A3A] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">link</span>
-</div>
-<h2 class="text-[18px] font-serif text-primary group-hover:text-primary-dark transition-colors text-center font-bold">Quick Links</h2>
-</a>
-<!-- 6: Log Book, at last (Warm Rose/Burgundy Tint) -->
-<a href="task-checklist.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FDF2F0] hover:bg-[#FCE8E6] rounded-[1.75rem] p-space-2xl border border-[#F4C5C0] hover:border-[#8E281F]/40 shadow-[0_2px_10px_rgba(142,40,31,0.06)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8E281F">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#8E281F] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">checklist</span>
-</div>
-<h2 class="text-[18px] font-serif text-[#5b1614] group-hover:text-[#3e0104] transition-colors text-center font-bold">Log Book</h2>
-</a>
-</div>
-</main>
-</div>
-
-<script>
-  // Time-of-day greeting for the welcome note. Falls back silently if the profile name ever moves.
-  (function () {
-    var el = document.getElementById('welcomeGreeting');
-    if (!el) return;
-    var name = 'Sarah Jenkins'.split(' ')[0]; // first name only, matches the profile shown in the header
-    var hour = new Date().getHours();
-    var part = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    el.textContent = part + ', ' + name;
-  })();
-</script>
 
 </body></html>
