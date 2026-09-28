@@ -43,11 +43,21 @@
     ['Forms', 'forms.html', 'Pick a department to open the forms library', 'forms department operations store finance sales hr knowledge center', 'assignment'],
     ['Company Forms', 'company-forms-directory.html', 'HR, operations, finance & store forms', 'company forms library hr operations finance store templates knowledge center', 'assignment'],
     ['Music', 'music-player.html', 'Play the restaurant ambience playlist', 'music player playlist ambience songs tracks knowledge center', 'music_note'],
-    ['Compliance Dashboard', 'https://hungerpangs-hr-compliance.streamlit.app/', 'Opens in a new tab (Streamlit)', 'compliance dashboard hr streamlit knowledge center', 'verified'],
+    ['Org Chart', 'https://script.google.com/a/macros/burmaburma.in/s/AKfycbwiLkliosJp9Jo2y2vrUuQdgvJ2WGA9I1O3G0UoBffRWS8K_wZaxv-JeeRhz7G8IjS95Q/exec', 'Opens in a new tab (Google Apps Script)', 'org chart hierarchy organisation organization knowledge center', 'account_tree'],
+    ['Compliance Dashboard', 'compliance-dashboard.html', 'Licenses Compliance & HR Compliance', 'compliance dashboard licenses hr knowledge center', 'verified'],
+    ['Licenses Compliance', 'compliance-dashboard.html', 'Compliance Dashboard', 'licenses compliance knowledge center coming soon', 'gavel'],
+    ['HR Compliance', 'https://hungerpangs-hr-compliance.streamlit.app/', 'Opens in a new tab (Streamlit)', 'hr compliance streamlit knowledge center', 'verified'],
     ['Job Openings', 'job-openings.html', 'Open positions by department', 'jobs careers hiring vacancies recruitment positions apply', 'badge'],
     ['Announcements', 'announcements.html', 'Notice board', 'notices news updates circulars board', 'campaign'],
     ['Sales', 'sales.html', 'Store targets and the sales dashboard', 'sales dashboard revenue', 'monitoring'],
     ['Store Targets', 'sales.html#targets', 'Month-to-date sales against target', 'sales target achievement performance cities stores revenue', 'track_changes'],
+    ['Quick Links', 'quick-links.html', 'Peak Scale, Frontlyne, Spine, POSIST, Omni Cards', 'quick links peak scale frontlyne spine posist omni cards', 'link'],
+    // Individual tools on the Quick Links page -- no destination yet, but still reachable by name.
+    ['Peak Scale', 'quick-links.html', 'Quick Links', 'peak scale quick links', 'monitor_weight'],
+    ['Frontlyne', 'https://bbacademy.gofrontlyne.com/my-learning', 'Opens in a new tab (BB Academy)', 'frontlyne bb academy learning training quick links', 'support_agent'],
+    ['Spine', 'https://hungerpangs.spinehrms.in/', 'Opens in a new tab (Spine HRMS)', 'spine hrms quick links', 'account_tree'],
+    ['POSIST', 'https://hungerpangs.restroworks.biz/login', 'Opens in a new tab', 'posist pos restroworks quick links', 'point_of_sale'],
+    ['Omni Cards', 'quick-links.html', 'Quick Links', 'omni cards quick links', 'credit_card'],
     ['Log Book', 'task-checklist.html', 'Checklists for your department', 'tasks checklists registers daily opening closing hygiene task checklist', 'checklist'],
     // Not on the dashboard grid right now -- reached via the Knowledge Center hub instead -- but still reachable by name.
     ['Restaurant Details', 'restaurant-details-directory.html', 'All 23 restaurants', 'restaurants stores outlets directory locations managers addresses quick links', 'storefront']

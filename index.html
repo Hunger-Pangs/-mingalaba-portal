@@ -114,7 +114,7 @@
 <!-- Brand Logo & Header -->
 <div class="flex flex-col items-center text-center">
 <div class="flex items-center justify-center mb-space-md">
-<img alt="Hunger Pangs Logo" class="h-36 sm:h-38 w-auto object-contain max-w-[480px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWx_TxcMdpYxkMkvdyTSLkR_djEwsJSdHpWtawgp-1RW5HHR0V3i80GEnhJAD6ep4QZNVl7qg6QA1IykDkKx0leSfdhAkKtnc8QUdcikyYX_Pn1OYHaCFF7VH5l33q5_5K7cXE5mJtQS3AVcduUHZJ-OdaGUr6U-3T0PTyw9vgCidLb3U1m6TDNPmQQ5wymr7xwG5MgJb-7CAmWNNKbP57Y_qxUPYpttKq79DdKz4wFfUt6VOhPojXVgoAKNBKLIH2cw">
+<img alt="Hunger Pangs Logo" class="h-16 sm:h-20 w-auto object-contain max-w-[280px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWx_TxcMdpYxkMkvdyTSLkR_djEwsJSdHpWtawgp-1RW5HHR0V3i80GEnhJAD6ep4QZNVl7qg6QA1IykDkKx0leSfdhAkKtnc8QUdcikyYX_Pn1OYHaCFF7VH5l33q5_5K7cXE5mJtQS3AVcduUHZJ-OdaGUr6U-3T0PTyw9vgCidLb3U1m6TDNPmQQ5wymr7xwG5MgJb-7CAmWNNKbP57Y_qxUPYpttKq79DdKz4wFfUt6VOhPojXVgoAKNBKLIH2cw">
 </div>
 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fdeae6] border border-[#f1dedb] text-[#5b1614] text-[11px] font-semibold mb-space-xs tracking-wider uppercase">
 <span class="material-symbols-outlined text-[14px]">shield</span>
@@ -219,7 +219,7 @@
   // page is being deployed standalone with no backend behind it, so it
   // falls back to the old simulated always-succeeds flow instead of
   // calling an API that isn't there.
-  const USE_BACKEND_AUTH = false;   // demo: no server, any details sign you in
+  const USE_BACKEND_AUTH = false;
 
   // Relative on purpose: this page is meant to be served from the same
   // origin as the Django API (locally, Django serves this file directly in
@@ -228,15 +228,6 @@
   // requests without extra HTTPS-only cookie configuration, so keep it this
   // way rather than hardcoding a different host/port here.
   const API_BASE_URL = '';
-
-  // Where to go after a successful sign-in (the server may send the
-  // employee to the set-new-password page instead).
-  let nextUrl = 'dashboard.html';
-
-  function getCookie(name) {
-    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return match ? decodeURIComponent(match[2]) : null;
-  }
 
   function showLoginError(message) {
     const banner = document.getElementById('loginErrorBanner');
@@ -283,10 +274,7 @@
       try {
         const response = await fetch(API_BASE_URL + '/api/login/', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken') || '',
-          },
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({ identifier, password }),
         });
@@ -297,9 +285,6 @@
         return;
       }
 
-      if (result.success && result.redirect) {
-        nextUrl = result.redirect;
-      }
       if (!result.success) {
         resetSubmitButton(btn, originalContent);
         showLoginError(result.error || 'Sign in failed. Please check your credentials.');
@@ -308,7 +293,17 @@
     } else {
       // No backend deployed here yet -- simulate the same verification
       // delay so the animation still feels right, without an actual check.
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      // Alongside that, silently sign the browser into a real Django session
+      // (see /api/demo-login/ -- DEBUG-only, checks no credentials, always
+      // the same fixed demo employee) so pages further along that need to
+      // know *who* is looking, like the Log Book's per-employee icon access,
+      // have someone real to compute access for. Best-effort: if it fails
+      // (e.g. the backend isn't running), sign-in still proceeds exactly as
+      // before, those pages just fall back to their own no-session handling.
+      await Promise.all([
+        new Promise((resolve) => setTimeout(resolve, 600)),
+        fetch(API_BASE_URL + '/api/demo-login/', { method: 'POST', credentials: 'include' }).catch(() => {}),
+      ]);
     }
 
     // Success -- play the existing checkmark + fade-out sequence, then go.
@@ -322,7 +317,7 @@
         card.style.transform = 'translateY(-10px) scale(0.97)';
       }
       setTimeout(() => {
-        window.location.href = nextUrl;
+        window.location.href = 'dashboard.html';
       }, 450);
     }, 700);
   }

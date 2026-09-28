@@ -1,7 +1,8 @@
-<!-- Mingalaba Workspace - Icon-Only Dashboard (2-Line Titles) -->
+<!-- Mingalaba Workspace - Quick Links -->
 <!DOCTYPE html><html lang="en" style=""><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Quick Links</title>
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -16,8 +17,8 @@
   ::-webkit-scrollbar { display: none; }
 
   /* Entrance animation on page load -- kept identical across dashboard.html,
-     company-info-directory.html and restaurant-details-directory.html so
-     arriving at any of them feels the same. */
+     knowledge-center.html and the other icon-grid pages so arriving at any
+     of them feels the same. */
   @keyframes pageFadeIn {
     from { opacity: 0; transform: translateY(10px) scale(0.99); }
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -29,13 +30,18 @@
     #pageContent { animation: none; }
   }
 
-  /* Simple icon tiles -- same look as the other icon-grid pages (Knowledge
-     Center, Log Book): hover background/border change and a small icon
-     scale, nothing more. */
+  /* Icon tiles -- same look as the other icon-grid pages (Knowledge Center,
+     Log Book), so this reads as part of the same family, not a new style. */
   .kc-tile { transition: background-color .15s, border-color .15s, box-shadow .15s; }
   .kc-ic { transition: transform .2s ease; }
   .kc-tile:hover .kc-ic, .kc-tile:focus-visible .kc-ic { transform: scale(1.06); }
   .kc-tile:focus-visible { outline: 3px solid var(--tint-solid, #5b1614); outline-offset: 2px; }
+  .kc-soon {
+    display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; padding: 2px 10px;
+    border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: .03em;
+    background: #F4EFE6; color: #635654;
+  }
+
 </style>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -192,76 +198,99 @@ Log Out
 <script src="site-search.js" defer></script>
 <!-- HEADER:END -->
 
-<main id="pageContent" class="w-full bg-background min-h-screen px-space-xl pt-[5.5rem] pb-space-md max-w-app-max-width mx-auto">
-<div class="max-w-7xl w-full mx-auto flex flex-col gap-space-lg">
-<!-- Welcome note -->
-<div class="flex items-center gap-space-md bg-[#FDF2F0] border border-[#F4C5C0]/60 rounded-2xl px-space-lg py-space-sm shadow-[0_2px_10px_rgba(142,40,31,0.05)]">
-<div class="w-10 h-10 shrink-0 rounded-full bg-primary text-white flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px]">waving_hand</span>
-</div>
-<div class="min-w-0">
-<p id="welcomeGreeting" class="text-[15px] font-serif font-semibold text-primary leading-tight">Welcome back</p>
-<p class="text-[12px] font-sans text-on-surface-variant mt-0.5 leading-tight">Here&#8217;s your Mingalaba workspace for today.</p>
-</div>
-</div>
-<!-- 6 Icons, in sequence: Knowledge Center, Job Openings, Announcements, Sales, Quick Links, Log Book -->
-<div class="flex flex-wrap justify-center gap-space-xl">
-<!-- 1: Knowledge Center (Sage / Forest Green Tint) -->
-<a href="knowledge-center.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#F0F7F2] hover:bg-[#E5F2E8] rounded-[1.75rem] p-space-2xl border border-[#CBE4D3] hover:border-[#2D5A27]/40 shadow-[0_2px_10px_rgba(45,90,39,0.06)] hover:shadow-[0_8px_24px_rgba(45,90,39,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#2D5A27">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#2D5A27] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">policy</span>
-</div>
-<h2 class="text-[18px] font-serif text-[#1E4620] group-hover:text-[#133015] transition-colors text-center font-bold">Knowledge Center</h2>
+<main id="pageContent" class="w-full pt-16 bg-background min-h-screen px-space-xl py-space-lg max-w-app-max-width mx-auto">
+<div class="py-space-xl max-w-7xl mx-auto flex flex-col gap-space-2xl">
+
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]">
+<a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html">
+<span class="material-symbols-outlined text-[16px]">dashboard</span>
+<span>Dashboard</span>
 </a>
-<!-- 2: Job Openings (Golden Honey / Amber Tint) -->
-<a href="job-openings.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-[1.75rem] p-space-2xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#B45309] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">badge</span>
+<span class="text-[#E8DFD3]">/</span>
+<span class="text-[#5b1614] font-semibold">Quick Links</span>
+</nav>
+
+<!-- Page Header -->
+<div class="bg-[#FAF7F2] border border-[#E8DFD3] rounded-2xl p-space-xl flex flex-col md:flex-row md:items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 shrink-0 rounded-full bg-[#8A6A3A] text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[28px]">link</span>
 </div>
-<h2 class="text-[18px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors text-center font-bold">Job Openings</h2>
-</a>
-<!-- 3: Announcements (Royal Lavender / Plum Tint) -->
-<a href="announcements.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#F7F2FA] hover:bg-[#EFE6F6] rounded-[1.75rem] p-space-2xl border border-[#E2D5F0] hover:border-[#5B2C6F]/40 shadow-[0_2px_10px_rgba(91,44,111,0.06)] hover:shadow-[0_8px_24px_rgba(91,44,111,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#5B2C6F">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#5B2C6F] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">campaign</span>
+<div>
+<h1 class="text-[22px] font-serif font-semibold text-primary tracking-tight">Quick Links</h1>
+<p class="text-[13px] font-sans text-on-surface-variant mt-1 max-w-xl">Fast access to the other systems the team uses day to day.</p>
 </div>
-<h2 class="text-[18px] font-serif text-[#4A235A] group-hover:text-[#32163E] transition-colors text-center font-bold">Announcements</h2>
-</a>
-<!-- 4: Sales (Ocean / Prussian Navy Tint) -->
-<a href="sales.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#F0F5FA] hover:bg-[#E2ECF5] rounded-[1.75rem] p-space-2xl border border-[#CBE0F2] hover:border-[#1A365D]/40 shadow-[0_2px_10px_rgba(26,54,93,0.06)] hover:shadow-[0_8px_24px_rgba(26,54,93,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#1A365D">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#1A365D] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">monitoring</span>
 </div>
-<h2 class="text-[18px] font-serif text-[#1A365D] group-hover:text-[#0F223D] transition-colors text-center font-bold">Sales</h2>
-</a>
-<!-- 5: Quick Links (Warm Neutral / Brass Tint) -->
-<a href="quick-links.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FAF7F2] hover:bg-[#F5F0E8] rounded-[1.75rem] p-space-2xl border border-[#E8DFD3] hover:border-primary/40 shadow-[0_2px_10px_rgba(91,22,20,0.04)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.1)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8A6A3A">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#8A6A3A] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">link</span>
 </div>
-<h2 class="text-[18px] font-serif text-primary group-hover:text-primary-dark transition-colors text-center font-bold">Quick Links</h2>
-</a>
-<!-- 6: Log Book, at last (Warm Rose/Burgundy Tint) -->
-<a href="task-checklist.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FDF2F0] hover:bg-[#FCE8E6] rounded-[1.75rem] p-space-2xl border border-[#F4C5C0] hover:border-[#8E281F]/40 shadow-[0_2px_10px_rgba(142,40,31,0.06)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8E281F">
-<div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#8E281F] text-white flex items-center justify-center mb-space-lg">
-<span class="material-symbols-outlined text-[40px]">checklist</span>
+
+<!-- Icon Grid -->
+<div class="flex flex-wrap justify-center gap-space-lg">
+
+<!-- 1: Peak Scale (no link yet) -->
+<div class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0F5FA] rounded-xl p-space-xl border border-[#CBE0F2] flex flex-col items-center justify-center text-center cursor-default" style="--tint-solid:#1A365D">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#1A365D] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">monitor_weight</span>
 </div>
-<h2 class="text-[18px] font-serif text-[#5b1614] group-hover:text-[#3e0104] transition-colors text-center font-bold">Log Book</h2>
+<h2 class="text-[16px] font-serif text-[#1A365D] text-center font-bold">Peak Scale</h2>
+<span class="kc-soon"><span class="material-symbols-outlined text-[12px]">schedule</span>Link coming soon</span>
+</div>
+
+<!-- 2: Frontlyne -->
+<a href="https://bbacademy.gofrontlyne.com/my-learning" data-android-package="com.mlpl.burmaburma" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#B45309] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">support_agent</span>
+</div>
+<h2 class="text-[16px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors text-center font-bold">Frontlyne</h2>
+<span class="mt-1 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
 </a>
+
+<!-- 3: Spine -->
+<a href="https://hungerpangs.spinehrms.in/" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F7F2FA] hover:bg-[#EFE6F6] rounded-xl p-space-xl border border-[#E2D5F0] hover:border-[#5B2C6F]/40 shadow-[0_2px_10px_rgba(91,44,111,0.06)] hover:shadow-[0_8px_24px_rgba(91,44,111,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#5B2C6F">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#5B2C6F] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">account_tree</span>
+</div>
+<h2 class="text-[16px] font-serif text-[#4A235A] group-hover:text-[#32163E] transition-colors text-center font-bold">Spine</h2>
+<span class="mt-1 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<!-- 4: POSIST -->
+<a href="https://hungerpangs.restroworks.biz/login" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FDF2F0] hover:bg-[#FCE8E6] rounded-xl p-space-xl border border-[#F4C5C0] hover:border-[#8E281F]/40 shadow-[0_2px_10px_rgba(142,40,31,0.06)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8E281F">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#8E281F] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">point_of_sale</span>
+</div>
+<h2 class="text-[16px] font-serif text-[#5b1614] group-hover:text-[#3e0104] transition-colors text-center font-bold">POSIST</h2>
+<span class="mt-1 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+</a>
+
+<!-- 5: Omni Cards (no link yet) -->
+<div class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0F7F2] rounded-xl p-space-xl border border-[#CBE4D3] flex flex-col items-center justify-center text-center cursor-default" style="--tint-solid:#2D5A27">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#2D5A27] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">credit_card</span>
+</div>
+<h2 class="text-[16px] font-serif text-[#1E4620] text-center font-bold">Omni Cards</h2>
+<span class="kc-soon"><span class="material-symbols-outlined text-[12px]">schedule</span>Link coming soon</span>
+</div>
+
+</div>
+
 </div>
 </main>
-</div>
 
+</div>
 <script>
-  // Time-of-day greeting for the welcome note. Falls back silently if the profile name ever moves.
+  // Tiles with data-android-package open the installed Android app when there
+  // is one, and fall back to the website link otherwise. Everything else
+  // (desktop, iPhone, Android without the app) keeps the plain website link,
+  // opened in a new tab.
   (function () {
-    var el = document.getElementById('welcomeGreeting');
-    if (!el) return;
-    var name = 'Sarah Jenkins'.split(' ')[0]; // first name only, matches the profile shown in the header
-    var hour = new Date().getHours();
-    var part = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    el.textContent = part + ', ' + name;
+    if (!/Android/i.test(navigator.userAgent)) return;
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-android-package]'), function (a) {
+      var web = a.getAttribute('href');
+      a.href = 'intent://#Intent;package=' + a.getAttribute('data-android-package') +
+        ';S.browser_fallback_url=' + encodeURIComponent(web) + ';end';
+      a.removeAttribute('target'); // let Chrome hand the intent straight to Android
+    });
   })();
 </script>
-
 </body></html>

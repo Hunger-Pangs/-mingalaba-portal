@@ -226,10 +226,10 @@ Log Out
 </div>
 
 <!-- Icon Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<div class="flex flex-wrap justify-center gap-space-lg">
 
 <!-- 1: SOP / Policies -->
-<a href="sop-policies.html" class="kc-tile group relative bg-[#F0F7F2] hover:bg-[#E5F2E8] rounded-xl p-space-xl border border-[#CBE4D3] hover:border-[#2D5A27]/40 shadow-[0_2px_10px_rgba(45,90,39,0.06)] hover:shadow-[0_8px_24px_rgba(45,90,39,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#2D5A27">
+<a href="sop-policies.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0F7F2] hover:bg-[#E5F2E8] rounded-xl p-space-xl border border-[#CBE4D3] hover:border-[#2D5A27]/40 shadow-[0_2px_10px_rgba(45,90,39,0.06)] hover:shadow-[0_8px_24px_rgba(45,90,39,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#2D5A27">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#2D5A27] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">policy</span>
 </div>
@@ -238,7 +238,7 @@ Log Out
 </a>
 
 <!-- 2: Restaurant Details -->
-<a href="restaurant-details-directory.html" class="kc-tile group relative bg-[#FEF4ED] hover:bg-[#FDE8DB] rounded-xl p-space-xl border border-[#FCD7C0] hover:border-[#C05621]/40 shadow-[0_2px_10px_rgba(192,86,33,0.06)] hover:shadow-[0_8px_24px_rgba(192,86,33,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#C05621">
+<a href="restaurant-details-directory.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FEF4ED] hover:bg-[#FDE8DB] rounded-xl p-space-xl border border-[#FCD7C0] hover:border-[#C05621]/40 shadow-[0_2px_10px_rgba(192,86,33,0.06)] hover:shadow-[0_8px_24px_rgba(192,86,33,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#C05621">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#C05621] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">storefront</span>
 </div>
@@ -247,7 +247,7 @@ Log Out
 </a>
 
 <!-- 3: Menu Items & Allergens -->
-<a href="https://app.notion.com/p/Burma-Burma-Kitchen-Guide-3641c5ec80c98067ad66fe1323b5cc79" target="_blank" rel="noopener noreferrer" class="kc-tile group relative bg-[#FBF3D9] hover:bg-[#F7EAC0] rounded-xl p-space-xl border border-[#F0DDA0] hover:border-[#8A6A1F]/40 shadow-[0_2px_10px_rgba(138,106,31,0.06)] hover:shadow-[0_8px_24px_rgba(138,106,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8A6A1F">
+<a href="https://app.notion.com/p/Burma-Burma-Kitchen-Guide-3641c5ec80c98067ad66fe1323b5cc79" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FBF3D9] hover:bg-[#F7EAC0] rounded-xl p-space-xl border border-[#F0DDA0] hover:border-[#8A6A1F]/40 shadow-[0_2px_10px_rgba(138,106,31,0.06)] hover:shadow-[0_8px_24px_rgba(138,106,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8A6A1F">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#8A6A1F] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">restaurant_menu</span>
 </div>
@@ -256,7 +256,7 @@ Log Out
 </a>
 
 <!-- 4: Forms -->
-<a href="forms.html" class="kc-tile group relative bg-[#F0FDFA] hover:bg-[#E0FBF6] rounded-xl p-space-xl border border-[#99F6E4] hover:border-[#0F766E]/40 shadow-[0_2px_10px_rgba(15,118,110,0.06)] hover:shadow-[0_8px_24px_rgba(15,118,110,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#0F766E">
+<a href="forms.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0FDFA] hover:bg-[#E0FBF6] rounded-xl p-space-xl border border-[#99F6E4] hover:border-[#0F766E]/40 shadow-[0_2px_10px_rgba(15,118,110,0.06)] hover:shadow-[0_8px_24px_rgba(15,118,110,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#0F766E">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#0F766E] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">assignment</span>
 </div>
@@ -264,21 +264,30 @@ Log Out
 <p class="text-[11px] font-sans text-on-surface-variant mt-1">HR, operations, finance &amp; store forms</p>
 </a>
 
-<!-- 5: Music -->
-<a href="music-player.html" target="_blank" rel="noopener noreferrer" class="kc-tile group relative bg-[#FDF0F7] hover:bg-[#FBE0EF] rounded-xl p-space-xl border border-[#F5C6E0] hover:border-[#A6337A]/40 shadow-[0_2px_10px_rgba(166,51,122,0.06)] hover:shadow-[0_8px_24px_rgba(166,51,122,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#A6337A">
-<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#A6337A] text-white flex items-center justify-center shadow-sm mb-space-md">
-<span class="material-symbols-outlined text-[32px]">music_note</span>
+<!-- 5: Org Chart -->
+<a href="https://script.google.com/a/macros/burmaburma.in/s/AKfycbwiLkliosJp9Jo2y2vrUuQdgvJ2WGA9I1O3G0UoBffRWS8K_wZaxv-JeeRhz7G8IjS95Q/exec" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F7F2FA] hover:bg-[#EFE6F6] rounded-xl p-space-xl border border-[#E2D5F0] hover:border-[#6B4B5A]/40 shadow-[0_2px_10px_rgba(107,75,90,0.06)] hover:shadow-[0_8px_24px_rgba(107,75,90,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#6B4B5A">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#6B4B5A] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">account_tree</span>
 </div>
-<h2 class="text-[16px] font-serif text-[#7D2760] group-hover:text-[#5c1c58] transition-colors text-center font-bold">Music</h2>
+<h2 class="text-[16px] font-serif text-[#4A3340] group-hover:text-[#33232B] transition-colors text-center font-bold">Org Chart</h2>
 <span class="mt-1 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
 </a>
 
 <!-- 6: Compliance Dashboard -->
-<a href="https://hungerpangs-hr-compliance.streamlit.app/" target="_blank" rel="noopener noreferrer" class="kc-tile group relative bg-[#F0F5FA] hover:bg-[#E2ECF5] rounded-xl p-space-xl border border-[#CBE0F2] hover:border-[#1A365D]/40 shadow-[0_2px_10px_rgba(26,54,93,0.06)] hover:shadow-[0_8px_24px_rgba(26,54,93,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#1A365D">
+<a href="compliance-dashboard.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0F5FA] hover:bg-[#E2ECF5] rounded-xl p-space-xl border border-[#CBE0F2] hover:border-[#1A365D]/40 shadow-[0_2px_10px_rgba(26,54,93,0.06)] hover:shadow-[0_8px_24px_rgba(26,54,93,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#1A365D">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#1A365D] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">verified</span>
 </div>
 <h2 class="text-[16px] font-serif text-[#1A365D] group-hover:text-[#0f2238] transition-colors text-center font-bold">Compliance Dashboard</h2>
+<p class="text-[11px] font-sans text-on-surface-variant mt-1">Licenses &amp; HR compliance</p>
+</a>
+
+<!-- 7: Music -->
+<a href="music-player.html" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FDF0F7] hover:bg-[#FBE0EF] rounded-xl p-space-xl border border-[#F5C6E0] hover:border-[#A6337A]/40 shadow-[0_2px_10px_rgba(166,51,122,0.06)] hover:shadow-[0_8px_24px_rgba(166,51,122,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#A6337A">
+<div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#A6337A] text-white flex items-center justify-center shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[32px]">music_note</span>
+</div>
+<h2 class="text-[16px] font-serif text-[#7D2760] group-hover:text-[#5c1c58] transition-colors text-center font-bold">Music</h2>
 <span class="mt-1 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
 </a>
 

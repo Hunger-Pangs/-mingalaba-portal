@@ -266,18 +266,6 @@ Log Out
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script>
 (function () {
-  // Preview mode: there is no server here, so a submitted application is
-  // accepted on screen and goes nowhere. The full version saves it.
-  var DEMO_MODE = true;
-  var realFetch = window.fetch.bind(window);
-  function apiFetch(url, opts) {
-    if (DEMO_MODE && String(url).indexOf('/api/') === 0) {
-      return Promise.resolve({ ok: true, status: 201,
-        json: function () { return Promise.resolve({ success: true, id: 1 }); } });
-    }
-    return realFetch(url, opts);
-  }
-
   var root = document.getElementById('jaRoot');
   var S = window.JobsStore;
   var jobId = parseInt(new URLSearchParams(location.search).get('job'), 10);
@@ -678,7 +666,7 @@ Log Out
       submitBtn.innerHTML = icon('progress_activity') + ' Submitting...';
       clearStatus();
 
-      apiFetch('/api/jobs/' + job.id + '/applications/', {
+      fetch('/api/jobs/' + job.id + '/applications/', {
         method: 'POST',
         credentials: 'include',
         headers: { 'X-CSRFToken': csrfToken() },

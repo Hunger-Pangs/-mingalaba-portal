@@ -33,6 +33,45 @@
   /* Department-filtered cards: hidden cards collapse out of the grid
      entirely rather than just being invisible, so the layout re-flows. */
   .checklist-card[hidden] { display: none; }
+
+  /* ---- Tip Register popup ---- */
+  .tip-overlay { position: fixed; inset: 0; z-index: 60; background: rgba(35,25,23,.5); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .tip-overlay[hidden] { display: none; }
+  .tip-dialog { background: #fff; width: 100%; max-width: 640px; max-height: calc(100vh - 32px); overflow-y: auto; border-radius: 20px; box-shadow: 0 24px 60px rgba(35,25,23,.28); padding: 24px 26px 26px; }
+  .tip-head { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 18px; position: relative; padding: 0 44px; }
+  .tip-head .ic { width: 42px; height: 42px; border-radius: 50%; background: #A66E2E; color: #fff; display: flex; align-items: center; justify-content: center; flex: none; }
+  .tip-head h2 { font-family: 'Noto Serif', Georgia, serif; font-size: 20px; font-weight: 700; color: #78350F; margin: 0; text-align: center; }
+  .tip-x { position: absolute; right: 0; top: 50%; transform: translateY(-50%); border: 0; background: rgba(0,0,0,.06); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #231917; }
+  .tip-x:hover { background: rgba(0,0,0,.11); }
+  .tip-toggle { display: flex; width: fit-content; background: #F4EFE6; border-radius: 999px; padding: 4px; margin: 0 auto 22px; }
+  .tip-toggle button { border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #635654; padding: 7px 22px; border-radius: 999px; cursor: pointer; transition: background-color .15s, color .15s; }
+  .tip-toggle button[aria-selected="true"] { background: #A66E2E; color: #fff; }
+  .tip-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  /* An odd last field (Date) sits centered on its own row instead of hugging the left. */
+  .tip-grid > .tip-field:last-child:nth-child(odd) { grid-column: 1 / -1; width: calc(50% - 7px); margin: 0 auto; }
+  .tip-field label { display: block; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #8c7b75; margin-bottom: 5px; }
+  .tip-field input, .tip-field select { width: 100%; font: inherit; font-size: 14px; padding: 9px 12px; border-radius: 10px; border: 1px solid #E8DFD3; background: #fff; color: #231917; }
+  .tip-field input:focus, .tip-field select:focus { outline: none; border-color: #A66E2E; box-shadow: 0 0 0 3px rgba(166,110,46,.15); }
+  .tip-field.bad input, .tip-field.bad select { border-color: #ba1a1a; }
+  .tip-err { font-size: 11.5px; color: #ba1a1a; margin: 4px 0 0; }
+  .tip-err[hidden] { display: none; }
+  .tip-hint { font-size: 11px; color: #8c7b75; margin: 4px 0 0; }
+  .tip-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-top: 22px; text-align: center; }
+  .tip-btn { font: inherit; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 999px; border: 1px solid #A66E2E; background: #A66E2E; color: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .tip-btn:hover { background: #8a5a22; }
+  .tip-btn:disabled { background: #EFE9DD; border-color: #EFE9DD; color: #a99b90; cursor: not-allowed; }
+  .tip-msg { font-size: 13px; }
+  .tip-msg.ok { color: #1E4620; }
+  .tip-msg.bad { color: #ba1a1a; }
+  .tip-table.sum td:first-child { white-space: normal; }
+  .tip-table tr.grp td { background: #FEF8EB; color: #78350F; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+  .tip-table tr.tot td { font-weight: 700; background: #FCFAF6; }
+  .tip-table-wrap { overflow-x: auto; border: 1px solid #E8DFD3; border-radius: 12px; }
+  .tip-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .tip-table th { text-align: left; background: #FCFAF6; color: #8c7b75; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; padding: 8px 10px; white-space: nowrap; }
+  .tip-table td { padding: 8px 10px; border-top: 1px solid #F0EBE0; white-space: nowrap; }
+  .tip-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  @media (max-width: 560px) { .tip-grid { grid-template-columns: minmax(0, 1fr); } .tip-grid > .tip-field:last-child:nth-child(odd) { width: 100%; } .tip-dialog { padding: 20px 18px; } }
 </style>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -210,13 +249,13 @@ Log Out
 </div>
 <div>
 <h1 class="text-[22px] font-serif font-semibold text-[#5b1614] tracking-tight">Log Book</h1>
-<p class="text-[13px] font-sans text-on-surface-variant mt-1 max-w-xl">Quick-launch links to the Store checklists. Each opens in a new tab.</p>
+<p class="text-[13px] font-sans text-on-surface-variant mt-1 max-w-xl">Quick-launch links to your assigned checklists. Each opens in a new tab.</p>
 </div>
 </div>
 </div>
 
 <!-- Checklist Icon Grid -->
-<div id="checklistGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<div id="checklistGrid" class="flex flex-wrap justify-center gap-space-lg">
 
 <a href="https://checklists.mingalaba.example/kitchen/temperature-log" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
 <div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
@@ -302,41 +341,52 @@ Log Out
 </main>
 
 <script>
-  // Flip this to true once the checklists app (Department / ChecklistIcon /
-  // IconAccessGrant models) is deployed alongside this page on the same
-  // origin as the API. Until then this page is standalone with no backend
-  // behind it, so it simply shows every checklist card that's written into
-  // the markup below (no per-user filtering is possible without a backend)
-  // -- same pattern as USE_BACKEND_AUTH in index.html.
-  var USE_BACKEND_ICONS = false;
+  // The checklists app (Department / ChecklistIcon / IconAccessGrant models)
+  // is now live behind this page: it fetches whichever icons the signed-in
+  // employee should see (their department's defaults, plus/minus any
+  // explicit per-employee grants or revokes) from /api/checklist-icons/,
+  // computed entirely server-side -- see checklists/views.py.
+  var USE_BACKEND_ICONS = true;
 
   if (USE_BACKEND_ICONS) {
     // --- Real, server-computed access (checklists app) --------------------
     (function () {
-      // Visual theme, presentation-only -- WHO sees WHICH icon is decided
-      // entirely server-side in checklists/views.py, never here. This page
-      // only ever shows the Store checklists, so there's just one theme.
-      var THEME = { bg: '#FEF8EB', bgHover: '#FDF0D5', border: '#FDE5B5', accent: '#A66E2E', shadow: 'rgba(166,110,46,', title: '#78350F', titleHover: '#522307' };
+      // Visual theme per department name, exactly as returned by the API.
+      // This is presentation-only -- WHO sees WHICH icon is decided entirely
+      // server-side in checklists/views.py, never here. An icon explicitly
+      // granted from outside the employee's own department still shows up
+      // in its own department's colours, not the viewer's.
+      var THEMES = {
+        'Operations': { bg: '#FDF2F0', bgHover: '#FCE8E6', border: '#F4C5C0', accent: '#8E281F', shadow: 'rgba(142,40,31,', title: '#5b1614', titleHover: '#3e0104' },
+        'Store': { bg: '#FEF8EB', bgHover: '#FDF0D5', border: '#FDE5B5', accent: '#A66E2E', shadow: 'rgba(166,110,46,', title: '#78350F', titleHover: '#522307' },
+        'Finance & Sales': { bg: '#F0F5FA', bgHover: '#E2ECF5', border: '#CBE0F2', accent: '#7A4B3A', shadow: 'rgba(122,75,58,', title: '#4a2e23', titleHover: '#33201a' },
+        'People & HR': { bg: '#F7F2FA', bgHover: '#EFE6F6', border: '#E2D5F0', accent: '#6B4B5A', shadow: 'rgba(107,75,90,', title: '#4A2F3A', titleHover: '#321F27' },
+      };
+      var FALLBACK_THEME = { bg: '#F7F4EE', bgHover: '#F0EBE0', border: '#E8DFD3', accent: '#635654', shadow: 'rgba(35,25,23,', title: '#231917', titleHover: '#5b1614' };
 
       function buildCard(item) {
-        var theme = THEME;
+        var theme = THEMES[item.department] || FALLBACK_THEME;
         var a = document.createElement('a');
         a.href = item.url;
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
-        a.className = 'checklist-card group relative rounded-xl p-space-xl border transition-all flex flex-col items-center justify-center text-center';
+        a.className = 'checklist-card group relative rounded-xl p-space-xl border transition-all flex flex-col items-center justify-center text-center w-full md:w-[calc(50%-0.625rem)] lg:w-[calc(25%-0.9375rem)]';
         a.style.backgroundColor = theme.bg;
         a.style.borderColor = theme.border;
         a.style.boxShadow = '0 2px 10px ' + theme.shadow + '0.06)';
         a.addEventListener('mouseenter', function () { a.style.backgroundColor = theme.bgHover; a.style.boxShadow = '0 8px 24px ' + theme.shadow + '0.12)'; });
         a.addEventListener('mouseleave', function () { a.style.backgroundColor = theme.bg; a.style.boxShadow = '0 2px 10px ' + theme.shadow + '0.06)'; });
 
+        // Tips Register opens the in-page popup (see the Tip Register script
+        // below) instead of an external link, so it shouldn't say "new tab".
+        var isNative = item.name === 'Tips Register';
         a.innerHTML =
           '<div class="w-16 h-16 shrink-0 rounded-full text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md" style="background-color:' + theme.accent + '">' +
             '<span class="material-symbols-outlined text-[32px]">' + item.icon + '</span>' +
           '</div>' +
+          '<span class="text-[10px] font-sans font-semibold uppercase tracking-wider mb-1" style="color:' + theme.accent + 'B3">' + item.department + '</span>' +
           '<h2 class="text-[15px] font-serif font-bold leading-snug transition-colors" style="color:' + theme.title + '">' + item.name + '</h2>' +
-          '<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>';
+          '<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">' + (isNative ? 'edit_note' : 'open_in_new') + '</span>' + (isNative ? 'Opens the register' : 'Opens in new tab') + '</span>';
         return a;
       }
 
@@ -367,6 +417,256 @@ Log Out
         });
     })();
   }
+</script>
+
+<!-- Tip Register popup: opened by the "Tips Register" card instead of leaving the page. -->
+<div id="tipModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="tipTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">savings</span></div>
+<h2 id="tipTitle">Tip Register</h2>
+<button type="button" class="tip-x" id="tipClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle" role="tablist" aria-label="Tip Register view">
+<button type="button" role="tab" id="tipTabRegister" aria-selected="true" aria-controls="tipPanelRegister">Register</button>
+<button type="button" role="tab" id="tipTabReports" aria-selected="false" aria-controls="tipPanelReports">Reports</button>
+</div>
+
+<section id="tipPanelRegister" role="tabpanel" aria-labelledby="tipTabRegister">
+<form id="tipForm" novalidate>
+<div class="tip-grid">
+<div class="tip-field" data-field="tableNumber"><label for="tipTable">Table Number</label><input id="tipTable" type="text" maxlength="5" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="amount"><label for="tipAmount">Tip Amount</label><input id="tipAmount" type="number" min="0.01" step="0.01" inputmode="decimal" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="mode"><label for="tipMode">Mode of Payment</label><select id="tipMode" required><option value="">Select...</option></select><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="servedBy"><label for="tipServedBy">Served By</label><input id="tipServedBy" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="date"><label for="tipDate">Date</label><input id="tipDate" type="date" required><p class="tip-hint">Today by default; can be set back up to 7 days.</p><p class="tip-err" hidden></p></div>
+</div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="tipSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Tip</button>
+<span id="tipMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="tipPanelReports" role="tabpanel" aria-labelledby="tipTabReports" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="tipFrom">From</label><input id="tipFrom" type="date"></div>
+<div class="tip-field"><label for="tipTo">To</label><input id="tipTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="tipExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="tipReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div class="tip-table-wrap" id="tipTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th>Date</th><th>Table</th><th style="text-align:right">Amount</th><th>Mode</th><th>Served By</th><th>Entered By</th></tr></thead><tbody id="tipRows"></tbody></table>
+</div>
+<div class="tip-table-wrap" id="tipSummaryWrap" style="margin-top:14px" hidden>
+<table class="tip-table sum"><thead><tr><th>Summary</th><th style="text-align:right">Entries</th><th style="text-align:right">Amount</th></tr></thead><tbody id="tipSummary"></tbody></table>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Tip Register popup. All rules (5-char table, amount > 0, mode list, the
+  // 7-day back-dating window) are enforced again by the server in
+  // tips/views.py; the checks here are just for quicker feedback.
+  (function () {
+    var modal = document.getElementById('tipModal');
+    var form = document.getElementById('tipForm');
+    var els = {
+      table: document.getElementById('tipTable'), amount: document.getElementById('tipAmount'),
+      mode: document.getElementById('tipMode'), servedBy: document.getElementById('tipServedBy'),
+      date: document.getElementById('tipDate'), submit: document.getElementById('tipSubmit'),
+      msg: document.getElementById('tipMsg'), from: document.getElementById('tipFrom'), to: document.getElementById('tipTo'),
+      reportMsg: document.getElementById('tipReportMsg'), exportBtn: document.getElementById('tipExport'),
+      wrap: document.getElementById('tipTableWrap'), rows: document.getElementById('tipRows'),
+      summaryWrap: document.getElementById('tipSummaryWrap'), summary: document.getElementById('tipSummary')
+    };
+    var config = null, opener = null;
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function money(v) { return '₹' + Number(v).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function fieldEl(name) { return form.querySelector('[data-field="' + name + '"]'); }
+    function setFieldError(name, text) {
+      var f = fieldEl(name); if (!f) return;
+      var p = f.querySelector('.tip-err');
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { ['tableNumber', 'amount', 'mode', 'servedBy', 'date'].forEach(function (n) { setFieldError(n, ''); }); }
+
+    function showTab(which) {
+      var reg = which === 'register';
+      document.getElementById('tipTabRegister').setAttribute('aria-selected', reg);
+      document.getElementById('tipTabReports').setAttribute('aria-selected', !reg);
+      document.getElementById('tipPanelRegister').hidden = !reg;
+      document.getElementById('tipPanelReports').hidden = reg;
+      if (!reg) loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+
+    function applyConfig(data) {
+      config = data;
+      els.mode.innerHTML = '<option value="">Select...</option>' + data.modes.map(function (m) { return '<option value="' + esc(m.value) + '">' + esc(m.label) + '</option>'; }).join('');
+      els.date.min = data.minDate; els.date.max = data.today;
+      if (!els.date.value) els.date.value = data.today;
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.today;
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      apiGet('/api/tips/').then(applyConfig).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : 'Could not load the register: ' + err.message);
+      });
+      els.table.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var body = {
+        tableNumber: els.table.value.trim(), amount: els.amount.value.trim(), mode: els.mode.value,
+        servedBy: els.servedBy.value.trim(), date: els.date.value
+      };
+      var bad = false;
+      if (!body.tableNumber) { setFieldError('tableNumber', 'Enter the table number.'); bad = true; }
+      if (!body.amount || !(Number(body.amount) > 0)) { setFieldError('amount', 'Enter a tip amount greater than zero.'); bad = true; }
+      if (!body.mode) { setFieldError('mode', 'Choose a mode of payment.'); bad = true; }
+      if (!body.servedBy) { setFieldError('servedBy', 'Enter who served the table.'); bad = true; }
+      if (!body.date) { setFieldError('date', 'Choose a date.'); bad = true; }
+      else if (config && (body.date > config.today || body.date < config.minDate)) { setFieldError('date', 'Pick a date from the last 7 days, up to today.'); bad = true; }
+      if (bad) return;
+
+      els.submit.disabled = true;
+      fetch('/api/tips/', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+        body: JSON.stringify(body)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (r) {
+        if (r.res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved: table ' + r.data.tableNumber + ', ' + money(r.data.amount) + ' (' + r.data.mode + ').');
+        els.table.value = ''; els.amount.value = ''; els.mode.value = ''; els.servedBy.value = '';
+        els.table.focus();
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl('/api/tips/')).then(function (data) {
+        if (!config) applyConfig(data);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (t) {
+          return '<tr><td>' + esc(niceDate(t.date)) + '</td><td>' + esc(t.tableNumber) + '</td><td class="num">' + esc(money(t.amount)) + '</td><td>' + esc(t.mode) + '</td><td>' + esc(t.servedBy) + '</td><td>' + esc(t.insertedBy) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        function line(label, s, cls) { return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + esc(label) + '</td><td class="num">' + s.count + '</td><td class="num">' + esc(money(s.amount)) + '</td></tr>'; }
+        var s = data.summary;
+        els.summary.innerHTML =
+          '<tr class="grp"><td colspan="3">By mode of payment</td></tr>' +
+          s.byMode.map(function (m) { return line(m.label, m); }).join('') +
+          '<tr class="grp"><td colspan="3">Cash &amp; Others</td></tr>' +
+          line('Cash', s.cash) + line('Others (PhonePe, EDC, Credit Card)', s.others) + line('Total', s.total, 'tot');
+        els.summaryWrap.hidden = false;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No tips recorded for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' entries (the summary and the Excel export cover all ' + data.count + ').'
+          : data.count + (data.count === 1 ? ' entry' : ' entries') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      });
+    }
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl('/api/tips/export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'tip-register_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    document.getElementById('tipTabRegister').addEventListener('click', function () { showTab('register'); });
+    document.getElementById('tipTabReports').addEventListener('click', function () { showTab('reports'); });
+    document.getElementById('tipClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, a[href]'), function (n) { return !n.disabled && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Tips Register" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, ' ').trim().toLowerCase() === 'tips register') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
 </script>
 
 </div>
