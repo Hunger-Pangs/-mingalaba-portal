@@ -246,7 +246,7 @@ Log Out
 </a>
 
 <!-- 3: Spine -->
-<a href="https://hungerpangs.spinehrms.in/" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F7F2FA] hover:bg-[#EFE6F6] rounded-xl p-space-xl border border-[#E2D5F0] hover:border-[#5B2C6F]/40 shadow-[0_2px_10px_rgba(91,44,111,0.06)] hover:shadow-[0_8px_24px_rgba(91,44,111,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#5B2C6F">
+<a href="https://hungerpangs.spinehrms.in/" data-android-store="https://play.google.com/store/apps/details?id=spine.hr.hrmobile&amp;hl=en_IN" data-ios-store="https://apps.apple.com/us/app/spine-hr/id1558135438" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F7F2FA] hover:bg-[#EFE6F6] rounded-xl p-space-xl border border-[#E2D5F0] hover:border-[#5B2C6F]/40 shadow-[0_2px_10px_rgba(91,44,111,0.06)] hover:shadow-[0_8px_24px_rgba(91,44,111,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#5B2C6F">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#5B2C6F] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">account_tree</span>
 </div>
@@ -279,16 +279,23 @@ Log Out
 
 </div>
 <script>
-  // A web link can't launch an Android app unless the vendor has registered
-  // that address with the app (Frontlyne hasn't), so on Android these tiles go
-  // to the app's Play Store page instead: the Play Store app opens there and
-  // shows "Open" if the app is installed, "Install" if not. Desktop and iPhone
-  // keep the ordinary website link in a new tab.
+  // A web link can't launch a phone app unless the vendor has registered that
+  // address with the app, so on phones these tiles go to the app's store page
+  // instead (Play Store on Android via data-android-store, App Store on iPhone
+  // and iPad via data-ios-store): the store app opens there and shows "Open" if
+  // the app is installed, "Install" if not. A tile with no store link for the
+  // device, and every desktop browser, keeps the ordinary website link in a
+  // new tab.
   (function () {
-    if (!/Android/i.test(navigator.userAgent)) return;
-    Array.prototype.forEach.call(document.querySelectorAll('a[data-android-store]'), function (a) {
-      a.href = a.getAttribute('data-android-store');
-      a.removeAttribute('target'); // hand off to the Play Store app rather than leave a blank tab
+    var ua = navigator.userAgent;
+    var isAndroid = /Android/i.test(ua);
+    // iPadOS reports itself as a Mac, so tell it apart by touch support.
+    var isIos = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var attr = isAndroid ? 'data-android-store' : isIos ? 'data-ios-store' : null;
+    if (!attr) return;
+    Array.prototype.forEach.call(document.querySelectorAll('a[' + attr + ']'), function (a) {
+      a.href = a.getAttribute(attr);
+      a.removeAttribute('target'); // hand off to the store app rather than leave a blank tab
     });
   })();
 </script>
