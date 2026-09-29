@@ -45,7 +45,7 @@
     ['Music', 'music-player.html', 'Play the restaurant ambience playlist', 'music player playlist ambience songs tracks knowledge center', 'music_note'],
     ['Org Chart', 'https://script.google.com/a/macros/burmaburma.in/s/AKfycbwiLkliosJp9Jo2y2vrUuQdgvJ2WGA9I1O3G0UoBffRWS8K_wZaxv-JeeRhz7G8IjS95Q/exec', 'Opens in a new tab (Google Apps Script)', 'org chart hierarchy organisation organization knowledge center', 'account_tree'],
     ['Compliance Dashboard', 'compliance-dashboard.html', 'Licenses Compliance & HR Compliance', 'compliance dashboard licenses hr knowledge center', 'verified'],
-    ['Licenses Compliance', 'compliance-dashboard.html', 'Compliance Dashboard', 'licenses compliance knowledge center coming soon', 'gavel'],
+    ['Licenses Compliance', 'https://script.google.com/a/macros/burmaburma.in/s/AKfycbxPGI-Imm9AiWNiry8JZpfx369Pce_aBTZINwRa88sp8OXhZb5PF1QtVx3S0HrDSJTBdA/exec', 'Opens in a new tab (Google Apps Script)', 'licenses license compliance knowledge center', 'gavel'],
     ['HR Compliance', 'https://hungerpangs-hr-compliance.streamlit.app/', 'Opens in a new tab (Streamlit)', 'hr compliance streamlit knowledge center', 'verified'],
     ['Job Openings', 'job-openings.html', 'Open positions by department', 'jobs careers hiring vacancies recruitment positions apply', 'badge'],
     ['Announcements', 'announcements.html', 'Notice board', 'notices news updates circulars board', 'campaign'],

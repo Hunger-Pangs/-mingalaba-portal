@@ -63,6 +63,68 @@
   .tip-msg { font-size: 13px; }
   .tip-msg.ok { color: #1E4620; }
   .tip-msg.bad { color: #ba1a1a; }
+  .tip-sec { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #78350F; margin: 0 0 8px; }
+  .tip-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .tip-card { background: #FEF8EB; border: 1px solid #FDE5B5; border-radius: 14px; padding: 12px 8px; text-align: center; }
+  .tip-card .ic { width: 38px; height: 38px; border-radius: 50%; background: #A66E2E; color: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; }
+  .tip-card .lbl { font-size: 12px; font-weight: 700; color: #78350F; }
+  .tip-card .amt { font-size: 15px; font-weight: 700; color: #231917; margin-top: 2px; }
+  .tip-card .n { font-size: 11px; color: #8c7b75; margin-top: 1px; }
+  .tip-field.wide { grid-column: 1 / -1; }
+  .tip-field textarea { width: 100%; font: inherit; font-size: 14px; padding: 9px 12px; border-radius: 10px; border: 1px solid #E8DFD3; background: #fff; color: #231917; resize: vertical; min-height: 72px; }
+  .tip-field textarea:focus { outline: none; border-color: #A66E2E; box-shadow: 0 0 0 3px rgba(166,110,46,.15); }
+  .tip-field.bad textarea { border-color: #ba1a1a; }
+  .pc-file { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pc-file input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .pc-thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .pc-thumb { position: relative; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; border: 1px solid #E8DFD3; background: #FCFAF6; }
+  .pc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pc-thumb button { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; border: 0; border-radius: 50%; background: rgba(35,25,23,.72); color: #fff; font-size: 13px; line-height: 20px; cursor: pointer; padding: 0; }
+  .tip-store { text-align: center; font-size: 12px; color: #8c7b75; margin: -8px 0 14px; }
+  .tip-store.none { color: #ba1a1a; }
+  .sh-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .dn { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dn th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #8c7b75; padding: 6px 4px; font-weight: 700; }
+  .dn td { padding: 5px 4px; border-top: 1px solid #F0EBE0; vertical-align: middle; }
+  .dn td.r, .dn th.r { text-align: right; font-variant-numeric: tabular-nums; }
+  .dn input { width: 84px; text-align: right; font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid #E8DFD3; background: #fff; color: #231917; }
+  .dn input:focus { outline: none; border-color: #A66E2E; box-shadow: 0 0 0 3px rgba(166,110,46,.15); }
+  .dn tr.sub td { background: #FEF8EB; color: #78350F; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+  .dn tr.tot td { font-weight: 700; font-size: 15px; border-top: 2px solid #E8DFD3; padding: 9px 4px; }
+  .sh-lock { background: #FFF6DD; border: 1px solid #F3DDA0; border-radius: 12px; padding: 14px 16px; text-align: center; color: #6B4A00; margin-bottom: 14px; }
+  .sh-lock .t { font-weight: 700; font-size: 14px; }
+  .sh-lock p { margin: 4px 0 0; font-size: 13px; }
+  .sh-ok { background: #EAF4EA; border: 1px solid #CBE3CB; border-radius: 12px; padding: 12px 16px; text-align: center; color: #1E4620; font-size: 13px; }
+  .sh-dis { opacity: .45; pointer-events: none; }
+  .sh-tabdot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ba1a1a; margin-left: 6px; vertical-align: middle; }
+  .sh-tabdot[hidden] { display: none; }
+  .sh-pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .sh-pill.pending { background: #FFF6DD; color: #6B4A00; }
+  .sh-pill.matched { background: #EAF4EA; color: #1E4620; }
+  .sh-pill.difference { background: #FBE9E7; color: #9B1C1C; }
+  @media (max-width: 560px) { .sh-grid3 { grid-template-columns: minmax(0, 1fr); } .dn input { width: 68px; } }
+  .lf-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .lf-chip { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; font-size: 12px; padding: 3px 4px 3px 9px; border-radius: 999px; background: #FEF8EB; border: 1px solid #FDE5B5; color: #78350F; text-decoration: none; }
+  a.lf-chip { padding-right: 9px; }
+  a.lf-chip:hover { background: #FDF0D5; }
+  .lf-chip .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
+  .lf-chip button { border: 0; background: rgba(0,0,0,.08); width: 18px; height: 18px; border-radius: 50%; cursor: pointer; font-size: 12px; line-height: 18px; padding: 0; color: #231917; flex: none; }
+  .pc-photos { display: flex; gap: 4px; flex-wrap: nowrap; }
+  .pc-photos img { width: 38px; height: 38px; object-fit: cover; border-radius: 6px; border: 1px solid #E8DFD3; display: block; }
+  .tip-toggle.three button { padding: 7px 16px; }
+  .tip-btn.sm { padding: 6px 14px; font-size: 12px; white-space: nowrap; flex: none; }
+  .tip-btn.ghost { background: transparent; color: #A66E2E; }
+  .tip-btn.ghost:hover { background: #FEF8EB; }
+  .lf-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #E8DFD3; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  .lf-item .t { font-weight: 700; font-size: 14px; color: #231917; word-break: break-word; }
+  .lf-item .m { font-size: 12px; color: #8c7b75; margin-top: 2px; }
+  .lf-pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: #FEF8EB; color: #78350F; border: 1px solid #FDE5B5; }
+  .lf-pill.done { background: #EAF4EA; color: #1E4620; border-color: #CBE3CB; }
+  .tip-grid.free > .tip-field:last-child:nth-child(odd) { grid-column: auto; width: auto; margin: 0; }
+  .tip-grid.free > .tip-field.wide:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .tip-field input[readonly] { background: #FCFAF6; color: #635654; cursor: default; }
+  .tip-cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 560px) { .tip-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tip-cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; } }
   .tip-table.sum td:first-child { white-space: normal; }
   .tip-table tr.grp td { background: #FEF8EB; color: #78350F; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
   .tip-table tr.tot td { font-weight: 700; background: #FCFAF6; }
@@ -377,9 +439,10 @@ Log Out
         a.addEventListener('mouseenter', function () { a.style.backgroundColor = theme.bgHover; a.style.boxShadow = '0 8px 24px ' + theme.shadow + '0.12)'; });
         a.addEventListener('mouseleave', function () { a.style.backgroundColor = theme.bg; a.style.boxShadow = '0 2px 10px ' + theme.shadow + '0.06)'; });
 
-        // Tips Register opens the in-page popup (see the Tip Register script
-        // below) instead of an external link, so it shouldn't say "new tab".
-        var isNative = item.name === 'Tips Register';
+        // Tips Register and Aggregators Order Register open an in-page popup
+        // (see their scripts below) instead of an external link, so they
+        // shouldn't say "new tab".
+        var isNative = item.name === 'Tips Register' || item.name === 'Aggregators Order Register' || item.name === 'Spoilage Register' || item.name === 'Uniform Register' || item.name === 'Lost and Found Register' || item.name === 'Pest Control Register' || item.name === 'Shift Handover Register';
         a.innerHTML =
           '<div class="w-16 h-16 shrink-0 rounded-full text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md" style="background-color:' + theme.accent + '">' +
             '<span class="material-symbols-outlined text-[32px]">' + item.icon + '</span>' +
@@ -461,8 +524,13 @@ Log Out
 <div class="tip-table-wrap" id="tipTableWrap" style="margin-top:14px" hidden>
 <table class="tip-table"><thead><tr><th>Date</th><th>Table</th><th style="text-align:right">Amount</th><th>Mode</th><th>Served By</th><th>Entered By</th></tr></thead><tbody id="tipRows"></tbody></table>
 </div>
-<div class="tip-table-wrap" id="tipSummaryWrap" style="margin-top:14px" hidden>
-<table class="tip-table sum"><thead><tr><th>Summary</th><th style="text-align:right">Entries</th><th style="text-align:right">Amount</th></tr></thead><tbody id="tipSummary"></tbody></table>
+<div id="tipSummaryWrap" style="margin-top:18px" hidden>
+<p class="tip-sec">By mode of payment</p>
+<div id="tipModeCards" class="tip-cards"></div>
+<p class="tip-sec">Cash &amp; Others</p>
+<div class="tip-table-wrap">
+<table class="tip-table sum"><thead><tr><th>Classification</th><th style="text-align:right">Entries</th><th style="text-align:right">Amount</th></tr></thead><tbody id="tipSummary"></tbody></table>
+</div>
 </div>
 </section>
 </div>
@@ -482,7 +550,8 @@ Log Out
       msg: document.getElementById('tipMsg'), from: document.getElementById('tipFrom'), to: document.getElementById('tipTo'),
       reportMsg: document.getElementById('tipReportMsg'), exportBtn: document.getElementById('tipExport'),
       wrap: document.getElementById('tipTableWrap'), rows: document.getElementById('tipRows'),
-      summaryWrap: document.getElementById('tipSummaryWrap'), summary: document.getElementById('tipSummary')
+      summaryWrap: document.getElementById('tipSummaryWrap'), summary: document.getElementById('tipSummary'),
+      modeCards: document.getElementById('tipModeCards')
     };
     var config = null, opener = null;
 
@@ -604,10 +673,13 @@ Log Out
 
         function line(label, s, cls) { return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + esc(label) + '</td><td class="num">' + s.count + '</td><td class="num">' + esc(money(s.amount)) + '</td></tr>'; }
         var s = data.summary;
+        var MODE_ICON = { cash: 'payments', phonepe: 'smartphone', edc: 'point_of_sale', credit_card: 'credit_card' };
+        els.modeCards.innerHTML = s.byMode.map(function (m) {
+          return '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">' + (MODE_ICON[m.value] || 'payments') + '</span></div>' +
+            '<div class="lbl">' + esc(m.label) + '</div><div class="amt">' + esc(money(m.amount)) + '</div>' +
+            '<div class="n">' + m.count + (m.count === 1 ? ' entry' : ' entries') + '</div></div>';
+        }).join('');
         els.summary.innerHTML =
-          '<tr class="grp"><td colspan="3">By mode of payment</td></tr>' +
-          s.byMode.map(function (m) { return line(m.label, m); }).join('') +
-          '<tr class="grp"><td colspan="3">Cash &amp; Others</td></tr>' +
           line('Cash', s.cash) + line('Others (PhonePe, EDC, Credit Card)', s.others) + line('Total', s.total, 'tot');
         els.summaryWrap.hidden = false;
 
@@ -666,6 +738,1911 @@ Log Out
         open(card);
       }
     });
+  })();
+</script>
+
+<!-- Aggregators Order Register popup: same look and behaviour as the Tip Register one. -->
+<div id="aggModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="aggTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">delivery_dining</span></div>
+<h2 id="aggTitle">Aggregators Order Register</h2>
+<button type="button" class="tip-x" id="aggClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle" role="tablist" aria-label="Aggregators Order Register view">
+<button type="button" role="tab" id="aggTabRegister" aria-selected="true" aria-controls="aggPanelRegister">Register</button>
+<button type="button" role="tab" id="aggTabReport" aria-selected="false" aria-controls="aggPanelReport">Report</button>
+</div>
+
+<section id="aggPanelRegister" role="tabpanel" aria-labelledby="aggTabRegister">
+<form id="aggForm" novalidate>
+<div class="tip-grid">
+<div class="tip-field" data-field="source"><label for="aggSource">Source</label><select id="aggSource" required><option value="">Select...</option></select><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="date"><label for="aggDate">Date</label><input id="aggDate" type="date" required><p class="tip-hint">Today by default; can be set back up to 7 days.</p><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="orderId"><label for="aggOrderId">Order ID</label><input id="aggOrderId" type="text" maxlength="50" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="packedBy"><label for="aggPackedBy">Order Packed By</label><input id="aggPackedBy" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+</div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="aggSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Order</button>
+<span id="aggMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="aggPanelReport" role="tabpanel" aria-labelledby="aggTabReport" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="aggFrom">From</label><input id="aggFrom" type="date"></div>
+<div class="tip-field"><label for="aggTo">To</label><input id="aggTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="aggExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="aggReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div class="tip-table-wrap" id="aggTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th>Date</th><th>Source</th><th>Order ID</th><th>Packed By</th><th>Entered By</th></tr></thead><tbody id="aggRows"></tbody></table>
+</div>
+<div id="aggSummaryWrap" style="margin-top:18px" hidden>
+<p class="tip-sec">Orders by source</p>
+<div id="aggSourceCards" class="tip-cards three"></div>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Aggregators Order Register popup. The rules (source list, order ID and
+  // packed-by required, the 7-day back-dating window) are enforced again by
+  // the server in aggregators/views.py; the checks here are for quick feedback.
+  (function () {
+    var modal = document.getElementById('aggModal');
+    var form = document.getElementById('aggForm');
+    var els = {
+      source: document.getElementById('aggSource'), date: document.getElementById('aggDate'),
+      orderId: document.getElementById('aggOrderId'), packedBy: document.getElementById('aggPackedBy'),
+      submit: document.getElementById('aggSubmit'), msg: document.getElementById('aggMsg'),
+      from: document.getElementById('aggFrom'), to: document.getElementById('aggTo'),
+      reportMsg: document.getElementById('aggReportMsg'), exportBtn: document.getElementById('aggExport'),
+      wrap: document.getElementById('aggTableWrap'), rows: document.getElementById('aggRows'),
+      summaryWrap: document.getElementById('aggSummaryWrap'), cards: document.getElementById('aggSourceCards')
+    };
+    var API = '/api/aggregator-orders/';
+    var config = null, opener = null;
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(name, text) {
+      var f = form.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err');
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { ['source', 'date', 'orderId', 'packedBy'].forEach(function (n) { setFieldError(n, ''); }); }
+
+    function showTab(which) {
+      var reg = which === 'register';
+      document.getElementById('aggTabRegister').setAttribute('aria-selected', reg);
+      document.getElementById('aggTabReport').setAttribute('aria-selected', !reg);
+      document.getElementById('aggPanelRegister').hidden = !reg;
+      document.getElementById('aggPanelReport').hidden = reg;
+      if (!reg) loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+
+    function applyConfig(data) {
+      config = data;
+      els.source.innerHTML = '<option value="">Select...</option>' + data.sources.map(function (s) { return '<option value="' + esc(s.value) + '">' + esc(s.label) + '</option>'; }).join('');
+      els.date.min = data.minDate; els.date.max = data.today;
+      if (!els.date.value) els.date.value = data.today;
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.today;
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      apiGet(API).then(function (data) {
+        var keep = els.source.value;
+        applyConfig(data);
+        els.source.value = keep;
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : 'Could not load the register: ' + err.message);
+      });
+      els.source.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var body = { source: els.source.value, date: els.date.value, orderId: els.orderId.value.trim(), packedBy: els.packedBy.value.trim() };
+      var bad = false;
+      if (!body.source) { setFieldError('source', 'Choose the source.'); bad = true; }
+      if (!body.date) { setFieldError('date', 'Choose a date.'); bad = true; }
+      else if (config && (body.date > config.today || body.date < config.minDate)) { setFieldError('date', 'Pick a date from the last 7 days, up to today.'); bad = true; }
+      if (!body.orderId) { setFieldError('orderId', 'Enter the order ID.'); bad = true; }
+      if (!body.packedBy) { setFieldError('packedBy', 'Enter who packed the order.'); bad = true; }
+      if (bad) return;
+
+      els.submit.disabled = true;
+      fetch(API, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+        body: JSON.stringify(body)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (r) {
+        if (r.res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved: ' + r.data.source + ' order ' + r.data.orderId + '.');
+        els.orderId.value = ''; els.packedBy.value = '';
+        els.orderId.focus();
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (o) {
+          return '<tr><td>' + esc(niceDate(o.date)) + '</td><td>' + esc(o.source) + '</td><td>' + esc(o.orderId) + '</td><td>' + esc(o.packedBy) + '</td><td>' + esc(o.insertedBy) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        var s = data.summary;
+        els.cards.innerHTML = s.bySource.map(function (x) {
+          return '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">delivery_dining</span></div>' +
+            '<div class="lbl">' + esc(x.label) + '</div><div class="amt">' + x.count + '</div><div class="n">' + (x.count === 1 ? 'order' : 'orders') + '</div></div>';
+        }).join('') +
+          '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">receipt_long</span></div>' +
+          '<div class="lbl">Total</div><div class="amt">' + s.total + '</div><div class="n">' + (s.total === 1 ? 'order' : 'orders') + '</div></div>';
+        els.summaryWrap.hidden = false;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No orders recorded for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' orders (the summary and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'order', 'orders') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'aggregator-orders_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    document.getElementById('aggTabRegister').addEventListener('click', function () { showTab('register'); });
+    document.getElementById('aggTabReport').addEventListener('click', function () { showTab('report'); });
+    document.getElementById('aggClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, a[href]'), function (n) { return !n.disabled && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Aggregators Order Register" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'aggregatorsorderregister') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
+<!-- Spoilage Register popup: same look and behaviour as the other register popups. -->
+<div id="spModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="spTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">compost</span></div>
+<h2 id="spTitle">Spoilage Register</h2>
+<button type="button" class="tip-x" id="spClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle" role="tablist" aria-label="Spoilage Register view">
+<button type="button" role="tab" id="spTabRegister" aria-selected="true" aria-controls="spPanelRegister">Register</button>
+<button type="button" role="tab" id="spTabReport" aria-selected="false" aria-controls="spPanelReport">Report</button>
+</div>
+
+<section id="spPanelRegister" role="tabpanel" aria-labelledby="spTabRegister">
+<form id="spForm" novalidate>
+<div class="tip-grid free">
+<div class="tip-field" data-field="material"><label for="spMaterial">Spoilage Material</label><input id="spMaterial" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="quantity"><label for="spQuantity">Quantity</label><input id="spQuantity" type="number" min="0.001" step="0.001" inputmode="decimal" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field wide" data-field="reason"><label for="spReason">Reason</label><input id="spReason" type="text" maxlength="200" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="date"><label for="spDate">Date</label><input id="spDate" type="date" required><p class="tip-hint">Today by default; can be set back up to 7 days.</p><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="signedBy"><label for="spSignedBy">Signed By</label><input id="spSignedBy" type="text" readonly tabindex="-1"><p class="tip-hint">The logged-in user.</p></div>
+</div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="spSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Entry</button>
+<span id="spMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="spPanelReport" role="tabpanel" aria-labelledby="spTabReport" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="spFrom">From</label><input id="spFrom" type="date"></div>
+<div class="tip-field"><label for="spTo">To</label><input id="spTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="spExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="spReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div class="tip-table-wrap" id="spTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th>Date</th><th>Material</th><th style="text-align:right">Qty</th><th>Reason</th><th>Signed By</th></tr></thead><tbody id="spRows"></tbody></table>
+</div>
+<div id="spSummaryWrap" style="margin-top:18px" hidden>
+<p class="tip-sec">By material</p>
+<div class="tip-table-wrap">
+<table class="tip-table sum"><thead><tr><th>Material</th><th style="text-align:right">Entries</th><th style="text-align:right">Total quantity</th></tr></thead><tbody id="spSummary"></tbody></table>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Spoilage Register popup. The rules (quantity > 0 with up to 3 decimals,
+  // reason and material required, the 7-day back-dating window) are enforced
+  // again by the server in spoilage/views.py, which also decides who signs the
+  // entry (the logged-in user); the checks here are for quick feedback.
+  (function () {
+    var modal = document.getElementById('spModal');
+    var form = document.getElementById('spForm');
+    var els = {
+      material: document.getElementById('spMaterial'), quantity: document.getElementById('spQuantity'),
+      reason: document.getElementById('spReason'), date: document.getElementById('spDate'),
+      signedBy: document.getElementById('spSignedBy'), submit: document.getElementById('spSubmit'),
+      msg: document.getElementById('spMsg'), from: document.getElementById('spFrom'), to: document.getElementById('spTo'),
+      reportMsg: document.getElementById('spReportMsg'), exportBtn: document.getElementById('spExport'),
+      wrap: document.getElementById('spTableWrap'), rows: document.getElementById('spRows'),
+      summaryWrap: document.getElementById('spSummaryWrap'), summary: document.getElementById('spSummary')
+    };
+    var API = '/api/spoilage/';
+    var config = null, opener = null;
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(name, text) {
+      var f = form.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err'); if (!p) return;
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { ['material', 'quantity', 'reason', 'date'].forEach(function (n) { setFieldError(n, ''); }); }
+
+    function showTab(which) {
+      var reg = which === 'register';
+      document.getElementById('spTabRegister').setAttribute('aria-selected', reg);
+      document.getElementById('spTabReport').setAttribute('aria-selected', !reg);
+      document.getElementById('spPanelRegister').hidden = !reg;
+      document.getElementById('spPanelReport').hidden = reg;
+      if (!reg) loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+
+    function applyConfig(data) {
+      config = data;
+      els.date.min = data.minDate; els.date.max = data.today;
+      if (!els.date.value) els.date.value = data.today;
+      els.signedBy.value = data.signedBy;
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.today;
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      apiGet(API).then(applyConfig).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : 'Could not load the register: ' + err.message);
+      });
+      els.material.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var body = { material: els.material.value.trim(), quantity: els.quantity.value.trim(), reason: els.reason.value.trim(), date: els.date.value };
+      var bad = false;
+      if (!body.material) { setFieldError('material', 'Enter the spoilage material.'); bad = true; }
+      if (!body.quantity || !(Number(body.quantity) > 0)) { setFieldError('quantity', 'Enter a quantity greater than zero.'); bad = true; }
+      if (!body.reason) { setFieldError('reason', 'Enter the reason.'); bad = true; }
+      if (!body.date) { setFieldError('date', 'Choose a date.'); bad = true; }
+      else if (config && (body.date > config.today || body.date < config.minDate)) { setFieldError('date', 'Pick a date from the last 7 days, up to today.'); bad = true; }
+      if (bad) return;
+
+      els.submit.disabled = true;
+      fetch(API, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+        body: JSON.stringify(body)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (r) {
+        if (r.res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved: ' + r.data.material + ' x ' + r.data.quantity + ', signed by ' + r.data.signedBy + '.');
+        els.material.value = ''; els.quantity.value = ''; els.reason.value = '';
+        els.material.focus();
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (s) {
+          return '<tr><td>' + esc(niceDate(s.date)) + '</td><td>' + esc(s.material) + '</td><td class="num">' + esc(s.quantity) + '</td><td style="white-space:normal;min-width:140px">' + esc(s.reason) + '</td><td>' + esc(s.signedBy) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        var sm = data.summary;
+        els.summary.innerHTML = sm.byMaterial.map(function (m) {
+          return '<tr><td>' + esc(m.material) + '</td><td class="num">' + m.count + '</td><td class="num">' + esc(m.quantity) + '</td></tr>';
+        }).join('') + '<tr class="tot"><td>Total entries</td><td class="num">' + sm.total + '</td><td></td></tr>';
+        els.summaryWrap.hidden = !sm.byMaterial.length;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No spoilage recorded for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' entries (the summary and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'entry', 'entries') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'spoilage-register_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    document.getElementById('spTabRegister').addEventListener('click', function () { showTab('register'); });
+    document.getElementById('spTabReport').addEventListener('click', function () { showTab('report'); });
+    document.getElementById('spClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, a[href]'), function (n) { return !n.disabled && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Spoilage Register" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'spoilageregister') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
+<!-- Uniform Register popup: same look and behaviour as the other register popups. -->
+<div id="unModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="unTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">checkroom</span></div>
+<h2 id="unTitle">Uniform Register</h2>
+<button type="button" class="tip-x" id="unClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle" role="tablist" aria-label="Uniform Register view">
+<button type="button" role="tab" id="unTabRegister" aria-selected="true" aria-controls="unPanelRegister">Register</button>
+<button type="button" role="tab" id="unTabReport" aria-selected="false" aria-controls="unPanelReport">Report</button>
+</div>
+
+<section id="unPanelRegister" role="tabpanel" aria-labelledby="unTabRegister">
+<form id="unForm" novalidate>
+<div class="tip-grid free">
+<div class="tip-field wide" data-field="name"><label for="unName">Name</label><input id="unName" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="shirtSize"><label for="unShirtSize">Shirt Size</label><select id="unShirtSize"><option value="">Select...</option></select><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="shirtQuantity"><label for="unShirtQty">Shirt Quantity</label><input id="unShirtQty" type="number" min="0" max="99" step="1" value="0" inputmode="numeric"><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="pantSize"><label for="unPantSize">Pant Size</label><select id="unPantSize"><option value="">Select...</option></select><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="pantQuantity"><label for="unPantQty">Pant Quantity</label><input id="unPantQty" type="number" min="0" max="99" step="1" value="0" inputmode="numeric"><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="barApronQuantity"><label for="unBarApron">Bar Apron</label><input id="unBarApron" type="number" min="0" max="99" step="1" value="0" inputmode="numeric"><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="apronQuantity"><label for="unApron">Apron</label><input id="unApron" type="number" min="0" max="99" step="1" value="0" inputmode="numeric"><p class="tip-err" hidden></p></div>
+<div class="tip-field wide" data-field="signedBy"><label for="unSignedBy">Signed By</label><input id="unSignedBy" type="text" readonly tabindex="-1"><p class="tip-hint">The logged-in user.</p></div>
+</div>
+<p class="tip-hint" style="text-align:center;margin-top:10px">Leave a quantity at 0 for items not issued. A size is needed for each shirt or pant issued.</p>
+<div class="tip-actions" style="margin-top:14px">
+<button type="submit" class="tip-btn" id="unSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Entry</button>
+<span id="unMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="unPanelReport" role="tabpanel" aria-labelledby="unTabReport" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="unFrom">From</label><input id="unFrom" type="date"></div>
+<div class="tip-field"><label for="unTo">To</label><input id="unTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="unExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="unReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div class="tip-table-wrap" id="unTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th>Date</th><th>Name</th><th>Shirt</th><th>Pant</th><th style="text-align:right">Bar Apron</th><th style="text-align:right">Apron</th><th>Signed By</th></tr></thead><tbody id="unRows"></tbody></table>
+</div>
+<div id="unSummaryWrap" style="margin-top:18px" hidden>
+<p class="tip-sec">Items issued</p>
+<div id="unCards" class="tip-cards"></div>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Uniform Register popup. The rules (at least one item, a size for every
+  // shirt / pant issued, quantities 0-99) are enforced again by the server in
+  // uniforms/views.py, which also decides who signs the entry (the logged-in
+  // user); the checks here are for quick feedback.
+  (function () {
+    var modal = document.getElementById('unModal');
+    var form = document.getElementById('unForm');
+    var els = {
+      name: document.getElementById('unName'), shirtSize: document.getElementById('unShirtSize'),
+      shirtQty: document.getElementById('unShirtQty'), pantSize: document.getElementById('unPantSize'),
+      pantQty: document.getElementById('unPantQty'), barApron: document.getElementById('unBarApron'),
+      apron: document.getElementById('unApron'), signedBy: document.getElementById('unSignedBy'),
+      submit: document.getElementById('unSubmit'), msg: document.getElementById('unMsg'),
+      from: document.getElementById('unFrom'), to: document.getElementById('unTo'),
+      reportMsg: document.getElementById('unReportMsg'), exportBtn: document.getElementById('unExport'),
+      wrap: document.getElementById('unTableWrap'), rows: document.getElementById('unRows'),
+      summaryWrap: document.getElementById('unSummaryWrap'), cards: document.getElementById('unCards')
+    };
+    var API = '/api/uniforms/';
+    var FIELDS = ['name', 'shirtSize', 'shirtQuantity', 'pantSize', 'pantQuantity', 'barApronQuantity', 'apronQuantity'];
+    var config = null, opener = null;
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+    function options(list) { return '<option value="">Select...</option>' + list.map(function (v) { return '<option value="' + esc(v) + '">' + esc(v) + '</option>'; }).join(''); }
+    function item(size, qty) { return qty ? (size ? esc(size) + ' &times; ' : '') + qty : '&ndash;'; }
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(name, text) {
+      var f = form.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err'); if (!p) return;
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { FIELDS.forEach(function (n) { setFieldError(n, ''); }); }
+    function resetForm() {
+      els.name.value = ''; els.shirtSize.value = ''; els.pantSize.value = '';
+      els.shirtQty.value = els.pantQty.value = els.barApron.value = els.apron.value = '0';
+    }
+
+    function showTab(which) {
+      var reg = which === 'register';
+      document.getElementById('unTabRegister').setAttribute('aria-selected', reg);
+      document.getElementById('unTabReport').setAttribute('aria-selected', !reg);
+      document.getElementById('unPanelRegister').hidden = !reg;
+      document.getElementById('unPanelReport').hidden = reg;
+      if (!reg) loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+
+    function applyConfig(data) {
+      config = data;
+      var shirt = els.shirtSize.value, pant = els.pantSize.value;
+      els.shirtSize.innerHTML = options(data.shirtSizes); els.shirtSize.value = shirt;
+      els.pantSize.innerHTML = options(data.pantSizes); els.pantSize.value = pant;
+      els.signedBy.value = data.signedBy;
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.today;
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      apiGet(API).then(applyConfig).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : 'Could not load the register: ' + err.message);
+      });
+      els.name.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    function qtyOf(input) { var v = input.value.trim(); return v === '' ? 0 : Number(v); }
+    function validQty(n) { return Number.isInteger(n) && n >= 0 && n <= 99; }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var q = { shirt: qtyOf(els.shirtQty), pant: qtyOf(els.pantQty), bar: qtyOf(els.barApron), apron: qtyOf(els.apron) };
+      var bad = false;
+      if (!els.name.value.trim()) { setFieldError('name', 'Enter the name.'); bad = true; }
+      [['shirt', 'shirtQuantity'], ['pant', 'pantQuantity'], ['bar', 'barApronQuantity'], ['apron', 'apronQuantity']].forEach(function (p) {
+        if (!validQty(q[p[0]])) { setFieldError(p[1], 'Enter a whole number from 0 to 99.'); bad = true; }
+      });
+      if (!bad) {
+        if (q.shirt > 0 && !els.shirtSize.value) { setFieldError('shirtSize', 'Choose the shirt size.'); bad = true; }
+        if (q.pant > 0 && !els.pantSize.value) { setFieldError('pantSize', 'Choose the pant size.'); bad = true; }
+        if (!(q.shirt || q.pant || q.bar || q.apron)) { setFieldError('shirtQuantity', 'Enter a quantity for at least one item.'); bad = true; }
+      }
+      if (bad) return;
+
+      var body = {
+        name: els.name.value.trim(),
+        shirtSize: q.shirt ? els.shirtSize.value : '', shirtQuantity: q.shirt,
+        pantSize: q.pant ? els.pantSize.value : '', pantQuantity: q.pant,
+        barApronQuantity: q.bar, apronQuantity: q.apron
+      };
+      els.submit.disabled = true;
+      fetch(API, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+        body: JSON.stringify(body)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (r) {
+        if (r.res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved: ' + r.data.name + ', signed by ' + r.data.signedBy + '.');
+        resetForm();
+        els.name.focus();
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (u) {
+          return '<tr><td>' + esc(niceDate(u.date)) + '</td><td>' + esc(u.name) + '</td><td>' + item(u.shirtSize, u.shirtQuantity) + '</td><td>' + item(u.pantSize, u.pantQuantity) +
+            '</td><td class="num">' + (u.barApronQuantity || '&ndash;') + '</td><td class="num">' + (u.apronQuantity || '&ndash;') + '</td><td>' + esc(u.signedBy) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        var s = data.summary;
+        var CARDS = [['Shirts', s.shirts, 'checkroom'], ['Pants', s.pants, 'dry_cleaning'], ['Bar Aprons', s.barAprons, 'local_bar'], ['Aprons', s.aprons, 'restaurant']];
+        els.cards.innerHTML = CARDS.map(function (c) {
+          return '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">' + c[2] + '</span></div>' +
+            '<div class="lbl">' + c[0] + '</div><div class="amt">' + c[1] + '</div><div class="n">issued</div></div>';
+        }).join('');
+        els.summaryWrap.hidden = false;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No uniforms issued for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' entries (the totals and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'entry', 'entries') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'uniform-register_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? 'Your session has ended. Please sign in again.' : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    document.getElementById('unTabRegister').addEventListener('click', function () { showTab('register'); });
+    document.getElementById('unTabReport').addEventListener('click', function () { showTab('report'); });
+    document.getElementById('unClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, a[href]'), function (n) { return !n.disabled && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Uniform Register" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'uniformregister') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
+<!-- Lost and Found Register popup: Register (log a found item), Handover (guest collects it), Report. -->
+<div id="lfModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="lfTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">luggage</span></div>
+<h2 id="lfTitle">Lost and Found Register</h2>
+<button type="button" class="tip-x" id="lfClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle three" role="tablist" aria-label="Lost and Found Register view">
+<button type="button" role="tab" id="lfTabRegister" aria-selected="true" aria-controls="lfPanelRegister">Register</button>
+<button type="button" role="tab" id="lfTabHandover" aria-selected="false" aria-controls="lfPanelHandover">Handover</button>
+<button type="button" role="tab" id="lfTabReport" aria-selected="false" aria-controls="lfPanelReport">Report</button>
+</div>
+
+<section id="lfPanelRegister" role="tabpanel" aria-labelledby="lfTabRegister">
+<form id="lfForm" novalidate>
+<div class="tip-grid free">
+<div class="tip-field" data-field="foundBy"><label for="lfFoundBy">Lost Found By</label><input id="lfFoundBy" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="foundAt"><label for="lfFoundAt">Date &amp; Time</label><input id="lfFoundAt" type="datetime-local" required><p class="tip-err" hidden></p></div>
+<div class="tip-field wide" data-field="itemDetails"><label for="lfItem">Item Details</label><textarea id="lfItem" maxlength="500" rows="3" required></textarea><p class="tip-err" hidden></p></div>
+<div class="tip-field wide" data-field="documents">
+<label>Upload Documents (optional)</label>
+<div class="pc-file">
+<button type="button" class="tip-btn sm ghost" id="lfPick"><span class="material-symbols-outlined text-[16px]">attach_file</span>Add files</button>
+<input id="lfFiles" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx,image/jpeg,image/png,image/webp,application/pdf" multiple tabindex="-1">
+<span class="tip-hint" id="lfFileHint" style="margin:0"></span>
+</div>
+<div class="lf-chips" id="lfChosen"></div>
+<p class="tip-err" hidden></p>
+</div>
+</div>
+<p class="tip-hint" style="text-align:center;margin-top:10px">Now by default; can be set back up to 7 days. The guest's details are added under Handover when the item is collected.</p>
+<div class="tip-actions" style="margin-top:14px">
+<button type="submit" class="tip-btn" id="lfSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Item</button>
+<span id="lfMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="lfPanelHandover" role="tabpanel" aria-labelledby="lfTabHandover" hidden>
+<div id="lfPendingView">
+<p id="lfPendingMsg" class="tip-msg" style="text-align:center;margin-bottom:12px" role="status" aria-live="polite"></p>
+<div id="lfPending"></div>
+</div>
+<form id="lfReceiveForm" novalidate hidden>
+<div class="lf-item" style="margin-bottom:16px"><div><div class="t" id="lfRecItem"></div><div class="m" id="lfRecMeta"></div></div></div>
+<div class="tip-grid free">
+<div class="tip-field" data-field="guestName"><label for="lfGuestName">Guest Name</label><input id="lfGuestName" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="guestMobile"><label for="lfGuestMobile">Guest Mobile Number</label><input id="lfGuestMobile" type="tel" maxlength="20" inputmode="tel" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="guestIdProof"><label for="lfGuestId">Guest ID Proof</label><input id="lfGuestId" type="text" maxlength="100" autocomplete="off" placeholder="e.g. Driving Licence - MH12 2020 0012345" required><p class="tip-err" hidden></p></div>
+<div class="tip-field"><label for="lfSignedBy">Signed By</label><input id="lfSignedBy" type="text" readonly tabindex="-1"><p class="tip-hint">The logged-in user.</p></div>
+</div>
+<div class="tip-actions" style="margin-top:18px">
+<button type="submit" class="tip-btn" id="lfReceiveSubmit"><span class="material-symbols-outlined text-[18px]">how_to_reg</span>Confirm Handover</button>
+<button type="button" class="tip-btn sm ghost" id="lfReceiveBack">Back to the list</button>
+<span id="lfReceiveMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="lfPanelReport" role="tabpanel" aria-labelledby="lfTabReport" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="lfFrom">From (date found)</label><input id="lfFrom" type="date"></div>
+<div class="tip-field"><label for="lfTo">To (date found)</label><input id="lfTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="lfExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="lfReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div class="tip-table-wrap" id="lfTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th>Found On</th><th>Found By</th><th>Item</th><th>Status</th><th>Guest</th><th>Mobile</th><th>ID Proof</th><th>Handed Over</th><th>Signed By</th><th>Documents</th></tr></thead><tbody id="lfRows"></tbody></table>
+</div>
+<div id="lfSummaryWrap" style="margin-top:18px" hidden>
+<p class="tip-sec">Items</p>
+<div id="lfCards" class="tip-cards three"></div>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Lost and Found Register popup. Register logs a found item; Handover lists
+  // everything still in custody and records the guest collecting it (name,
+  // mobile, ID proof, signed by the logged-in user); Report lists items by the
+  // date found. All rules are enforced again by the server in lostfound/views.py.
+  (function () {
+    var modal = document.getElementById('lfModal');
+    var form = document.getElementById('lfForm');
+    var recForm = document.getElementById('lfReceiveForm');
+    var els = {
+      foundBy: document.getElementById('lfFoundBy'), foundAt: document.getElementById('lfFoundAt'),
+      item: document.getElementById('lfItem'), submit: document.getElementById('lfSubmit'), msg: document.getElementById('lfMsg'),
+      pendingView: document.getElementById('lfPendingView'), pendingMsg: document.getElementById('lfPendingMsg'), pending: document.getElementById('lfPending'),
+      recItem: document.getElementById('lfRecItem'), recMeta: document.getElementById('lfRecMeta'),
+      guestName: document.getElementById('lfGuestName'), guestMobile: document.getElementById('lfGuestMobile'),
+      guestId: document.getElementById('lfGuestId'), signedBy: document.getElementById('lfSignedBy'),
+      recSubmit: document.getElementById('lfReceiveSubmit'), recMsg: document.getElementById('lfReceiveMsg'),
+      from: document.getElementById('lfFrom'), to: document.getElementById('lfTo'),
+      reportMsg: document.getElementById('lfReportMsg'), exportBtn: document.getElementById('lfExport'),
+      wrap: document.getElementById('lfTableWrap'), rows: document.getElementById('lfRows'),
+      summaryWrap: document.getElementById('lfSummaryWrap'), cards: document.getElementById('lfCards')
+    };
+    var API = '/api/lost-found/';
+    var TABS = ['register', 'handover', 'report'];
+    var config = null, opener = null, receiving = null, pendingItems = [];
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    // The server sends Indian local time ("2026-09-28T14:30:00+05:30"); show that wall-clock time as is.
+    function niceStamp(iso) { return iso ? niceDate(iso.slice(0, 10)) + ', ' + iso.slice(11, 16) : ''; }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(scope, name, text) {
+      var f = scope.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err'); if (!p) return;
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors(scope, names) { names.forEach(function (n) { setFieldError(scope, n, ''); }); }
+    var REG_FIELDS = ['foundBy', 'foundAt', 'itemDetails', 'documents'], REC_FIELDS = ['guestName', 'guestMobile', 'guestIdProof'];
+    var DOC_EXT = /\.(jpe?g|png|webp|pdf|docx?)$/i;
+    var picked = [];
+
+    // ---- optional documents: the file input can't be edited, so keep our own list ----
+    function limits() { return { count: config ? config.maxDocuments : 5, mb: config ? config.maxDocumentMB : 10 }; }
+    function renderPicked() {
+      var box = document.getElementById('lfChosen'); box.innerHTML = '';
+      picked.forEach(function (f, i) {
+        var chip = document.createElement('span'); chip.className = 'lf-chip';
+        var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = f.name; nm.title = f.name;
+        var x = document.createElement('button'); x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', 'Remove ' + f.name);
+        x.addEventListener('click', function () { picked.splice(i, 1); renderPicked(); });
+        chip.appendChild(nm); chip.appendChild(x); box.appendChild(chip);
+      });
+      var l = limits();
+      document.getElementById('lfFileHint').textContent = picked.length ? plural(picked.length, 'file', 'files') + ' selected' : 'Images, PDF or Word. Up to ' + l.count + ' files, ' + l.mb + ' MB each.';
+    }
+    // Chips linking to files already saved (used in the Handover list and the Report).
+    function docLinks(docs) {
+      return docs.map(function (d) {
+        return '<a class="lf-chip" href="' + esc(d.url) + '" target="_blank" rel="noopener noreferrer" title="' + esc(d.name) + '"><span class="material-symbols-outlined" style="font-size:14px">' + (d.image ? 'image' : 'description') + '</span><span class="nm">' + esc(d.name) + '</span></a>';
+      }).join('');
+    }
+    document.getElementById('lfPick').addEventListener('click', function () { document.getElementById('lfFiles').click(); });
+    document.getElementById('lfFiles').addEventListener('change', function (e) {
+      setFieldError(form, 'documents', '');
+      var l = limits(), problem = '';
+      Array.prototype.forEach.call(e.target.files, function (f) {
+        if (!DOC_EXT.test(f.name)) { problem = 'Attach images (JPEG, PNG, WebP), PDF or Word (.doc, .docx) files.'; return; }
+        if (f.size > l.mb * 1024 * 1024) { problem = 'Each file must be under ' + l.mb + ' MB.'; return; }
+        if (picked.length >= l.count) { problem = 'Attach at most ' + l.count + ' files.'; return; }
+        picked.push(f);
+      });
+      e.target.value = '';
+      if (problem) setFieldError(form, 'documents', problem);
+      renderPicked();
+    });
+    renderPicked();
+    var SIGNIN = 'Your session has ended. Please sign in again.';
+
+    function showTab(which) {
+      TABS.forEach(function (t) {
+        document.getElementById('lfTab' + cap(t)).setAttribute('aria-selected', t === which);
+        document.getElementById('lfPanel' + cap(t)).hidden = t !== which;
+      });
+      if (which === 'handover') { showList(); loadPending(); }
+      if (which === 'report') loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+    function apiPost(url, body) {
+      return fetch(url, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+        body: JSON.stringify(body)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+          return { res: res, data: data };
+        });
+      });
+    }
+
+    function applyConfig(data, resetTime) {
+      config = data;
+      els.foundAt.min = data.minDateTime;
+      if (resetTime || !els.foundAt.value) els.foundAt.value = data.now;
+      els.signedBy.value = data.signedBy;
+      renderPicked();
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.now.slice(0, 10);
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(form, REG_FIELDS); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      apiGet(API).then(function (d) { applyConfig(d, true); }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : 'Could not load the register: ' + err.message);
+      });
+      els.foundBy.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    // ---- Register ----
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(form, REG_FIELDS); setMsg(els.msg, '', '');
+      var body = { foundBy: els.foundBy.value.trim(), itemDetails: els.item.value.trim(), foundAt: els.foundAt.value };
+      var bad = false;
+      if (!body.foundBy) { setFieldError(form, 'foundBy', 'Enter who found the item.'); bad = true; }
+      if (!body.foundAt) { setFieldError(form, 'foundAt', 'Choose the date and time.'); bad = true; }
+      if (!body.itemDetails) { setFieldError(form, 'itemDetails', 'Describe the item.'); bad = true; }
+      if (bad) return;
+
+      var fd = new FormData();
+      Object.keys(body).forEach(function (k) { fd.append(k, body[k]); });
+      picked.forEach(function (f) { fd.append('documents', f); });
+
+      els.submit.disabled = true;
+      if (picked.length) setMsg(els.msg, '', 'Uploading...');
+      // No Content-Type header: the browser adds the multipart boundary itself.
+      fetch(API, { method: 'POST', credentials: 'include', headers: { 'X-CSRFToken': csrf() }, body: fd }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+          return { res: res, data: data };
+        });
+      }).then(function (r) {
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(form, k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (r.res.status === 403) throw new Error('Please reload the page and try again.');
+        if (r.res.status === 413) throw new Error('The files are too large to upload.');
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved' + (r.data.documents.length ? ' with ' + plural(r.data.documents.length, 'file', 'files') : '') + '. It is now listed under Handover until the guest collects it.');
+        els.foundBy.value = ''; els.item.value = '';
+        picked = []; renderPicked();
+        els.foundBy.focus();
+        // Next item: start again from the current date and time.
+        return apiGet(API).then(function (d) { applyConfig(d, true); }).catch(function () {});
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    // ---- Handover ----
+    function showList() { recForm.hidden = true; els.pendingView.hidden = false; receiving = null; }
+
+    function loadPending() {
+      setMsg(els.pendingMsg, '', 'Loading...');
+      els.pending.innerHTML = '';
+      apiGet(API + 'pending/').then(function (data) {
+        pendingItems = data.entries;
+        els.signedBy.value = data.signedBy;
+        els.pending.innerHTML = data.entries.map(function (i) {
+          return '<div class="lf-item"><div><div class="t">' + esc(i.itemDetails) + '</div><div class="m">Found by ' + esc(i.foundBy) + ' &middot; ' + esc(niceStamp(i.foundAt)) + '</div>' + (i.documents.length ? '<div class="lf-chips">' + docLinks(i.documents) + '</div>' : '') + '</div>' +
+            '<button type="button" class="tip-btn sm" data-id="' + i.id + '">Hand over</button></div>';
+        }).join('');
+        setMsg(els.pendingMsg, '', data.count ? plural(data.count, 'item', 'items') + ' in custody.' + (data.count > data.entries.length ? ' Showing the oldest ' + data.entries.length + '.' : '') : 'Nothing is waiting to be collected.');
+      }).catch(function (err) {
+        setMsg(els.pendingMsg, 'bad', err.signin ? SIGNIN : err.message);
+      });
+    }
+
+    els.pending.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-id]'); if (!btn) return;
+      var item = pendingItems.filter(function (i) { return String(i.id) === btn.getAttribute('data-id'); })[0];
+      if (!item) return;
+      receiving = item;
+      els.recItem.textContent = item.itemDetails;
+      els.recMeta.textContent = 'Found by ' + item.foundBy + ' · ' + niceStamp(item.foundAt);
+      els.guestName.value = els.guestMobile.value = els.guestId.value = '';
+      clearErrors(recForm, REC_FIELDS); setMsg(els.recMsg, '', '');
+      els.pendingView.hidden = true; recForm.hidden = false;
+      els.guestName.focus();
+    });
+    document.getElementById('lfReceiveBack').addEventListener('click', function () { showList(); loadPending(); });
+
+    recForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!receiving) return;
+      clearErrors(recForm, REC_FIELDS); setMsg(els.recMsg, '', '');
+      var body = { guestName: els.guestName.value.trim(), guestMobile: els.guestMobile.value.trim(), guestIdProof: els.guestId.value.trim() };
+      var bad = false;
+      if (!body.guestName) { setFieldError(recForm, 'guestName', "Enter the guest's name."); bad = true; }
+      if (!body.guestMobile) { setFieldError(recForm, 'guestMobile', "Enter the guest's mobile number."); bad = true; }
+      else if (!/^\+?\d{7,15}$/.test(body.guestMobile.replace(/[\s\-().]/g, ''))) { setFieldError(recForm, 'guestMobile', 'Enter a valid mobile number (7 to 15 digits).'); bad = true; }
+      if (!body.guestIdProof) { setFieldError(recForm, 'guestIdProof', "Enter the guest's ID proof."); bad = true; }
+      if (bad) return;
+
+      els.recSubmit.disabled = true;
+      apiPost(API + receiving.id + '/receive/', body).then(function (r) {
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(recForm, k, r.data.fields[k]); });
+          setMsg(els.recMsg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (r.res.status === 409 || r.res.status === 404) {
+          showList(); loadPending();
+          setTimeout(function () { setMsg(els.pendingMsg, 'bad', r.data.error); }, 400);
+          return;
+        }
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        showList(); loadPending();
+        setTimeout(function () { setMsg(els.pendingMsg, 'ok', 'Handed over to ' + r.data.guestName + ', signed by ' + r.data.signedBy + '.'); }, 400);
+      }).catch(function (err) {
+        setMsg(els.recMsg, 'bad', err.signin ? SIGNIN : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.recSubmit.disabled = false; });
+    });
+
+    // ---- Report ----
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (i) {
+          return '<tr><td>' + esc(niceStamp(i.foundAt)) + '</td><td>' + esc(i.foundBy) + '</td><td style="white-space:normal;min-width:150px">' + esc(i.itemDetails) + '</td>' +
+            '<td><span class="lf-pill' + (i.handedOver ? ' done' : '') + '">' + (i.handedOver ? 'Handed over' : 'In custody') + '</span></td>' +
+            '<td>' + esc(i.guestName || '–') + '</td><td>' + esc(i.guestMobile || '–') + '</td><td>' + esc(i.guestIdProof || '–') + '</td>' +
+            '<td>' + esc(i.receivedAt ? niceStamp(i.receivedAt) : '–') + '</td><td>' + esc(i.signedBy || '–') + '</td><td>' + (i.documents.length ? '<div class="lf-chips" style="margin:0;flex-wrap:nowrap">' + docLinks(i.documents) + '</div>' : '–') + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        var s = data.summary;
+        var CARDS = [['Found', s.found, 'luggage'], ['Handed over', s.handedOver, 'how_to_reg'], ['In custody', s.inCustody, 'inventory_2']];
+        els.cards.innerHTML = CARDS.map(function (c) {
+          return '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">' + c[2] + '</span></div>' +
+            '<div class="lbl">' + c[0] + '</div><div class="amt">' + c[1] + '</div><div class="n">' + (c[1] === 1 ? 'item' : 'items') + '</div></div>';
+        }).join('');
+        els.summaryWrap.hidden = false;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No items found on these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' items (the totals and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'item', 'items') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'lost-and-found_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    TABS.forEach(function (t) { document.getElementById('lfTab' + cap(t)).addEventListener('click', function () { showTab(t); }); });
+    document.getElementById('lfClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, textarea, a[href]'), function (n) { return !n.disabled && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Lost and Found Register" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'lostandfoundregister') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
+<!-- Pest Control Register popup: same look and behaviour as the other register popups. -->
+<div id="pcModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="pcTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">pest_control</span></div>
+<h2 id="pcTitle">Pest Control Register</h2>
+<button type="button" class="tip-x" id="pcClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle" role="tablist" aria-label="Pest Control Register view">
+<button type="button" role="tab" id="pcTabRegister" aria-selected="true" aria-controls="pcPanelRegister">Register</button>
+<button type="button" role="tab" id="pcTabReport" aria-selected="false" aria-controls="pcPanelReport">Report</button>
+</div>
+
+<section id="pcPanelRegister" role="tabpanel" aria-labelledby="pcTabRegister">
+<form id="pcForm" novalidate>
+<div class="tip-grid free">
+<div class="tip-field" data-field="name"><label for="pcName">Name</label><input id="pcName" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="company"><label for="pcCompany">Company</label><input id="pcCompany" type="text" maxlength="100" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="date"><label for="pcDate">Date</label><input id="pcDate" type="date" required><p class="tip-hint">Today by default; can be set back up to 7 days.</p><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="inTime"><label for="pcIn">In Time</label><input id="pcIn" type="time" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="outTime"><label for="pcOut">Out Time</label><input id="pcOut" type="time" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="signedBy"><label for="pcSignedBy">Signed By</label><input id="pcSignedBy" type="text" readonly tabindex="-1"><p class="tip-hint">The logged-in user.</p></div>
+<div class="tip-field wide" data-field="photos">
+<label>Upload Photos (optional)</label>
+<div class="pc-file">
+<button type="button" class="tip-btn sm ghost" id="pcPick"><span class="material-symbols-outlined text-[16px]">add_a_photo</span>Add photos</button>
+<input id="pcFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple tabindex="-1">
+<span class="tip-hint" id="pcPhotoHint" style="margin:0"></span>
+</div>
+<div class="pc-thumbs" id="pcThumbs"></div>
+<p class="tip-err" hidden></p>
+</div>
+</div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="pcSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Visit</button>
+<span id="pcMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="pcPanelReport" role="tabpanel" aria-labelledby="pcTabReport" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="pcFrom">From</label><input id="pcFrom" type="date"></div>
+<div class="tip-field"><label for="pcTo">To</label><input id="pcTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="pcExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="pcReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div class="tip-table-wrap" id="pcTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th>Date</th><th>Name</th><th>Company</th><th>In</th><th>Out</th><th>Photos</th><th>Signed By</th></tr></thead><tbody id="pcRows"></tbody></table>
+</div>
+<div id="pcSummaryWrap" style="margin-top:18px" hidden>
+<p class="tip-sec">Visits by company</p>
+<div class="tip-table-wrap">
+<table class="tip-table sum"><thead><tr><th>Company</th><th style="text-align:right">Visits</th></tr></thead><tbody id="pcSummary"></tbody></table>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Pest Control Register popup. The rules (out time after in time, the 7-day
+  // back-dating window, up to 5 JPEG/PNG/WebP photos of at most 10 MB each) are
+  // enforced again by the server in pestcontrol/views.py, which also decides who
+  // signs the visit (the logged-in user); the checks here are for quick feedback.
+  (function () {
+    var modal = document.getElementById('pcModal');
+    var form = document.getElementById('pcForm');
+    var els = {
+      name: document.getElementById('pcName'), company: document.getElementById('pcCompany'),
+      date: document.getElementById('pcDate'), inTime: document.getElementById('pcIn'), outTime: document.getElementById('pcOut'),
+      signedBy: document.getElementById('pcSignedBy'), files: document.getElementById('pcFiles'),
+      thumbs: document.getElementById('pcThumbs'), photoHint: document.getElementById('pcPhotoHint'),
+      submit: document.getElementById('pcSubmit'), msg: document.getElementById('pcMsg'),
+      from: document.getElementById('pcFrom'), to: document.getElementById('pcTo'),
+      reportMsg: document.getElementById('pcReportMsg'), exportBtn: document.getElementById('pcExport'),
+      wrap: document.getElementById('pcTableWrap'), rows: document.getElementById('pcRows'),
+      summaryWrap: document.getElementById('pcSummaryWrap'), summary: document.getElementById('pcSummary')
+    };
+    var API = '/api/pest-control/';
+    var FIELDS = ['name', 'company', 'date', 'inTime', 'outTime', 'photos'];
+    var TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+    var config = null, opener = null, picked = [];
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+    function maxPhotos() { return config ? config.maxPhotos : 5; }
+    function maxMB() { return config ? config.maxPhotoMB : 10; }
+    var SIGNIN = 'Your session has ended. Please sign in again.';
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(name, text) {
+      var f = form.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err'); if (!p) return;
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { FIELDS.forEach(function (n) { setFieldError(n, ''); }); }
+
+    // ---- photo picking: the file input can't be edited, so keep our own list ----
+    function renderThumbs() {
+      els.thumbs.innerHTML = '';
+      picked.forEach(function (f, i) {
+        var box = document.createElement('div'); box.className = 'pc-thumb';
+        var img = document.createElement('img'); img.alt = ''; img.src = URL.createObjectURL(f);
+        img.onload = function () { URL.revokeObjectURL(img.src); };
+        var x = document.createElement('button'); x.type = 'button'; x.setAttribute('aria-label', 'Remove photo ' + (i + 1)); x.textContent = '×';
+        x.addEventListener('click', function () { picked.splice(i, 1); renderThumbs(); });
+        box.appendChild(img); box.appendChild(x); els.thumbs.appendChild(box);
+      });
+      els.photoHint.textContent = picked.length ? plural(picked.length, 'photo', 'photos') + ' selected' : 'Up to ' + maxPhotos() + ' photos, ' + maxMB() + ' MB each.';
+    }
+    document.getElementById('pcPick').addEventListener('click', function () { els.files.click(); });
+    els.files.addEventListener('change', function () {
+      setFieldError('photos', '');
+      var problem = '';
+      Array.prototype.forEach.call(els.files.files, function (f) {
+        if (TYPES.indexOf(f.type) === -1) { problem = 'Photos must be JPEG, PNG or WebP images.'; return; }
+        if (f.size > maxMB() * 1024 * 1024) { problem = 'Each photo must be under ' + maxMB() + ' MB.'; return; }
+        if (picked.length >= maxPhotos()) { problem = 'Attach at most ' + maxPhotos() + ' photos.'; return; }
+        picked.push(f);
+      });
+      els.files.value = '';
+      if (problem) setFieldError('photos', problem);
+      renderThumbs();
+    });
+
+    function resetForm() {
+      els.name.value = ''; els.company.value = ''; els.inTime.value = ''; els.outTime.value = '';
+      picked = []; renderThumbs();
+    }
+
+    function showTab(which) {
+      var reg = which === 'register';
+      document.getElementById('pcTabRegister').setAttribute('aria-selected', reg);
+      document.getElementById('pcTabReport').setAttribute('aria-selected', !reg);
+      document.getElementById('pcPanelRegister').hidden = !reg;
+      document.getElementById('pcPanelReport').hidden = reg;
+      if (!reg) loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+
+    function applyConfig(data) {
+      config = data;
+      els.date.min = data.minDate; els.date.max = data.today;
+      if (!els.date.value) els.date.value = data.today;
+      els.signedBy.value = data.signedBy;
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.today;
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+      renderThumbs();
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      renderThumbs();
+      apiGet(API).then(applyConfig).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : 'Could not load the register: ' + err.message);
+      });
+      els.name.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var v = { name: els.name.value.trim(), company: els.company.value.trim(), date: els.date.value, inTime: els.inTime.value, outTime: els.outTime.value };
+      var bad = false;
+      if (!v.name) { setFieldError('name', 'Enter the name.'); bad = true; }
+      if (!v.company) { setFieldError('company', 'Enter the company.'); bad = true; }
+      if (!v.date) { setFieldError('date', 'Choose a date.'); bad = true; }
+      else if (config && (v.date > config.today || v.date < config.minDate)) { setFieldError('date', 'Pick a date from the last 7 days, up to today.'); bad = true; }
+      if (!v.inTime) { setFieldError('inTime', 'Choose the in time.'); bad = true; }
+      if (!v.outTime) { setFieldError('outTime', 'Choose the out time.'); bad = true; }
+      else if (v.inTime && v.outTime <= v.inTime) { setFieldError('outTime', 'The out time must be after the in time.'); bad = true; }
+      if (bad) return;
+
+      var fd = new FormData();
+      Object.keys(v).forEach(function (k) { fd.append(k, v[k]); });
+      picked.forEach(function (f) { fd.append('photos', f); });
+
+      els.submit.disabled = true;
+      setMsg(els.msg, '', picked.length ? 'Uploading...' : 'Saving...');
+      // No Content-Type header: the browser adds the multipart boundary itself.
+      fetch(API, { method: 'POST', credentials: 'include', headers: { 'X-CSRFToken': csrf() }, body: fd }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (r) {
+        if (r.res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (r.res.status === 403) throw new Error('Please reload the page and try again.');
+        if (r.res.status === 413) throw new Error('The photos are too large to upload.');
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved: ' + r.data.company + ' visit, signed by ' + r.data.signedBy + (r.data.photos.length ? ' (' + plural(r.data.photos.length, 'photo', 'photos') + ').' : '.'));
+        resetForm();
+        els.name.focus();
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (x) {
+          var photos = x.photos.length
+            ? '<div class="pc-photos">' + x.photos.map(function (p) { return '<a href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer"><img src="' + esc(p.url) + '" alt="Photo" loading="lazy"></a>'; }).join('') + '</div>'
+            : '–';
+          return '<tr><td>' + esc(niceDate(x.date)) + '</td><td>' + esc(x.name) + '</td><td>' + esc(x.company) + '</td><td>' + esc(x.inTime) + '</td><td>' + esc(x.outTime) + '</td><td>' + photos + '</td><td>' + esc(x.signedBy) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        var s = data.summary;
+        els.summary.innerHTML = s.byCompany.map(function (c) { return '<tr><td>' + esc(c.company) + '</td><td class="num">' + c.count + '</td></tr>'; }).join('') +
+          '<tr class="tot"><td>Total visits</td><td class="num">' + s.visits + '</td></tr>';
+        els.summaryWrap.hidden = !s.byCompany.length;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No visits recorded for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' visits (the summary and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'visit', 'visits') + ', ' + plural(s.photos, 'photo', 'photos') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'pest-control_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    document.getElementById('pcTabRegister').addEventListener('click', function () { showTab('register'); });
+    document.getElementById('pcTabReport').addEventListener('click', function () { showTab('report'); });
+    document.getElementById('pcClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, textarea, a[href]'), function (n) { return !n.disabled && n.tabIndex !== -1 && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Pest Control Register" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'pestcontrolregister') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
+<!-- Shift Handover Register popup: cash handed over by denomination, recounted by the next person. -->
+<div id="shModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="shTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">handshake</span></div>
+<h2 id="shTitle">Shift Handover Register</h2>
+<button type="button" class="tip-x" id="shClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle three" role="tablist" aria-label="Shift Handover Register view">
+<button type="button" role="tab" id="shTabRegister" aria-selected="true" aria-controls="shPanelRegister">Register</button>
+<button type="button" role="tab" id="shTabRecount" aria-selected="false" aria-controls="shPanelRecount">Recount<span class="sh-tabdot" id="shDot" hidden></span></button>
+<button type="button" role="tab" id="shTabReport" aria-selected="false" aria-controls="shPanelReport">Report</button>
+</div>
+
+<section id="shPanelRegister" role="tabpanel" aria-labelledby="shTabRegister">
+<div class="sh-lock" id="shLock" hidden>
+<div class="t">New handover is locked</div>
+<p id="shLockText"></p>
+<button type="button" class="tip-btn sm" id="shGoRecount" style="margin-top:10px">Go to recount</button>
+</div>
+<form id="shForm" novalidate>
+<div id="shFormBody">
+<div class="sh-grid3">
+<div class="tip-field" data-field="date"><label for="shDate">Date</label><input id="shDate" type="date" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="shift"><label for="shShift">Shift</label><select id="shShift" required><option value="">Select...</option></select><p class="tip-err" hidden></p></div>
+<div class="tip-field"><label for="shBy">Handover By</label><input id="shBy" type="text" readonly tabindex="-1"></div>
+</div>
+<p class="tip-sec" style="margin-top:18px">Cash count by denomination</p>
+<table class="dn" id="shRegTable"><thead><tr><th>Denomination</th><th class="r">Count</th><th class="r">Amount</th></tr></thead><tbody></tbody></table>
+<div class="tip-field" data-field="counts" style="margin-top:4px"><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="remarks" style="margin-top:10px"><label for="shRemarks">Remarks (optional)</label><input id="shRemarks" type="text" maxlength="300" autocomplete="off" placeholder="Anything about the cash, for example a torn note set aside"><p class="tip-err" hidden></p></div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="shSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Handover</button>
+<span id="shMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</div>
+</form>
+</section>
+
+<section id="shPanelRecount" role="tabpanel" aria-labelledby="shTabRecount" hidden>
+<div id="shRecNone" class="sh-ok" hidden>Nothing is waiting for a recount. You can register a new handover.</div>
+<form id="shRecForm" novalidate hidden>
+<div class="lf-item" style="margin-bottom:14px"><div><div class="t" id="shRecTitle"></div><div class="m" id="shRecMeta"></div></div><div style="text-align:right"><div class="m">Handed over</div><div class="t" id="shRecTotal"></div></div></div>
+<p class="tip-sec">Your recount</p>
+<table class="dn" id="shRecTable"><thead><tr><th>Denomination</th><th class="r">Handed over</th><th class="r">Your count</th><th class="r">Difference</th></tr></thead><tbody></tbody></table>
+<div id="shVerdict" style="text-align:center;margin-top:12px;font-size:13px"></div>
+<div class="tip-field" data-field="remarks" style="margin-top:10px" id="shRecRemarkWrap" hidden><label for="shRecRemarks">Remark (needed for a difference)</label><input id="shRecRemarks" type="text" maxlength="300" autocomplete="off" placeholder="Explain the difference"><p class="tip-err" hidden></p></div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="shRecSubmit"><span class="material-symbols-outlined text-[18px]">fact_check</span>Confirm Recount</button>
+<span id="shRecMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="shPanelReport" role="tabpanel" aria-labelledby="shTabReport" hidden>
+<div class="tip-grid">
+<div class="tip-field"><label for="shFrom">From</label><input id="shFrom" type="date"></div>
+<div class="tip-field"><label for="shTo">To</label><input id="shTo" type="date"></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="shExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="shReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div id="shSummaryWrap" style="margin-top:14px" hidden><div id="shCards" class="tip-cards three"></div></div>
+<div class="tip-table-wrap" id="shTableWrap" hidden>
+<table class="tip-table"><thead><tr><th>Date</th><th>Shift</th><th>Handover By</th><th style="text-align:right">Amount</th><th>Recount</th></tr></thead><tbody id="shRows"></tbody></table>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Shift Handover Register popup. A shift counts its cash by denomination; the
+  // next person recounts it. Until that recount is confirmed the store can't
+  // register another handover. Everything is enforced again by the server in
+  // shifthandover/views.py, which also works out the totals, the store and who signs.
+  (function () {
+    var modal = document.getElementById('shModal');
+    var form = document.getElementById('shForm');
+    var recForm = document.getElementById('shRecForm');
+    var $ = function (id) { return document.getElementById(id); };
+    var els = {
+      date: $('shDate'), shift: $('shShift'), by: $('shBy'), remarks: $('shRemarks'), submit: $('shSubmit'), msg: $('shMsg'),
+      lock: $('shLock'), lockText: $('shLockText'), formBody: $('shFormBody'), dot: $('shDot'),
+      recNone: $('shRecNone'), recTitle: $('shRecTitle'), recMeta: $('shRecMeta'), recTotal: $('shRecTotal'), verdict: $('shVerdict'),
+      recRemarkWrap: $('shRecRemarkWrap'), recRemarks: $('shRecRemarks'), recSubmit: $('shRecSubmit'), recMsg: $('shRecMsg'),
+      from: $('shFrom'), to: $('shTo'), reportMsg: $('shReportMsg'), exportBtn: $('shExport'),
+      wrap: $('shTableWrap'), rows: $('shRows'), summaryWrap: $('shSummaryWrap'), cards: $('shCards')
+    };
+    var API = '/api/shift-handover/';
+    var TABS = ['register', 'recount', 'report'];
+    var SIGNIN = 'Your session has ended. Please sign in again.';
+    var config = null, pending = null, opener = null, built = false;
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function rupees(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+    function signed(n) { return n === 0 ? '–' : (n > 0 ? '+' : '−') + rupees(Math.abs(n)); }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(scope, name, text) {
+      var f = scope.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err'); if (!p) return;
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { ['date', 'shift', 'counts', 'remarks'].forEach(function (n) { setFieldError(form, n, ''); }); setFieldError(recForm, 'remarks', ''); }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+    function apiPost(url, body) {
+      return fetch(url, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() }, body: JSON.stringify(body) }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+          return { res: res, data: data };
+        });
+      });
+    }
+
+    // ---- the two count tables, built once from the server's list of denominations ----
+    function groupRow(tb, text, cols) { var r = document.createElement('tr'); r.className = 'sub'; r.innerHTML = '<td colspan="' + cols + '">' + text + '</td>'; tb.appendChild(r); }
+    function buildTables() {
+      var reg = $('shRegTable').tBodies[0], rec = $('shRecTable').tBodies[0];
+      reg.innerHTML = ''; rec.innerHTML = '';
+      ['note', 'coin'].forEach(function (kind) {
+        groupRow(reg, kind === 'note' ? 'Notes' : 'Coins', 3); groupRow(rec, kind === 'note' ? 'Notes' : 'Coins', 4);
+        config.denominations.filter(function (d) { return d.kind === kind; }).forEach(function (d) {
+          var a = document.createElement('tr'); a.dataset.key = d.key; a.dataset.value = d.value;
+          a.innerHTML = '<td>' + esc(d.label) + '</td><td class="r"><input type="number" min="0" max="9999" step="1" inputmode="numeric" placeholder="0" aria-label="' + esc(d.label) + ' count"></td><td class="r amt">' + rupees(0) + '</td>';
+          reg.appendChild(a);
+          var b = document.createElement('tr'); b.dataset.key = d.key; b.dataset.value = d.value;
+          b.innerHTML = '<td>' + esc(d.label) + '</td><td class="r had"></td><td class="r"><input type="number" min="0" max="9999" step="1" inputmode="numeric" placeholder="0" aria-label="' + esc(d.label) + ' recount"></td><td class="r diff"></td>';
+          rec.appendChild(b);
+        });
+      });
+      var t1 = document.createElement('tr'); t1.className = 'tot'; t1.innerHTML = '<td>Total cash</td><td class="r"></td><td class="r" id="shRegTotal">' + rupees(0) + '</td>'; reg.appendChild(t1);
+      var t2 = document.createElement('tr'); t2.className = 'tot'; t2.innerHTML = '<td>Total</td><td class="r" id="shRecHad"></td><td class="r" id="shRecCount"></td><td class="r" id="shRecDiff"></td>'; rec.appendChild(t2);
+      built = true;
+    }
+    function num(input) { var v = parseInt(input.value, 10); return isNaN(v) || v < 0 ? 0 : v; }
+    function readCounts(tableId) {
+      var out = {};
+      $(tableId).tBodies[0].querySelectorAll('tr[data-key]').forEach(function (r) { out[r.dataset.key] = num(r.querySelector('input')); });
+      return out;
+    }
+    function calcRegister() {
+      var total = 0;
+      $('shRegTable').tBodies[0].querySelectorAll('tr[data-key]').forEach(function (r) {
+        var amt = num(r.querySelector('input')) * Number(r.dataset.value); total += amt; r.querySelector('.amt').textContent = rupees(amt);
+      });
+      $('shRegTotal').textContent = rupees(total);
+      return total;
+    }
+    var recDiff = 0;
+    function calcRecount() {
+      if (!pending) return;
+      var had = 0, mine = 0;
+      $('shRecTable').tBodies[0].querySelectorAll('tr[data-key]').forEach(function (r) {
+        var v = Number(r.dataset.value), h = pending.counts[r.dataset.key] || 0, c = num(r.querySelector('input'));
+        had += h * v; mine += c * v;
+        var d = (c - h) * v, cell = r.querySelector('.diff');
+        cell.textContent = signed(d); cell.style.color = d === 0 ? '#a99b90' : '#9B1C1C';
+      });
+      recDiff = mine - had;
+      $('shRecHad').textContent = rupees(had); $('shRecCount').textContent = rupees(mine);
+      var dd = $('shRecDiff'); dd.textContent = signed(recDiff); dd.style.color = recDiff === 0 ? '#1E4620' : '#9B1C1C';
+      els.verdict.innerHTML = recDiff === 0 ? '<span class="sh-pill matched">Counts match</span>' : '<span class="sh-pill difference">Difference of ' + signed(recDiff) + '</span>';
+      els.recRemarkWrap.hidden = recDiff === 0;
+    }
+    $('shRegTable').addEventListener('input', calcRegister);
+    $('shRecTable').addEventListener('input', calcRecount);
+
+    // ---- state: what's waiting for a recount decides what each tab shows ----
+    function sync() {
+      var locked = !!pending;
+      els.lock.hidden = !locked; els.formBody.classList.toggle('sh-dis', locked); els.dot.hidden = !locked;
+      if (locked) {
+        els.lockText.textContent = 'The previous handover (' + pending.shiftLabel + ', ' + niceDate(pending.date) + ', ' + rupees(pending.total) + ' by ' + pending.signedBy + ") hasn't been recounted yet. Recount it first, then you can register a new one.";
+      }
+      els.submit.disabled = locked || !config;
+      els.recNone.hidden = locked; recForm.hidden = !locked;
+      if (locked) {
+        els.recTitle.textContent = pending.shiftLabel + ' shift, ' + niceDate(pending.date);
+        els.recMeta.textContent = 'Handover by ' + pending.signedBy;
+        els.recTotal.textContent = rupees(pending.total);
+        $('shRecTable').tBodies[0].querySelectorAll('tr[data-key]').forEach(function (r) {
+          r.querySelector('.had').textContent = pending.counts[r.dataset.key] || 0;
+        });
+        calcRecount();
+      }
+    }
+
+    function applyConfig(data, firstTime) {
+      config = data; pending = data.pending;
+      if (!built) buildTables();
+      if (firstTime || !els.shift.options.length || els.shift.options.length < 2) {
+        els.shift.innerHTML = '<option value="">Select...</option>' + data.shifts.map(function (s) { return '<option value="' + esc(s.value) + '">' + esc(s.label) + '</option>'; }).join('');
+      }
+      els.date.min = data.minDate; els.date.max = data.today;
+      if (!els.date.value) els.date.value = data.today;
+      els.by.value = data.signedBy;
+      els.from.max = els.to.max = data.today;
+      if (firstTime) { els.from.value = data.from; els.to.value = data.to; }
+      sync();
+    }
+    function refresh(firstTime) {
+      return apiGet(API).then(function (d) { applyConfig(d, firstTime); }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : err.message);
+      });
+    }
+
+    function showTab(which) {
+      TABS.forEach(function (t) {
+        $('shTab' + cap(t)).setAttribute('aria-selected', t === which);
+        $('shPanel' + cap(t)).hidden = t !== which;
+      });
+      if (which === 'report') loadReport();
+      else if (config) refresh(false);
+    }
+
+    function open(from) {
+      opener = from || null; config = null; pending = null; built = false;
+      modal.hidden = false; document.body.style.overflow = 'hidden';
+      clearErrors(); setMsg(els.msg, '', ''); setMsg(els.recMsg, '', '');
+      els.submit.disabled = true; els.lock.hidden = true; els.formBody.classList.remove('sh-dis');
+      showTab('register');
+      refresh(true);
+      els.shift.focus();
+    }
+    function close() { modal.hidden = true; document.body.style.overflow = ''; if (opener) opener.focus(); }
+
+    // ---- Register ----
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var counts = readCounts('shRegTable');
+      var body = { date: els.date.value, shift: els.shift.value, remarks: els.remarks.value.trim() };
+      Object.keys(counts).forEach(function (k) { body[k] = counts[k]; });
+      var bad = false;
+      if (!body.date) { setFieldError(form, 'date', 'Choose a date.'); bad = true; }
+      else if (config && (body.date > config.today || body.date < config.minDate)) { setFieldError(form, 'date', 'Pick a date from the last 7 days, up to today.'); bad = true; }
+      if (!body.shift) { setFieldError(form, 'shift', 'Choose the shift.'); bad = true; }
+      if (calcRegister() <= 0) { setFieldError(form, 'counts', 'Enter the cash count for at least one denomination.'); bad = true; }
+      if (bad) return;
+
+      els.submit.disabled = true;
+      apiPost(API, body).then(function (r) {
+        if (r.res.status === 409 && r.data.locked) { pending = r.data.pending; sync(); setMsg(els.msg, 'bad', r.data.error); return; }
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(form, /^[nc]\d+$/.test(k) ? 'counts' : k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (r.res.status === 403) throw new Error(r.data.error || 'Not allowed.');
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        pending = r.data;
+        $('shRegTable').tBodies[0].querySelectorAll('input').forEach(function (i) { i.value = ''; });
+        els.remarks.value = ''; calcRegister(); sync();
+        setMsg(els.msg, 'ok', 'Saved ' + rupees(r.data.total) + '. The next person recounts it under Recount before another handover can be registered.');
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = !!pending || !config; });
+    });
+    $('shGoRecount').addEventListener('click', function () { showTab('recount'); });
+
+    // ---- Recount ----
+    recForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!pending) return;
+      clearErrors(); setMsg(els.recMsg, '', '');
+      calcRecount();
+      var body = readCounts('shRecTable'); body.remarks = els.recRemarks.value.trim();
+      if (recDiff !== 0 && !body.remarks) { setFieldError(recForm, 'remarks', 'Add a remark to explain the difference.'); return; }
+
+      els.recSubmit.disabled = true;
+      apiPost(API + pending.id + '/recount/', body).then(function (r) {
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(recForm, /^[nc]\d+$/.test(k) ? 'counts' : k, r.data.fields[k]); });
+          setMsg(els.recMsg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (r.res.status === 409 || r.res.status === 404 || r.res.status === 403) {
+          setMsg(els.recMsg, 'bad', r.data.error || 'Could not save.');
+          if (r.res.status !== 403) refresh(false);
+          return;
+        }
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        var diff = r.data.recount.difference;
+        pending = null;
+        $('shRecTable').tBodies[0].querySelectorAll('input').forEach(function (i) { i.value = ''; });
+        els.recRemarks.value = ''; sync();
+        showTab('register');
+        setMsg(els.msg, 'ok', diff ? 'Recount saved with a difference of ' + signed(diff) + '. You can register the next handover.' : 'Recount matched. You can register the next handover.');
+      }).catch(function (err) {
+        setMsg(els.recMsg, 'bad', err.signin ? SIGNIN : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.recSubmit.disabled = false; });
+    });
+
+    // ---- Report ----
+    function rangeUrl(base) {
+      return els.from.value && els.to.value ? base + '?from=' + encodeURIComponent(els.from.value) + '&to=' + encodeURIComponent(els.to.value) : base;
+    }
+    function statusPill(h) {
+      if (h.status === 'pending') return '<span class="sh-pill pending">Pending</span>';
+      if (h.status === 'matched') return '<span class="sh-pill matched">' + (h.recount.overridden ? 'Cleared by admin' : 'Matched') + '</span>';
+      return '<span class="sh-pill difference">Diff ' + esc(signed(h.recount.difference)) + '</span>';
+    }
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data, true); else { pending = data.pending; sync(); }
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+        els.rows.innerHTML = data.entries.map(function (h) {
+          return '<tr><td>' + esc(niceDate(h.date)) + '</td><td>' + esc(h.shiftLabel) + '</td><td>' + esc(h.signedBy) + '</td><td class="num">' + esc(rupees(h.total)) + '</td><td>' + statusPill(h) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+        var s = data.summary;
+        var CARDS = [['Handovers', String(s.handovers), 'handshake'], ['Total handed over', rupees(s.totalAmount), 'payments'], ['With a difference', String(s.withDifference), 'balance']];
+        els.cards.innerHTML = CARDS.map(function (c) {
+          return '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">' + c[2] + '</span></div><div class="lbl">' + c[0] + '</div><div class="amt">' + esc(c[1]) + '</div></div>';
+        }).join('');
+        els.summaryWrap.hidden = false;
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No handovers for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' handovers (the totals and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'handover', 'handovers') + (s.pending ? ', ' + s.pending + ' waiting for a recount.' : '.'));
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'shift-handover_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    TABS.forEach(function (t) { $('shTab' + cap(t)).addEventListener('click', function () { showTab(t); }); });
+    $('shClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, textarea, a[href]'), function (n) { return !n.disabled && n.tabIndex !== -1 && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Shift Handover Register" card opens this popup rather than its external link.
+    $('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'shifthandoverregister') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
+<script>
+  // Every register is tied to the store on the signed-in user's profile: show
+  // which one under each popup's title.
+  (function () {
+    fetch('/api/my-store/', { credentials: 'include' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (!d) return;
+      document.querySelectorAll('.tip-dialog .tip-head').forEach(function (head) {
+        var p = document.createElement('p');
+        p.className = 'tip-store' + (d.store ? '' : ' none');
+        p.textContent = d.store ? 'Store: ' + d.store.label : 'No store is assigned to your profile';
+        head.insertAdjacentElement('afterend', p);
+      });
+    }).catch(function () {});
   })();
 </script>
 
