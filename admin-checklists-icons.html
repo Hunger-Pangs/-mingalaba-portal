@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en-us" dir="ltr">
+<head><script src="demo.js"></script>
+<title>Select checklist icon to change | Mingalaba Admin</title>
+<link rel="stylesheet" href="static/portal/admin/css/base.css">
+<link rel="stylesheet" href="static/portal/admin/css/dark_mode.css">
+<script src="static/portal/admin/js/theme.js"></script>
+<link rel="stylesheet" href="static/portal/admin/css/nav_sidebar.css">
+<script src="static/portal/admin/js/nav_sidebar.js" defer></script>
+<link rel="stylesheet" href="static/portal/admin/css/changelists.css">
+<style>
+/* Rules list: the card's name once, its rules stacked beside it. */
+#result_list th.cardcell{vertical-align:top;border-right:1px solid #E6DCCD;background:#FFFCF6;padding-top:10px;min-width:240px}
+#result_list .cardname{display:block;font-weight:700;color:#5b1614;font-size:14px}
+#result_list .cardsub{display:block;margin-top:2px;font-size:12px;font-weight:400;color:#7a6a60}
+#result_list .cardcount{display:block;margin-top:3px;font-size:11px;font-weight:500;color:#8c7b75}
+#result_list tr.grp-start td,#result_list tr.grp-start th{border-top:2px solid #D9CBB6}
+#result_list td a{color:#78350F;text-decoration:none;font-weight:600}
+#result_list td a:hover{text-decoration:underline}
+</style>
+
+<style>#result_list a.stacked{color:#78350F;font-weight:600;text-decoration:none}#result_list a.stacked:hover{text-decoration:underline}</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="static/portal/admin/css/mingalaba-admin.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="static/portal/admin/css/responsive.css">
+<meta name="robots" content="NONE,NOARCHIVE">
+<style>
+  /* Small portal additions on top of the admin look. */
+  .quiet-note { color: var(--body-quiet-color); font-size: 0.8125rem; margin: 0 0 10px; }
+  .inline-form { display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+  .inline-form input[type=text] { width: 15em; }
+  #changelist table td form { margin: 0; }
+  #toolbar input[type=date] { margin-left: 6px; }
+  .errorlist.inline { margin: 4px 0 0; padding: 0; }
+  .results { overflow-x: auto; }              /* wide tables scroll sideways */
+  #changelist table td, #changelist table th { white-space: nowrap; }
+</style>
+</head>
+
+<body class="change-list">
+<a href="#content-start" class="skip-to-content-link">Skip to main content</a>
+<div id="container">
+
+  <!-- Header: the designer's branding (verified_user icon + Mingalaba Admin) -->
+  <header id="header">
+    <div id="branding">
+      <div id="site-name"><a href="admin.html">
+      Mingalaba Admin
+      </a></div>
+    </div>
+    <div id="user-tools" class="admin-user">
+      <span class="admin-avatar" aria-hidden="true">DA</span>
+      <strong class="admin-name">Demo</strong>
+    </div>
+  </header>
+
+  
+  <nav aria-label="Breadcrumbs">
+    <div class="breadcrumbs">
+      <a href="admin.html">Home</a>
+       &rsaquo; Checklists &rsaquo; Checklist icons
+    </div>
+  </nav>
+  
+
+  <div class="main" id="main">
+    
+    <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+    <nav class="sticky" id="nav-sidebar" aria-label="Sidebar">
+      <input type="search" id="nav-filter" placeholder="Start typing to filter…" aria-label="Filter navigation items">
+      
+
+
+  
+    <div class="app-super admins module">
+      <table>
+        <caption><span class="section">Super admins</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-super-admins">
+            <th scope="row" id="super admins-super-admins"><a href="admin-super-admins.html">Super admins (who can open Admin)</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-announcements module">
+      <table>
+        <caption><span class="section">Announcements</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-announcement-access">
+            <th scope="row" id="announcements-announcement-access"><a href="admin-announcements-access.html">Who can manage announcements</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-checklists module current-app">
+      <table>
+        <caption><span class="section">Checklists</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-checklist-icons current-model">
+            <th scope="row" id="checklists-checklist-icons"><a href="admin-checklists-icons.html" aria-current="page">Checklist icons</a></th>
+            <td><a href="admin-checklists-icons-add.html" class="addlink" aria-describedby="checklists-checklist-icons">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-departments">
+            <th scope="row" id="checklists-departments"><a href="admin-checklists-departments.html">Departments</a></th>
+            <td><a href="admin-checklists-departments-add.html" class="addlink" aria-describedby="checklists-departments">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-designations">
+            <th scope="row" id="checklists-designations"><a href="admin-checklists-designations.html">Designations</a></th>
+            <td><a href="admin-checklists-designations-add.html" class="addlink" aria-describedby="checklists-designations">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-employees">
+            <th scope="row" id="checklists-employees"><a href="admin-employees.html">Employees</a></th>
+            <td></td>
+            
+          </tr>
+        
+          <tr class="model-icon-grants">
+            <th scope="row" id="checklists-icon-grants"><a href="admin-checklists-grants.html">Icon access grants</a></th>
+            <td><a href="admin-checklists-grants-add.html" class="addlink" aria-describedby="checklists-icon-grants">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-stores">
+            <th scope="row" id="checklists-stores"><a href="admin-stores.html">Stores</a></th>
+            <td><a href="admin-stores-add.html" class="addlink" aria-describedby="checklists-stores">Add</a></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-jobs module">
+      <table>
+        <caption><span class="section">Jobs</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-job-access">
+            <th scope="row" id="jobs-job-access"><a href="admin-jobs-access.html">Who can manage job postings</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-portal usage module">
+      <table>
+        <caption><span class="section">Portal usage</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-usage">
+            <th scope="row" id="portal usage-usage"><a href="admin-usage.html">Sign-in activity</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+
+
+    </nav>
+    
+    <main id="content-start" class="content" tabindex="-1">
+      
+      <div id="content" class="">
+        <a href="admin.html" class="back-tab" id="back-tab" title="Go back to the previous page"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>Back</a><h1>Select checklist icon to change</h1>
+        
+<div id="content-main">
+  
+  <ul class="object-tools"><li><a href="admin-checklists-dashboard-tiles.html">Add the Dashboard tiles</a></li><li><a href="admin-checklists-icons-add.html">Add checklist icon</a></li></ul>
+  
+  <div class="module" id="changelist">
+    <div class="changelist-form-container">
+      
+      <div id="toolbar"><form id="changelist-search" method="get" role="search">
+        <div>
+          <label for="searchbar"><img src="static/portal/admin/img/search.svg" alt="Search"></label>
+          <input type="text" size="40" name="q" value="" id="searchbar" maxlength="100" aria-describedby="searchbar_helptext">
+          
+          <input type="submit" value="Search">
+          
+        </div>
+        <br class="clear">
+        <div class="help" id="searchbar_helptext">Search by card name, address or page.</div>
+      </form></div>
+      
+      
+
+
+
+
+<div class="filterbar" role="group" aria-label="Filters">
+  <span class="fb-label">Filter by</span>
+  
+  <label class="fb-item"><span>By page</span>
+    <select class="filter-select" aria-label="By page">
+      <option value="admin-checklists-icons.html" selected>All</option><option value="admin-checklists-icons.html?page=dashboard">Dashboard</option><option value="admin-checklists-icons.html?page=registers">Log Book</option><option value="admin-checklists-icons.html?page=checklists">Quick Links</option>
+    </select>
+  </label>
+  
+  <label class="fb-item"><span>By department</span>
+    <select class="filter-select" aria-label="By department">
+      <option value="admin-checklists-icons.html" selected>All</option><option value="admin-checklists-icons.html?department=28">Human Resource</option><option value="admin-checklists-icons.html?department=13">Legal</option><option value="admin-checklists-icons.html?department=1">Store</option>
+    </select>
+  </label>
+  
+  <label class="fb-item"><span>By active</span>
+    <select class="filter-select" aria-label="By active">
+      <option value="admin-checklists-icons.html" selected>All</option><option value="admin-checklists-icons.html?active=1">Yes</option><option value="admin-checklists-icons.html?active=0">No</option>
+    </select>
+  </label>
+  
+</div>
+<script src="static/portal/admin/js/filter-select.js"></script>
+
+
+
+      
+      
+      <div class="results">
+        <table id="result_list">
+          <thead><tr>
+            
+            <th scope="col"><div class="text"><span>Page / tab</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Name</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Home department</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Icon</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Active</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Order</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Default audience</span></div><div class="clear"></div></th>
+          </tr></thead>
+          <tbody>
+          
+          
+            
+            <tr class="grp-start"><th rowspan="6" class="cardcell"><span class="cardname">Dashboard</span><span class="cardsub">tiles on the home page</span><span class="cardcount">6 icons</span></th><td><a href="admin-checklists-dashboard-tiles.html">Knowledge Center tile</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">policy</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">No card yet - the tile shows to everyone. Click to create it.</a></td></tr>
+          
+            
+            <tr><td><a href="admin-checklists-dashboard-tiles.html">Job Openings tile</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">badge</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">No card yet - the tile shows to everyone. Click to create it.</a></td></tr>
+          
+            
+            <tr><td><a href="admin-checklists-dashboard-tiles.html">Announcements tile</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">campaign</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">No card yet - the tile shows to everyone. Click to create it.</a></td></tr>
+          
+            
+            <tr><td><a href="admin-checklists-dashboard-tiles.html">Sales tile</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">monitoring</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">No card yet - the tile shows to everyone. Click to create it.</a></td></tr>
+          
+            
+            <tr><td><a href="admin-checklists-dashboard-tiles.html">Quick Links tile</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">link</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">No card yet - the tile shows to everyone. Click to create it.</a></td></tr>
+          
+            
+            <tr><td><a href="admin-checklists-dashboard-tiles.html">Log Book tile</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">checklist</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">-</a></td><td><a href="admin-checklists-dashboard-tiles.html">No card yet - the tile shows to everyone. Click to create it.</a></td></tr>
+          
+            
+            <tr class="grp-start"><th rowspan="2" class="cardcell"><span class="cardname">Log Book</span><span class="cardsub">Registers (built - open a register)</span><span class="cardcount">2 icons</span></th><td><a href="javascript:void(0)" data-demo-off="1">Tips Register</a></td><td><a href="javascript:void(0)" data-demo-off="1">Store</a></td><td><a href="javascript:void(0)" data-demo-off="1">savings</a></td><td><a href="javascript:void(0)" data-demo-off="1">Yes</a></td><td><a href="javascript:void(0)" data-demo-off="1">3</a></td><td><a href="javascript:void(0)" data-demo-off="1"><span title="Human Resource, Store" class="audience">2 departments</span></a></td></tr>
+          
+            
+            <tr><td><a href="javascript:void(0)" data-demo-off="1">Spoilage Register</a></td><td><a href="javascript:void(0)" data-demo-off="1">Store</a></td><td><a href="javascript:void(0)" data-demo-off="1">compost</a></td><td><a href="javascript:void(0)" data-demo-off="1">Yes</a></td><td><a href="javascript:void(0)" data-demo-off="1">6</a></td><td><a href="javascript:void(0)" data-demo-off="1">-</a></td></tr>
+          
+            
+            <tr class="grp-start"><th rowspan="4" class="cardcell"><span class="cardname">Quick Links</span><span class="cardsub">Checklists (not built yet - Coming soon)</span><span class="cardcount">4 icons</span></th><td><a href="javascript:void(0)" data-demo-off="1">New Employee Onboarding Checklist</a></td><td><a href="javascript:void(0)" data-demo-off="1">Human Resource</a></td><td><a href="javascript:void(0)" data-demo-off="1">person_add</a></td><td><a href="javascript:void(0)" data-demo-off="1">Yes</a></td><td><a href="javascript:void(0)" data-demo-off="1">1</a></td><td><a href="javascript:void(0)" data-demo-off="1">-</a></td></tr>
+          
+            
+            <tr><td><a href="javascript:void(0)" data-demo-off="1">PMS</a></td><td><a href="javascript:void(0)" data-demo-off="1">Human Resource</a></td><td><a href="javascript:void(0)" data-demo-off="1">insights</a></td><td><a href="javascript:void(0)" data-demo-off="1">No</a></td><td><a href="javascript:void(0)" data-demo-off="1">5</a></td><td><a href="javascript:void(0)" data-demo-off="1">-</a></td></tr>
+          
+            
+            <tr><td><a href="javascript:void(0)" data-demo-off="1">License Tracker</a></td><td><a href="javascript:void(0)" data-demo-off="1">Legal</a></td><td><a href="javascript:void(0)" data-demo-off="1">verified</a></td><td><a href="javascript:void(0)" data-demo-off="1">Yes</a></td><td><a href="javascript:void(0)" data-demo-off="1">3</a></td><td><a href="javascript:void(0)" data-demo-off="1"><span title="Legal" class="audience">1 department</span></a></td></tr>
+          
+            
+            <tr><td><a href="javascript:void(0)" data-demo-off="1">Daily Store Opening Checklist</a></td><td><a href="javascript:void(0)" data-demo-off="1">Store</a></td><td><a href="javascript:void(0)" data-demo-off="1">wb_sunny</a></td><td><a href="javascript:void(0)" data-demo-off="1">Yes</a></td><td><a href="javascript:void(0)" data-demo-off="1">1</a></td><td><a href="javascript:void(0)" data-demo-off="1">-</a></td></tr>
+          
+          
+          </tbody>
+        </table>
+      </div>
+      
+      <p class="paginator">12 icons on 3 pages</p>
+      
+    </div>
+  </div>
+</div>
+
+
+        
+        <br class="clear">
+      </div>
+    </main>
+  </div>
+  <footer id="footer"></footer>
+</div>
+
+<!-- The three theme icons (from Django's admin) -->
+<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
+</svg>
+<script src="static/portal/admin/js/back-tab.js" defer></script>
+
+</body>
+</html>

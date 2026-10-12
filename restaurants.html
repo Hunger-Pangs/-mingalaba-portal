@@ -1,0 +1,1660 @@
+<!-- Restaurant Details - 23 Stores Directory -->
+<!DOCTYPE html><html lang="en" style=""><head><script src="demo.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Details - All 23 Stores Directory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              maroon: '#5b1614',
+              terracotta: '#c2410c',
+              terracottaLight: '#ffedd5',
+              terracottaHover: '#9a3412',
+              cream: '#fff8f6',
+              border: '#f3d9d3',
+              cardBg: '#ffffff',
+            },
+            /* Shared header color tokens (kept in sync with the master header) */
+            primary: '#5b1614',
+            secondary: '#a73923',
+            'on-surface': '#231917',
+            'on-surface-variant': '#635654',
+            'accent-brass': '#C89C5D',
+            'surface-sand': '#EDE6D8'
+          },
+          fontFamily: {
+            serif: ['"Noto Serif"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          spacing: {
+            'space-xl': '1.5rem',
+            'space-lg': '1.25rem',
+            'space-md': '0.75rem',
+            'space-sm': '0.5rem',
+            'space-xs': '0.25rem'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fdfaf8;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #27272a;
+    }
+    .serif-title {
+      font-family: 'Noto Serif', serif;
+    }
+    /* Same as the other pages: no classic page scrollbar, so content lines up identically. */
+    html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #fed7aa;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    /* Entrance animation on page load -- kept identical across dashboard.html,
+       company-info-directory.html and restaurant-details-directory.html so
+       arriving at any of them feels the same. */
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #pageContent {
+      animation: pageFadeIn 0.5s ease-out both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #pageContent { animation: none; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#ffedd5] selection:text-[#c2410c]">
+
+  <!-- Top Persistent Header -->
+  
+<!-- HEADER:START -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
+<a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
+<div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
+<img alt="Hunger Pangs logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5GOZQaK_TCXSKbXTgtW9aPzlSzsnM1lORZDAiMGuYPmWbyQ28JyhJzxGnYB4o-pfwZOlSOLAV68U6iowJymYA8DYer_AbFYhrKw9HxkY29IvYMa-vyc7JIOzBbvfbREg4C6mQscLWp4ggRyFKJOveZ1FVazEQ0pZPk3Yqs4WXxcWKv4V_L7hX6vUHih6QXa6Px7uwdOwcPRxIboLsSGLYvWuG5XxY8ItqzAZHWmJOuCXCGrxBbyfYYFLJQCwiNqczeQ">
+</div>
+<div class="h-6 w-[1px] bg-[#E8DFD3] hidden sm:block"></div>
+<div class="hidden sm:flex flex-col">
+<span class="font-serif text-[17px] font-semibold text-[#5b1614] tracking-tight leading-tight">Mingalaba</span>
+</div>
+</a>
+<!-- Search Bar -->
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-[0.75rem] text-[#8c7b75] text-[20px]">search</span>
+<input id="siteSearch" class="w-full pl-10 pr-[0.75rem] py-2 rounded-full bg-[#F7F4EE] border border-[#E8DFD3] text-[#231917] placeholder:text-[#8c7b75] text-[13px] font-sans focus:outline-none focus:ring-2 focus:ring-[#5b1614]/20 focus:border-[#5b1614]/40 transition-all" placeholder="Search documents, people, tasks... / Cmd+K" type="text">
+</div>
+</div>
+<!-- Action Icons & Profile -->
+<div class="flex items-center gap-[0.75rem]">
+<!-- Admin icon: only shown to Super admins (Admin > Super admins). The Admin page checks again itself. -->
+<a id="adminLink" href="admin.html" target="_blank" rel="noopener" onclick="var w = window.open(this.href, 'mingalabaAdmin'); if (w) { w.focus(); return false; }" aria-label="Admin" title="Admin" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors">
+<span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+</a>
+<!-- Notifications: new announcements / job openings for THIS person (portal/notifications.py). -->
+<div class="relative" id="notifWrap">
+<button id="notifBtn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span id="notifBadge" class="nf-badge" hidden>0</span>
+</button>
+<div id="notifPanel" class="nf-panel" hidden role="dialog" aria-label="Notifications">
+<div class="nf-head"><b>Notifications</b><button type="button" id="notifAllRead" class="nf-allread">Mark all as read</button></div>
+<div id="notifList" class="nf-list"></div>
+<div class="nf-foot" id="notifFoot" hidden></div>
+</div>
+</div>
+<style>
+  .nf-badge { position: absolute; top: 2px; right: 0; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+              background: #a73923; color: #fff; font: 700 11px/18px "Plus Jakarta Sans", sans-serif; text-align: center;
+              box-shadow: 0 0 0 2px #fff; }
+  .nf-badge[hidden], .nf-panel[hidden], .nf-foot[hidden] { display: none; }
+  .nf-panel { position: absolute; right: -8px; top: calc(100% + 10px); width: 400px; max-width: calc(100vw - 1.5rem);
+              background: #fff; border: 1px solid #E8DFD3; border-radius: 18px; box-shadow: 0 14px 40px rgba(62,1,4,.18);
+              overflow: hidden; z-index: 60; text-align: left; }
+  .nf-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 10px; border-bottom: 1px solid #F0E8DA; }
+  .nf-head b { font: 700 16px "Noto Serif", serif; color: #5b1614; }
+  .nf-allread { font: 700 12.5px "Plus Jakarta Sans", sans-serif; color: #a73923; background: none; border: 0; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+  .nf-allread:hover { background: #faebe5; } .nf-allread:disabled { color: #c9bdb6; cursor: default; background: none; }
+  .nf-list { max-height: 420px; overflow-y: auto; }
+  .nf-item { display: flex; gap: 12px; padding: 12px 34px 12px 18px; border-bottom: 1px solid #F5EFE6; position: relative;
+             background: #FFF9F3; text-decoration: none; color: inherit; transition: background-color .12s; }
+  .nf-item:hover, .nf-item:focus-visible { background: #FBEFE4; outline: none; }
+  .nf-item::after { content: ""; position: absolute; right: 16px; top: 18px; width: 9px; height: 9px; border-radius: 50%; background: #a73923; }
+  .nf-ic { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .nf-ic .material-symbols-outlined { font-size: 19px; }
+  .nf-ann { background: #5B2C6F; } .nf-job { background: #B45309; }
+  .nf-title { font: 700 13px/1.3 "Plus Jakarta Sans", sans-serif; color: #231917; }
+  .nf-sum { font: 400 12px/1.35 "Plus Jakarta Sans", sans-serif; color: #635654; margin-top: 2px; }
+  .nf-meta { font: 400 11px "Plus Jakarta Sans", sans-serif; color: #8c7b75; margin-top: 4px; display: flex; gap: 6px; align-items: center; }
+  .nf-tag { font: 800 10px "Plus Jakarta Sans", sans-serif; letter-spacing: .4px; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; }
+  .nf-imp { background: #FDECEC; color: #B91C1C; } .nf-urg { background: #FFF1DC; color: #B45309; }
+  .nf-empty { padding: 30px 18px; text-align: center; font: 400 13px/1.45 "Plus Jakarta Sans", sans-serif; color: #635654; }
+  .nf-empty b { display: block; color: #231917; margin: 6px 0 2px; }
+  .nf-empty .material-symbols-outlined { font-size: 38px; color: #3F8F2F; }
+  .nf-foot { padding: 10px 18px; text-align: center; font: 700 12px "Plus Jakarta Sans", sans-serif; color: #5b1614; background: #FCFAF6; }
+  .nf-foot a { color: #5b1614; } .nf-foot a:hover { text-decoration: underline; }
+</style>
+<div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
+<div class="relative">
+<button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
+<span class="w-8 h-8 shrink-0 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm bg-[#5b1614] text-white flex items-center justify-center font-sans text-[12px] font-semibold leading-none select-none" aria-hidden="true">DA</span>
+<!-- Closed: the employee's first name (from tblEmployeeMaster; the Employee ID if the name is empty). The menu shows code, full name and designation. -->
+<span class="hidden sm:block pl-2 font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Demo</span>
+<span class="material-symbols-outlined hidden sm:block text-[16px] text-[#8c7b75]">expand_more</span>
+</button>
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-72 max-w-[calc(100vw-1.5rem)] bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div class="px-4 py-2.5 border-b border-[#E8DFD3]">
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-snug break-words">D001 - Demo Admin</p>
+<p class="font-sans text-[12px] text-[#635654] leading-snug mt-0.5 break-words">Data and Automation Specialist</p>
+</div>
+<a href="dashboard.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Log Out
+</a>
+</div>
+</div>
+</div>
+</header>
+<script>
+  (function () {
+    var btn = document.getElementById('profileMenuBtn');
+    var menu = document.getElementById('profileMenu');
+    if (!btn || !menu) return;
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  function getCookie(name) {
+    var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    // Django's CSRF protection requires this header on state-changing
+    // requests; the csrftoken cookie is deliberately readable by JS (unlike
+    // the HttpOnly session cookie) so it can be echoed back this way.
+    fetch('/api/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
+    })
+      .catch(function () {})
+      .then(function () {
+        window.location.href = 'dashboard.html';
+      });
+  }
+</script>
+<script>
+  // Page addresses for the header search (site-search.js) and the sample-data scripts.
+  window.PORTAL_URLS = {
+    dashboard: "dashboard.html",
+    knowledgeCenter: "knowledge-center.html",
+    sopPolicies: "sop-policies.html",
+    forms: "forms.html",
+    companyForms: "/company-forms/",
+    logBook: "log-book.html",
+    music: "music.html",
+    jobApplication: "jobs-apply.html",
+    menuGuide: "#",
+    compliance: "compliance.html",
+    hrCompliance: "#",
+    orgChart: "#",
+    sales: "sales.html",
+    quickLinks: "quick-links.html",
+    spine: "https://hungerpangs.spinehrms.in/",
+    posist: "https://hungerpangs.restroworks.biz/login",
+    announcements: "announcements.html",
+    manageAnnouncements: "announcements-manage.html",
+    jobs: "jobs.html",
+    manageJobs: "jobs-manage.html",
+    restaurants: "restaurants.html",
+    login: "dashboard.html",
+    searchIndex: "/api/search/index/",
+    annJs: "static/portal/js/announcements-data.js",
+    jobsJs: "static/portal/js/jobs-data.js"
+  };
+</script>
+<script src="static/portal/js/site-search.js" defer></script>
+<script>
+  // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
+  (function () {
+    var URL_ = "/api/notifications/";
+    var btn = document.getElementById('notifBtn'), panel = document.getElementById('notifPanel');
+    var badge = document.getElementById('notifBadge'), list = document.getElementById('notifList');
+    var allRead = document.getElementById('notifAllRead');
+    if (!btn || !panel) return;
+    var items = [];
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+    function when(iso) {
+      var d = new Date(iso + 'T00:00:00'), t = new Date(); t.setHours(0, 0, 0, 0);
+      var days = Math.round((t - d) / 86400000);
+      if (days <= 0) return 'Today';
+      if (days === 1) return 'Yesterday';
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+    // "View all ..." only for the pages this person may open.
+    var PAGES = { announcements: ['announcements.html', 'View all announcements'],
+                  jobs: ['jobs.html', 'View all job openings'] };
+    function drawFoot(can) {
+      var foot = document.getElementById('notifFoot');
+      var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
+        return '<a href="' + PAGES[k][0] + '">' + PAGES[k][1] + '</a>';
+      });
+      foot.innerHTML = links.join(' &middot; ');
+      foot.hidden = !links.length;
+    }
+    function draw(data) {
+      drawFoot(data && data.can);
+      items = (data && data.items) || [];
+      var n = items.length;
+      badge.textContent = n > 9 ? '9+' : String(n);
+      badge.hidden = n === 0;
+      btn.setAttribute('aria-label', n ? 'Notifications, ' + n + ' unread' : 'Notifications');
+      allRead.disabled = n === 0;
+      if (!n) {
+        list.innerHTML = '<div class="nf-empty"><span class="material-symbols-outlined">task_alt</span><b>You\'re all caught up</b>New announcements and job openings will show here.</div>';
+        return;
+      }
+      list.innerHTML = items.map(function (it, i) {
+        var ann = it.type === 'announcement';
+        var tag = it.important ? '<span class="nf-tag ' + (ann ? 'nf-imp">Important' : 'nf-urg">Urgent') + '</span>' : '';
+        return '<a class="nf-item" href="' + esc(it.url) + '" data-i="' + i + '">' +
+          '<span class="nf-ic ' + (ann ? 'nf-ann' : 'nf-job') + '"><span class="material-symbols-outlined">' + (ann ? 'campaign' : 'work') + '</span></span>' +
+          '<span><span class="nf-title" style="display:block">' + (ann ? 'New announcement: ' : 'New job opening: ') + esc(it.title) + '</span>' +
+          '<span class="nf-sum" style="display:block">' + esc(it.summary) + '</span>' +
+          '<span class="nf-meta">' + tag + (ann ? 'Announcements' : 'Job Openings') + ' &middot; ' + when(it.date) + '</span></span></a>';
+      }).join('');
+    }
+    function send(body) {
+      return fetch(URL_, { method: 'POST', credentials: 'include', keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': (typeof getCookie === 'function' && getCookie('csrftoken')) || '' },
+        body: JSON.stringify(body) }).then(function (r) { return r.ok ? r.json() : null; });
+    }
+    function refresh() {
+      fetch(URL_, { credentials: 'include', cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { if (d) draw(d); }).catch(function () {});
+    }
+    function open(on) {
+      panel.hidden = !on; btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) refresh();
+    }
+    btn.addEventListener('click', function (e) { e.stopPropagation(); open(panel.hidden); });
+    panel.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { if (!panel.hidden) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
+    // Clicking one: mark it read for this person, then open its page in this same window.
+    list.addEventListener('click', function (e) {
+      var a = e.target.closest('.nf-item'); if (!a) return;
+      e.preventDefault();
+      var it = items[+a.getAttribute('data-i')];
+      var go = function () { window.location.href = it.url; };
+      send({ key: it.key }).then(go, go);
+    });
+    allRead.addEventListener('click', function () { send({ all: true }).then(function (d) { if (d) draw(d); }).catch(function () {}); });
+    refresh();
+    setInterval(function () { if (!document.hidden) refresh(); }, 120000);
+  })();
+</script>
+<!-- HEADER:END -->
+
+
+
+
+  <!-- Main Container -->
+  <main id="pageContent" class="flex-1 max-w-[1328px] w-full mx-auto px-6 pt-[88px] pb-6 space-y-6">
+
+    <!-- Breadcrumb & Status Pill -->
+    <div class="flex flex-wrap items-start justify-between gap-3 text-xs text-stone-500">
+      <nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]">
+        <a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html">
+          <span class="material-symbols-outlined text-[16px]">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+        <span class="text-[#E8DFD3]">/</span>
+        <a class="hover:text-[#5b1614] transition-colors" href="knowledge-center.html">Knowledge Center</a>
+        <span class="text-[#E8DFD3]">/</span>
+        <span class="text-[#5b1614] font-semibold">Restaurant Details</span>
+      </nav>
+      <div class="flex items-center gap-3 sm:-mt-[3px]">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          All 23 Outlets Audited &amp; Certified
+        </span>
+        <span class="text-stone-400">•</span>
+        <span class="text-[11px] text-stone-500">Biometric Attendance Synced (100% Normal Service)</span>
+      </div>
+    </div>
+
+    <!-- Title Header Card (Matching landing page icon color: #ffedd5) -->
+    <section class="bg-[#ffedd5] border border-[#fed7aa] rounded-2xl p-6 relative overflow-hidden shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
+        <div class="space-y-2">
+          
+          <h1 class="text-3xl font-bold text-[#5b1614] serif-title tracking-tight">Restaurant Details</h1>
+          
+        </div>
+
+        <div class="flex items-center gap-3 self-start md:self-auto shrink-0">
+          
+          
+          
+          
+          
+          <a id="galleryLink" href="https://drive.google.com/drive/folders/1p27CSM4PhrELzB8IONdMD2wgPlBuKs09" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-white hover:bg-stone-50 border border-[#fed7aa] text-stone-800 rounded-xl text-xs font-semibold shadow-sm transition-all hover:shadow">
+            <span class="material-symbols-outlined text-sm text-[#c2410c]">photo_library</span>
+            <span>Gallery</span>
+          </a>
+          
+          
+
+          <a id="exportLink" href="javascript:void(0)" data-demo-off="1" data-base-href="/restaurants/export/" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-white hover:bg-stone-50 border border-[#fed7aa] text-stone-800 rounded-xl text-xs font-semibold shadow-sm transition-all hover:shadow">
+            <span class="material-symbols-outlined text-sm text-[#c2410c]">download</span>
+            <span id="exportLabel">Export All</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <!-- Filter & View Controls -->
+    <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-xs flex flex-col gap-3">
+      <!-- Quick Filter Pills: wrap onto more lines, no side scrolling -->
+      <div class="flex flex-wrap items-center gap-2" id="cityFilterPills">
+        <button type="button" data-city="all" onclick="setCityFilter('all', this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#c2410c] text-white shadow-xs transition-all">
+          All Outlets (7)
+        </button>
+        
+        <button type="button" data-city="mumbai" onclick="setCityFilter(this.dataset.city, this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 hover:bg-[#ffedd5] hover:text-[#c2410c] transition-all">
+          Mumbai (2)
+        </button>
+        
+        <button type="button" data-city="ahmedabad" onclick="setCityFilter(this.dataset.city, this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 hover:bg-[#ffedd5] hover:text-[#c2410c] transition-all">
+          Ahmedabad (1)
+        </button>
+        
+        <button type="button" data-city="bengaluru" onclick="setCityFilter(this.dataset.city, this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 hover:bg-[#ffedd5] hover:text-[#c2410c] transition-all">
+          Bengaluru (1)
+        </button>
+        
+        <button type="button" data-city="pune" onclick="setCityFilter(this.dataset.city, this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 hover:bg-[#ffedd5] hover:text-[#c2410c] transition-all">
+          Pune (1)
+        </button>
+        
+        <button type="button" data-city="surat" onclick="setCityFilter(this.dataset.city, this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 hover:bg-[#ffedd5] hover:text-[#c2410c] transition-all">
+          Surat (1)
+        </button>
+        
+        <button type="button" data-city="vadodara" onclick="setCityFilter(this.dataset.city, this)" class="city-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 hover:bg-[#ffedd5] hover:text-[#c2410c] transition-all">
+          Vadodara (1)
+        </button>
+        
+      </div>
+
+      <!-- Search, Count & View Toggle -->
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-2 pt-3 border-t border-stone-100">
+        <div class="relative flex-1 min-w-[12rem] sm:flex-none sm:w-64">
+          <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-stone-400 text-base pointer-events-none">search</span>
+          <label for="storeSearchInput" class="sr-only">Search outlets</label>
+          <input id="storeSearchInput" type="search" oninput="filterStores()" autocomplete="off" placeholder="Search outlet, code, manager" class="w-full h-9 pl-8 pr-3 rounded-full bg-white border border-stone-200 text-xs text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#c2410c]/30 focus:border-[#c2410c]/50 transition-all">
+        </div>
+        <span class="text-xs text-stone-500 font-medium leading-9" id="countDisplay" aria-live="polite">Showing 7 of 7 Stores</span>
+        <div class="flex items-stretch h-9 ml-auto bg-stone-100 p-1 rounded-lg border border-stone-200">
+          <button type="button" id="btnListView" onclick="setViewMode('list')" class="px-2.5 rounded text-xs font-medium bg-white text-[#c2410c] shadow-xs flex items-center gap-1 transition-all">
+            <span class="material-symbols-outlined text-sm">format_list_bulleted</span>
+            <span class="">List Format</span>
+          </button>
+          <button type="button" id="btnGridView" onclick="setViewMode('grid')" class="px-2.5 rounded text-xs font-medium text-stone-600 hover:text-stone-900 flex items-center gap-1 transition-all">
+            <span class="material-symbols-outlined text-sm">grid_view</span>
+            <span class="">Card Grid</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIST VIEW CONTAINER -->
+    <div id="listViewContainer" class="bg-white border border-stone-200 rounded-2xl shadow-xs overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-stone-50/80 border-b border-stone-200 text-[11px] font-bold text-stone-500 uppercase tracking-wider">
+              <th class="py-3.5 px-4 min-w-[14rem]">Outlet &amp; Store Code</th>
+              <th class="py-3.5 px-4 min-w-[13rem]">City / Address</th>
+              <th class="py-3.5 px-4 min-w-[10rem]">Manager &amp; RM</th>
+              <th class="py-3.5 px-4 min-w-[11rem]">Contact</th>
+              <th class="py-3.5 px-4">Opened</th>
+              <th class="py-3.5 px-4 text-right">View</th>
+            </tr>
+          </thead>
+          <tbody id="storeTableBody" class="divide-y divide-stone-100 text-xs">
+          
+          <tr data-outlet data-city="ahmedabad" data-search="mingalaba palladium 1001 ahmedabad palladium mall, sg highway, ahmedabad mr. sample one mr. area manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">1</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Palladium</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1001</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Ahmedabad</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="Palladium Mall, SG Highway, Ahmedabad">Palladium Mall, SG Highway, Ahmedabad</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Mr. Sample One</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Mr. Area Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000001" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000001</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="palladium@example.com">
+                <a href="mailto:palladium@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">palladium@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">01 Nov 2023</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">2 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1001" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Palladium">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr data-outlet data-city="surat" data-search="mingalaba vesu 1004 surat vesu main road, surat ms. sample two mr. area manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">2</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Vesu</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1004</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Surat</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="Vesu Main Road, Surat">Vesu Main Road, Surat</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Ms. Sample Two</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Mr. Area Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000002" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000002</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="vesu@example.com">
+                <a href="mailto:vesu@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">vesu@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">12 May 2022</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">4 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1004" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Vesu">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr data-outlet data-city="pune" data-search="mingalaba phoenix 1005 pune phoenix marketcity, viman nagar, pune mr. sample three ms. regional manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">3</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Phoenix</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1005</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Pune</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="Phoenix Marketcity, Viman Nagar, Pune">Phoenix Marketcity, Viman Nagar, Pune</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Mr. Sample Three</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Ms. Regional Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000003" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000003</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="phoenix@example.com">
+                <a href="mailto:phoenix@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">phoenix@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">20 Aug 2021</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">5 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1005" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Phoenix">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr data-outlet data-city="vadodara" data-search="mingalaba alkapuri 1007 vadodara alkapuri, vadodara ms. sample four mr. area manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">4</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Alkapuri</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1007</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Vadodara</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="Alkapuri, Vadodara">Alkapuri, Vadodara</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Ms. Sample Four</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Mr. Area Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000004" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000004</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="alkapuri@example.com">
+                <a href="mailto:alkapuri@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">alkapuri@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">15 Jan 2020</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">6 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1007" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Alkapuri">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr data-outlet data-city="mumbai" data-search="mingalaba andheri 1010 mumbai lokhandwala, andheri west, mumbai mr. sample five ms. regional manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">5</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Andheri</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1010</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Mumbai</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="Lokhandwala, Andheri West, Mumbai">Lokhandwala, Andheri West, Mumbai</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Mr. Sample Five</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Ms. Regional Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000005" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000005</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="andheri@example.com">
+                <a href="mailto:andheri@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">andheri@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">01 Mar 2019</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">7 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1010" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Andheri">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr data-outlet data-city="mumbai" data-search="mingalaba bandra 1012 mumbai linking road, bandra west, mumbai ms. sample six ms. regional manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">6</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Bandra</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1012</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Mumbai</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="Linking Road, Bandra West, Mumbai">Linking Road, Bandra West, Mumbai</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Ms. Sample Six</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Ms. Regional Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000006" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000006</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="bandra@example.com">
+                <a href="mailto:bandra@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">bandra@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">09 Sep 2018</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">8 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1012" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Bandra">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr data-outlet data-city="bengaluru" data-search="mingalaba indiranagar 1020 bengaluru 100 feet road, indiranagar, bengaluru mr. sample seven mr. area manager" class="hover:bg-[#fffaf8] transition-colors group">
+            <!-- Outlet & Store Code -->
+            <td class="py-4 px-4 align-top">
+              <div class="flex items-start gap-3">
+                <div data-row-number class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#c2410c] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#fed7aa]">7</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-stone-900 group-hover:text-[#c2410c] transition-colors">Mingalaba Indiranagar</div>
+                  <div class="flex items-center gap-2 mt-1 text-[11px] text-stone-500 font-mono">
+                    <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-700 font-semibold">1020</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- City / Address -->
+            <td class="py-4 px-4 align-top">
+              <div class="font-semibold text-stone-800">Bengaluru</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5 line-clamp-2 max-w-xs" title="100 Feet Road, Indiranagar, Bengaluru">100 Feet Road, Indiranagar, Bengaluru</div>
+              
+            </td>
+
+            <!-- Manager & RM -->
+            <td class="py-4 px-4 align-top">
+              
+              <div class="font-semibold text-stone-900">Mr. Sample Seven</div>
+              
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">RM: Mr. Area Manager</div>
+              
+            </td>
+
+            <!-- Contact -->
+            <td class="py-4 px-4 align-top">
+              
+              
+              <div class="text-[11px] text-stone-500">Restaurant Number 1</div>
+              
+              <a href="tel:9800000007" class="text-[11px] text-[#c2410c] hover:underline font-mono">9800000007</a>
+              
+              
+              
+              
+              
+              <div class="text-[11px] mt-1 max-w-[14rem] truncate" title="indiranagar@example.com">
+                <a href="mailto:indiranagar@example.com" class="text-stone-600 hover:text-[#c2410c] hover:underline">indiranagar@example.com</a>
+              </div>
+              
+            </td>
+
+            <!-- Opened -->
+            <td class="py-4 px-4 align-top whitespace-nowrap">
+              
+              <div class="text-stone-800 font-medium">02 Feb 2024</div>
+              
+              <div class="text-[11px] text-stone-500 mt-0.5">2 yrs</div>
+              
+              
+            </td>
+
+            <!-- View -->
+            <td class="py-4 px-4 align-top text-right">
+              
+              <button type="button" data-code="1020" onclick="openOutletPanel(this.dataset.code, this)" class="p-1.5 text-stone-400 hover:text-[#c2410c] hover:bg-[#ffedd5] rounded-full transition-colors" title="View outlet details" aria-label="View details of Mingalaba Indiranagar">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              
+            </td>
+          </tr>
+          
+          <tr id="emptyRow" class="hidden">
+            <td colspan="6" class="py-12 text-center text-stone-400">
+              <span class="material-symbols-outlined text-4xl mb-2 text-stone-300">store_mall_directory</span>
+              
+              <p class="font-medium text-stone-600">No restaurants match your filter criteria.</p>
+              <p class="text-xs text-stone-400 mt-1">Try resetting the city filter or searching a different keyword.</p>
+              
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CARD GRID VIEW CONTAINER -->
+    <div id="gridViewContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      
+      <div data-outlet-card data-city="ahmedabad" data-search="mingalaba palladium 1001 ahmedabad palladium mall, sg highway, ahmedabad mr. sample one mr. area manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1001</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Palladium</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Ahmedabad
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Sample One</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Area Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000001" class="font-mono text-[#c2410c] hover:underline">9800000001</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened Nov 2023</span>
+          
+          <button type="button" data-code="1001" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+      <div data-outlet-card data-city="surat" data-search="mingalaba vesu 1004 surat vesu main road, surat ms. sample two mr. area manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1004</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Vesu</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Surat
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Ms. Sample Two</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Area Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000002" class="font-mono text-[#c2410c] hover:underline">9800000002</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened May 2022</span>
+          
+          <button type="button" data-code="1004" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+      <div data-outlet-card data-city="pune" data-search="mingalaba phoenix 1005 pune phoenix marketcity, viman nagar, pune mr. sample three ms. regional manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1005</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Phoenix</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Pune
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Sample Three</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Ms. Regional Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000003" class="font-mono text-[#c2410c] hover:underline">9800000003</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened Aug 2021</span>
+          
+          <button type="button" data-code="1005" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+      <div data-outlet-card data-city="vadodara" data-search="mingalaba alkapuri 1007 vadodara alkapuri, vadodara ms. sample four mr. area manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1007</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Alkapuri</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Vadodara
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Ms. Sample Four</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Area Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000004" class="font-mono text-[#c2410c] hover:underline">9800000004</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened Jan 2020</span>
+          
+          <button type="button" data-code="1007" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+      <div data-outlet-card data-city="mumbai" data-search="mingalaba andheri 1010 mumbai lokhandwala, andheri west, mumbai mr. sample five ms. regional manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1010</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Andheri</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Mumbai
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Sample Five</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Ms. Regional Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000005" class="font-mono text-[#c2410c] hover:underline">9800000005</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened Mar 2019</span>
+          
+          <button type="button" data-code="1010" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+      <div data-outlet-card data-city="mumbai" data-search="mingalaba bandra 1012 mumbai linking road, bandra west, mumbai ms. sample six ms. regional manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1012</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Bandra</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Mumbai
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Ms. Sample Six</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Ms. Regional Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000006" class="font-mono text-[#c2410c] hover:underline">9800000006</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened Sep 2018</span>
+          
+          <button type="button" data-code="1012" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+      <div data-outlet-card data-city="bengaluru" data-search="mingalaba indiranagar 1020 bengaluru 100 feet road, indiranagar, bengaluru mr. sample seven mr. area manager" class="bg-white border border-stone-200 rounded-xl p-5 hover:border-[#fed7aa] hover:shadow-md transition-all flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <span class="bg-stone-100 px-2 py-0.5 rounded text-[11px] font-mono font-bold text-stone-700">1020</span>
+            
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-stone-900 leading-snug">Mingalaba Indiranagar</h3>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-stone-400">location_on</span>
+              Bengaluru
+            </p>
+          </div>
+
+          <div class="text-[11px] text-stone-600 space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Manager:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Sample Seven</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">RM:</span>
+              <span class="font-medium text-stone-800 text-right truncate">Mr. Area Manager</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-stone-400 shrink-0">Phone:</span>
+              
+              <a href="tel:9800000007" class="font-mono text-[#c2410c] hover:underline">9800000007</a>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+          <span class="text-[11px] text-stone-400">Opened Feb 2024</span>
+          
+          <button type="button" data-code="1020" onclick="openOutletPanel(this.dataset.code, this)" class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center gap-1">
+            View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+          
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Footnote -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-3 text-xs text-stone-500">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#c2410c]"></span>
+        <span class="">Directory data synced live with Hunger Pangs Central ERP &amp; FSSAI Portal</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- OUTLET DETAILS PANEL (opened by View) -->
+  <div id="outletPanel" class="hidden fixed inset-0 z-50" aria-hidden="true">
+    <div class="absolute inset-0 bg-stone-900/30 backdrop-blur-[2px]" onclick="closeOutletPanel()"></div>
+    <aside role="dialog" aria-modal="true" aria-labelledby="panelTitle" class="absolute right-0 top-0 h-full w-full sm:max-w-md bg-white shadow-2xl border-l border-[#fed7aa] flex flex-col">
+      <div class="flex items-start justify-between gap-3 px-5 py-4 bg-[#ffedd5] border-b border-[#fed7aa]">
+        <div class="min-w-0">
+          <h2 id="panelTitle" class="text-lg font-bold text-[#5b1614] serif-title leading-snug">Outlet details</h2>
+          <div id="panelSubtitle" class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-stone-600"></div>
+        </div>
+        <button type="button" id="panelCloseBtn" onclick="closeOutletPanel()" class="p-1.5 rounded-full text-stone-500 hover:text-[#c2410c] hover:bg-white/70 transition-colors" aria-label="Close details">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+      <div id="panelBody" class="flex-1 overflow-y-auto custom-scrollbar px-5 py-4 space-y-5 text-xs"></div>
+    </aside>
+  </div>
+
+  <script>
+    let currentCityFilter = 'all';
+    let searchQuery = '';
+
+    const DETAIL_URL = '/api/outlets/detail/';
+    const LOGIN_URL = 'dashboard.html';
+
+    // ---------------- Filtering (city pills, dropdown, search) ----------------
+    function matches(el) {
+      const cityOk = currentCityFilter === 'all' || el.dataset.city === currentCityFilter;
+      const q = searchQuery.toLowerCase().trim();
+      const searchOk = !q || (el.dataset.search || '').includes(q);
+      return cityOk && searchOk;
+    }
+
+    function renderStores() {
+      const rows = document.querySelectorAll('#storeTableBody tr[data-outlet]');
+      let shown = 0;
+      rows.forEach(row => {
+        const visible = matches(row);
+        row.classList.toggle('hidden', !visible);
+        if (visible) {
+          shown += 1;
+          const badge = row.querySelector('[data-row-number]');
+          if (badge) badge.textContent = shown;
+        }
+      });
+      document.querySelectorAll('#gridViewContainer [data-outlet-card]').forEach(card => {
+        card.classList.toggle('hidden', !matches(card));
+      });
+
+      document.getElementById('countDisplay').innerText = `Showing ${shown} of ${rows.length} Stores`;
+      const emptyRow = document.getElementById('emptyRow');
+      if (emptyRow) emptyRow.classList.toggle('hidden', shown > 0);
+      updateExportLink();
+    }
+
+    function updateExportLink() {
+      const link = document.getElementById('exportLink');
+      const label = document.getElementById('exportLabel');
+      if (!link) return;
+      const params = new URLSearchParams();
+      if (currentCityFilter !== 'all') params.set('city', currentCityFilter);
+      if (searchQuery.trim()) params.set('q', searchQuery.trim());
+      const query = params.toString();
+      link.href = link.dataset.baseHref + (query ? '?' + query : '');
+      if (label) label.textContent = query ? 'Export Shown' : 'Export All';
+    }
+
+    function highlightPill(city) {
+      document.querySelectorAll('.city-pill').forEach(pill => {
+        const active = pill.dataset.city === city;
+        pill.classList.toggle('bg-[#c2410c]', active);
+        pill.classList.toggle('text-white', active);
+        pill.classList.toggle('shadow-xs', active);
+        pill.classList.toggle('bg-stone-100', !active);
+        pill.classList.toggle('text-stone-600', !active);
+      });
+    }
+
+    function setCityFilter(city, btnElement) {
+      currentCityFilter = city;
+      highlightPill(city);
+      renderStores();
+    }
+
+    function filterStores() {
+      const input = document.getElementById('storeSearchInput');
+      searchQuery = input ? input.value : '';
+      renderStores();
+    }
+
+    function setViewMode(mode) {
+      const listContainer = document.getElementById('listViewContainer');
+      const gridContainer = document.getElementById('gridViewContainer');
+      const btnList = document.getElementById('btnListView');
+      const btnGrid = document.getElementById('btnGridView');
+      const on = "px-2.5 rounded text-xs font-medium bg-white text-[#c2410c] shadow-xs flex items-center gap-1 transition-all";
+      const off = "px-2.5 rounded text-xs font-medium text-stone-600 hover:text-stone-900 flex items-center gap-1 transition-all";
+      const list = mode === 'list';
+      listContainer.classList.toggle('hidden', !list);
+      gridContainer.classList.toggle('hidden', list);
+      btnList.className = list ? on : off;
+      btnGrid.className = list ? off : on;
+    }
+
+    // ---------------- Details panel ----------------
+    // Every value from the database is placed with textContent (never as HTML).
+    let panelTrigger = null;
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined && text !== null) node.textContent = text;
+      return node;
+    }
+
+    function section(title, icon) {
+      const wrap = el('section', 'space-y-2');
+      const head = el('h3', 'flex items-center gap-1.5 text-[11px] font-bold text-stone-500 uppercase tracking-wider');
+      head.appendChild(el('span', 'material-symbols-outlined text-sm text-[#c2410c]', icon));
+      head.appendChild(document.createTextNode(title));
+      wrap.appendChild(head);
+      return wrap;
+    }
+
+    function emptyLine(text) {
+      return el('p', 'text-stone-400', text);
+    }
+
+    function copyButton(value) {
+      const btn = el('button', 'inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold text-[#c2410c] hover:bg-[#ffedd5] transition-colors');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Copy ' + value);
+      const icon = el('span', 'material-symbols-outlined text-sm', 'content_copy');
+      const label = el('span', '', 'Copy');
+      btn.append(icon, label);
+      btn.addEventListener('click', () => {
+        copyText(value).then(() => {
+          label.textContent = 'Copied';
+          icon.textContent = 'check';
+          setTimeout(() => { label.textContent = 'Copy'; icon.textContent = 'content_copy'; }, 1500);
+        });
+      });
+      return btn;
+    }
+
+    function copyText(value) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(value);
+      }
+      return new Promise(resolve => {
+        const area = document.createElement('textarea');
+        area.value = value;
+        area.setAttribute('readonly', '');
+        area.style.position = 'absolute';
+        area.style.left = '-9999px';
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+        area.remove();
+        resolve();
+      });
+    }
+
+    function renderPanelMessage(icon, text, linkText, linkHref) {
+      const body = document.getElementById('panelBody');
+      body.replaceChildren();
+      const box = el('div', 'flex flex-col items-center text-center gap-2 py-12 text-stone-500');
+      box.appendChild(el('span', 'material-symbols-outlined text-4xl text-stone-300', icon));
+      box.appendChild(el('p', 'font-medium text-stone-600', text));
+      if (linkText) {
+        const link = el('a', 'text-xs font-semibold text-[#c2410c] hover:underline', linkText);
+        link.href = linkHref;
+        box.appendChild(link);
+      }
+      body.appendChild(box);
+    }
+
+    function renderOutlet(o) {
+      document.getElementById('panelTitle').textContent = o.name || 'Unnamed outlet';
+      const sub = document.getElementById('panelSubtitle');
+      sub.replaceChildren();
+      sub.appendChild(el('span', 'bg-white/80 px-1.5 py-0.5 rounded font-mono font-semibold text-stone-700', o.store_code));
+      if (o.city) sub.appendChild(el('span', '', o.city));
+      if (o.opening_soon) {
+        sub.appendChild(el('span', 'px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200', 'Opening soon'));
+      }
+
+      const body = document.getElementById('panelBody');
+      body.replaceChildren();
+
+      // Outlet
+      const outlet = section('Outlet', 'storefront');
+      const opened = o.opening_date_display
+        ? 'Opened ' + o.opening_date_display + (o.age ? ' · ' + o.age : '')
+        : 'Opening date not set';
+      outlet.appendChild(el('p', 'text-stone-800', opened));
+      body.appendChild(outlet);
+
+      // Location
+      const location = section('Location', 'location_on');
+      location.appendChild(o.address ? el('p', 'text-stone-800 leading-relaxed whitespace-pre-line', o.address) : emptyLine('No address listed'));
+      // Google Maps, from the coordinates saved against the outlet. Shown
+      // only when there is a usable pair - never a guess at the address.
+      if (o.map_url) {
+        const map = el('a', 'inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 rounded-lg bg-[#2D6A4F] hover:bg-[#22533D] text-white text-[12px] font-semibold no-underline transition-colors');
+        map.href = o.map_url;
+        map.target = '_blank';
+        map.rel = 'noopener noreferrer';
+        map.title = 'Opens Google Maps at ' + o.coordinates;
+        map.appendChild(el('span', 'material-symbols-outlined text-[16px]', 'map'));
+        map.appendChild(el('span', '', 'Open in Google Maps'));
+        location.appendChild(map);
+      }
+      body.appendChild(location);
+
+      // People
+      const people = section('People', 'group');
+      const peopleList = el('dl', 'grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-1.5');
+      [['Manager', o.managers], ['RM', o.rms]].forEach(([label, names]) => {
+        peopleList.appendChild(el('dt', 'text-stone-400', label));
+        const dd = el('dd', 'text-stone-800 space-y-0.5');
+        if (names.length) {
+          names.forEach(n => dd.appendChild(el('div', 'font-medium', n)));
+        } else {
+          dd.appendChild(el('div', 'text-stone-400', 'Not listed'));
+        }
+        peopleList.appendChild(dd);
+      });
+      people.appendChild(peopleList);
+      body.appendChild(people);
+
+      // Contact
+      const contact = section('Contact', 'call');
+      if (o.contacts.length) {
+        const list = el('ul', 'divide-y divide-stone-100 border border-stone-100 rounded-xl');
+        o.contacts.forEach(c => {
+          const item = el('li', 'flex items-center justify-between gap-3 px-3 py-2');
+          item.appendChild(el('span', 'text-stone-500', c.label || 'Number'));
+          if (c.tel) {
+            const link = el('a', 'font-mono text-[#c2410c] hover:underline whitespace-nowrap', c.number);
+            link.href = 'tel:' + c.tel;
+            item.appendChild(link);
+          } else {
+            item.appendChild(el('span', 'font-mono text-stone-800', c.number));
+          }
+          list.appendChild(item);
+        });
+        contact.appendChild(list);
+      } else {
+        contact.appendChild(emptyLine('No contact numbers listed'));
+      }
+      if (o.email) {
+        const emailRow = el('p', 'flex items-center gap-1.5 pt-1 break-all');
+        emailRow.appendChild(el('span', 'material-symbols-outlined text-sm text-stone-400', 'mail'));
+        if (o.email_is_link) {
+          const link = el('a', 'text-[#c2410c] hover:underline', o.email);
+          link.href = 'mailto:' + o.email;
+          emailRow.appendChild(link);
+        } else {
+          emailRow.appendChild(el('span', 'text-stone-800', o.email));
+        }
+        contact.appendChild(emailRow);
+      }
+      body.appendChild(contact);
+
+      // Compliance
+      const compliance = section('Compliance', 'verified');
+      if (o.gst) {
+        const row = el('div', 'flex items-center justify-between gap-3');
+        const left = el('div', '');
+        left.appendChild(el('div', 'text-stone-400', 'GST number'));
+        left.appendChild(el('div', 'font-mono text-stone-800 break-all', o.gst));
+        row.append(left, copyButton(o.gst));
+        compliance.appendChild(row);
+      } else {
+        compliance.appendChild(emptyLine('No GST number listed'));
+      }
+      body.appendChild(compliance);
+
+      // Aggregators
+      const aggregators = section('Aggregator IDs', 'delivery_dining');
+      const aggList = el('ul', 'divide-y divide-stone-100 border border-stone-100 rounded-xl');
+      o.aggregators.forEach(a => {
+        const item = el('li', 'flex items-center justify-between gap-3 px-3 py-2');
+        const left = el('div', 'min-w-0');
+        left.appendChild(el('div', 'text-stone-500', a.label));
+        left.appendChild(el('div', a.value ? 'font-mono text-stone-800 break-all' : 'text-stone-400', a.value || 'Not listed'));
+        item.appendChild(left);
+        if (a.value) item.appendChild(copyButton(a.value));
+        aggList.appendChild(item);
+      });
+      aggregators.appendChild(aggList);
+      body.appendChild(aggregators);
+    }
+
+    function openOutletPanel(code, trigger) {
+      panelTrigger = trigger || null;
+      const panel = document.getElementById('outletPanel');
+      document.getElementById('panelTitle').textContent = 'Outlet details';
+      document.getElementById('panelSubtitle').replaceChildren();
+      renderPanelMessage('progress_activity', 'Loading outlet details…');
+      panel.querySelector('#panelBody .material-symbols-outlined')?.classList.add('animate-spin');
+      panel.classList.remove('hidden');
+      panel.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('panelCloseBtn').focus();
+
+      fetch(DETAIL_URL + '?code=' + encodeURIComponent(code), {
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json' },
+      })
+        .then(response => {
+          const isJson = (response.headers.get('content-type') || '').includes('application/json');
+          if (response.redirected || !isJson) {
+            renderPanelMessage('lock', 'Your session has ended. Please sign in again.', 'Sign in', LOGIN_URL);
+            return null;
+          }
+          return response.json().then(data => ({ ok: response.ok, data }));
+        })
+        .then(result => {
+          if (!result) return;
+          if (!result.ok) {
+            renderPanelMessage('error', result.data.error || 'Outlet details couldn’t be loaded.');
+            return;
+          }
+          renderOutlet(result.data.outlet);
+        })
+        .catch(() => {
+          renderPanelMessage('cloud_off', 'Outlet details couldn’t be loaded. Check your connection and try again.');
+        });
+    }
+
+    function closeOutletPanel() {
+      const panel = document.getElementById('outletPanel');
+      if (panel.classList.contains('hidden')) return;
+      panel.classList.add('hidden');
+      panel.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (panelTrigger) panelTrigger.focus();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeOutletPanel();
+    });
+
+    // Initial render. Phones start in the card view, where every card has its
+    // own View Details button; the table needs sideways scrolling there.
+    renderStores();
+    if (window.matchMedia('(max-width: 767px)').matches) setViewMode('grid');
+  </script>
+
+
+  <script>
+    // Header search landing: ?q=<text> narrows the restaurant list to the matching restaurants
+    // (name, code, city, manager or address) and shows a chip to clear it.
+    (function () {
+      var q = new URLSearchParams(location.search).get('q');
+      if (!q) return;
+      var input = document.getElementById('storeSearchInput');
+      if (input) input.value = q;
+      searchQuery = q;
+      renderStores();
+      var count = document.getElementById('countDisplay');
+      if (!count) return;
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.title = 'Clear search';
+      chip.className = 'ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ffedd5] text-[#c2410c] text-[11px] font-semibold border border-[#fed7aa] hover:bg-[#fed7aa]';
+      chip.appendChild(document.createTextNode('Search: ' + q + ' \u2715'));
+      chip.addEventListener('click', function () {
+        if (input) input.value = '';
+        searchQuery = '';
+        renderStores();
+        chip.remove();
+        try { history.replaceState(null, '', location.pathname); } catch (e) { /* not critical */ }
+      });
+      count.insertAdjacentElement('afterend', chip);
+    })();
+  </script>
+</body></html>

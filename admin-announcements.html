@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en-us" dir="ltr">
+<head><script src="demo.js"></script>
+<title>Announcements (the notices) | Mingalaba Admin</title>
+<link rel="stylesheet" href="static/portal/admin/css/base.css">
+<link rel="stylesheet" href="static/portal/admin/css/dark_mode.css">
+<script src="static/portal/admin/js/theme.js"></script>
+<link rel="stylesheet" href="static/portal/admin/css/nav_sidebar.css">
+<script src="static/portal/admin/js/nav_sidebar.js" defer></script>
+<link rel="stylesheet" href="static/portal/admin/css/changelists.css">
+
+
+<style>#result_list a.stacked{color:#78350F;font-weight:600;text-decoration:none}#result_list a.stacked:hover{text-decoration:underline}</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="static/portal/admin/css/mingalaba-admin.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="static/portal/admin/css/responsive.css">
+<meta name="robots" content="NONE,NOARCHIVE">
+<style>
+  /* Small portal additions on top of the admin look. */
+  .quiet-note { color: var(--body-quiet-color); font-size: 0.8125rem; margin: 0 0 10px; }
+  .inline-form { display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+  .inline-form input[type=text] { width: 15em; }
+  #changelist table td form { margin: 0; }
+  #toolbar input[type=date] { margin-left: 6px; }
+  .errorlist.inline { margin: 4px 0 0; padding: 0; }
+  .results { overflow-x: auto; }              /* wide tables scroll sideways */
+  #changelist table td, #changelist table th { white-space: nowrap; }
+</style>
+</head>
+
+<body class="change-list">
+<a href="#content-start" class="skip-to-content-link">Skip to main content</a>
+<div id="container">
+
+  <!-- Header: the designer's branding (verified_user icon + Mingalaba Admin) -->
+  <header id="header">
+    <div id="branding">
+      <div id="site-name"><a href="admin.html">
+      Mingalaba Admin
+      </a></div>
+    </div>
+    <div id="user-tools" class="admin-user">
+      <span class="admin-avatar" aria-hidden="true">DA</span>
+      <strong class="admin-name">Demo</strong>
+    </div>
+  </header>
+
+  
+  <nav aria-label="Breadcrumbs">
+    <div class="breadcrumbs">
+      <a href="admin.html">Home</a>
+       &rsaquo; Announcements &rsaquo; <a href="javascript:void(0)" data-demo-off="1">Announcements tile</a> &rsaquo; Notices
+    </div>
+  </nav>
+  
+
+  <div class="main" id="main">
+    
+    <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+    <nav class="sticky" id="nav-sidebar" aria-label="Sidebar">
+      <input type="search" id="nav-filter" placeholder="Start typing to filter…" aria-label="Filter navigation items">
+      
+
+
+  
+    <div class="app-super admins module">
+      <table>
+        <caption><span class="section">Super admins</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-super-admins">
+            <th scope="row" id="super admins-super-admins"><a href="admin-super-admins.html">Super admins (who can open Admin)</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-announcements module">
+      <table>
+        <caption><span class="section">Announcements</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-announcement-access">
+            <th scope="row" id="announcements-announcement-access"><a href="admin-announcements-access.html">Who can manage announcements</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-checklists module">
+      <table>
+        <caption><span class="section">Checklists</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-checklist-icons">
+            <th scope="row" id="checklists-checklist-icons"><a href="admin-checklists-icons.html">Checklist icons</a></th>
+            <td><a href="admin-checklists-icons-add.html" class="addlink" aria-describedby="checklists-checklist-icons">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-departments">
+            <th scope="row" id="checklists-departments"><a href="admin-checklists-departments.html">Departments</a></th>
+            <td><a href="admin-checklists-departments-add.html" class="addlink" aria-describedby="checklists-departments">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-designations">
+            <th scope="row" id="checklists-designations"><a href="admin-checklists-designations.html">Designations</a></th>
+            <td><a href="admin-checklists-designations-add.html" class="addlink" aria-describedby="checklists-designations">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-employees">
+            <th scope="row" id="checklists-employees"><a href="admin-employees.html">Employees</a></th>
+            <td></td>
+            
+          </tr>
+        
+          <tr class="model-icon-grants">
+            <th scope="row" id="checklists-icon-grants"><a href="admin-checklists-grants.html">Icon access grants</a></th>
+            <td><a href="admin-checklists-grants-add.html" class="addlink" aria-describedby="checklists-icon-grants">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-stores">
+            <th scope="row" id="checklists-stores"><a href="admin-stores.html">Stores</a></th>
+            <td><a href="admin-stores-add.html" class="addlink" aria-describedby="checklists-stores">Add</a></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-jobs module">
+      <table>
+        <caption><span class="section">Jobs</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-job-access">
+            <th scope="row" id="jobs-job-access"><a href="admin-jobs-access.html">Who can manage job postings</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-portal usage module">
+      <table>
+        <caption><span class="section">Portal usage</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-usage">
+            <th scope="row" id="portal usage-usage"><a href="admin-usage.html">Sign-in activity</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+
+
+    </nav>
+    
+    <main id="content-start" class="content" tabindex="-1">
+      
+      <div id="content" class="">
+        <a href="admin.html" class="back-tab" id="back-tab" title="Go back to the previous page"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>Back</a><h1>Announcements (the notices)</h1>
+        
+<div id="content-main">
+  
+  <ul class="object-tools"><li><a href="admin-announcements-access.html">Who can manage</a></li></ul>
+  
+  <div class="module" id="changelist">
+    <div class="changelist-form-container">
+      
+      <div id="toolbar"><form id="changelist-search" method="get" role="search">
+        <div>
+          <label for="searchbar"><img src="static/portal/admin/img/search.svg" alt="Search"></label>
+          <input type="text" size="40" name="q" value="" id="searchbar" maxlength="100" aria-describedby="searchbar_helptext">
+          
+          <input type="submit" value="Search">
+          
+        </div>
+        <br class="clear">
+        <div class="help" id="searchbar_helptext">Search titles, text, audience or author.</div>
+      </form></div>
+      
+      
+
+
+
+
+<div class="filterbar" role="group" aria-label="Filters">
+  <span class="fb-label">Filter by</span>
+  
+  <label class="fb-item"><span>By status</span>
+    <select class="filter-select" aria-label="By status">
+      <option value="admin-announcements.html" selected>All</option><option value="admin-announcements.html?status=draft">Draft (hidden)</option><option value="admin-announcements.html?status=published">Published (on the board)</option><option value="admin-announcements.html?status=archived">Archived (hidden)</option>
+    </select>
+  </label>
+  
+</div>
+<script src="static/portal/admin/js/filter-select.js"></script>
+
+
+
+      
+      
+      <div class="results">
+        <table id="result_list">
+          <thead><tr>
+            
+            <th scope="col"><div class="text"><span>Title</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Category</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Audience</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Status</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Pinned</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Important</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Published</span></div><div class="clear"></div></th><th scope="col"><div class="text"><span>Expires</span></div><div class="clear"></div></th>
+          </tr></thead>
+          <tbody>
+          
+          
+            
+            <tr><th>Monsoon menu launches Monday</th><td>Menu &amp; Kitchen</td><td>All employees</td><td>Published (on the board)</td><td>Yes</td><td>Yes</td><td>12 Oct 2026</td><td>-</td></tr>
+          
+            
+            <tr><th>Fire safety audit this month</th><td>Compliance</td><td>All employees</td><td>Published (on the board)</td><td>No</td><td>Yes</td><td>10 Oct 2026</td><td>-</td></tr>
+          
+            
+            <tr><th>Festive week rota</th><td>Operations</td><td>All employees</td><td>Published (on the board)</td><td>No</td><td>No</td><td>08 Oct 2026</td><td>-</td></tr>
+          
+            
+            <tr><th>Salary slips available</th><td>HR &amp; People</td><td>All employees</td><td>Published (on the board)</td><td>No</td><td>No</td><td>06 Oct 2026</td><td>-</td></tr>
+          
+            
+            <tr><th>New cash-handover process</th><td>Finance</td><td>All employees</td><td>Published (on the board)</td><td>No</td><td>No</td><td>04 Oct 2026</td><td>-</td></tr>
+          
+          
+          </tbody>
+        </table>
+      </div>
+      
+      <p class="paginator">5 rows</p>
+      
+    </div>
+  </div>
+</div>
+
+
+        
+        <br class="clear">
+      </div>
+    </main>
+  </div>
+  <footer id="footer"></footer>
+</div>
+
+<!-- The three theme icons (from Django's admin) -->
+<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
+</svg>
+<script src="static/portal/admin/js/back-tab.js" defer></script>
+
+</body>
+</html>

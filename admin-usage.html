@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en-us" dir="ltr">
+<head><script src="demo.js"></script>
+<title>Sign-in activity | Mingalaba Admin</title>
+<link rel="stylesheet" href="static/portal/admin/css/base.css">
+<link rel="stylesheet" href="static/portal/admin/css/dark_mode.css">
+<script src="static/portal/admin/js/theme.js"></script>
+<link rel="stylesheet" href="static/portal/admin/css/nav_sidebar.css">
+<script src="static/portal/admin/js/nav_sidebar.js" defer></script>
+<link rel="stylesheet" href="static/portal/admin/css/changelists.css">
+<style>
+  .us { max-width: 1180px; }
+  .us-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 6px 0 16px; }
+  .us-tile { background: #fff; border: 1px solid #E6DCCD; border-radius: 18px; padding: 16px 18px; }
+  .us-tile small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .4px; color: #7a6a60; text-transform: uppercase; }
+  .us-tile b { display: block; font-size: 34px; line-height: 1.15; color: #5b1614; margin: 4px 0; }
+  .us-tile span { font-size: 12px; color: #6b5a5a; }
+  .us-tile .good { color: #2c7a2c; font-weight: 700; }
+  .us-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2c9a4c; margin-right: 6px; vertical-align: middle; }
+  .us-cols { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 900px) { .us-cols { grid-template-columns: 1fr; } }
+  .us-box { background: #fff; border: 1px solid #E6DCCD; border-radius: 18px; padding: 16px 18px; margin-bottom: 14px; }
+  .us-cols { align-items: stretch; }
+  .us-cols .us-box { margin-bottom: 0; }
+  .us-scroll { max-height: 330px; overflow-y: auto; }
+  .us-scroll.tall { max-height: 380px; }
+  .us-scroll thead th { position: sticky; top: 0; background: #fff; }
+  .us-bars.big { height: 250px; }
+  .us-box h2 { margin: 0 0 4px; padding: 0; font: 700 15px Georgia, serif; color: #5b1614; background: none; text-transform: none; letter-spacing: 0; }
+  .us-box h2 em { font: 400 12px sans-serif; color: #8c7b75; font-style: normal; }
+  .us-note { font-size: 12px; color: #7a6a60; margin: 2px 0 8px; }
+  .us-bars { display: flex; align-items: flex-end; gap: 6px; height: 140px; margin-top: 10px; }
+  .us-bars i { flex: 1; min-width: 4px; background: #C98B3D; border-radius: 6px 6px 0 0; }
+  .us-bars i.hot { background: #8D1B1B; }
+  .us-labels { display: flex; gap: 6px; font-size: 10px; color: #7a6a60; margin-top: 4px; }
+  .us-labels span { flex: 1; text-align: center; min-width: 4px; }
+  .us-box table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .us-box th { text-align: left; font-size: 11px; letter-spacing: .4px; color: #7a6a60; padding: 6px 8px; text-transform: uppercase; background: none; border: 0; }
+  .us-box td { padding: 7px 8px; border-top: 1px solid #F0E8DC; }
+  .us-meter { height: 9px; border-radius: 5px; background: #EDE4D6; overflow: hidden; min-width: 90px; }
+  .us-meter i { display: block; height: 100%; background: #C98B3D; }
+  .us-meter i.low { background: #B03030; }
+  .us-meter i.high { background: #2c9a4c; }
+  .us-pill { display: inline-block; border-radius: 999px; background: #FDE3B0; color: #5b1614; padding: 6px 16px; font-weight: 600; font-size: 13px; text-decoration: none; }
+  .us-pill:hover { background: #F7D18A; }
+  .us-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .us-two { grid-template-columns: 1fr; } }
+  .us-empty { color: #7a6a60; font-size: 13px; padding: 8px 0; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="static/portal/admin/css/mingalaba-admin.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="static/portal/admin/css/responsive.css">
+<meta name="robots" content="NONE,NOARCHIVE">
+<style>
+  /* Small portal additions on top of the admin look. */
+  .quiet-note { color: var(--body-quiet-color); font-size: 0.8125rem; margin: 0 0 10px; }
+  .inline-form { display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+  .inline-form input[type=text] { width: 15em; }
+  #changelist table td form { margin: 0; }
+  #toolbar input[type=date] { margin-left: 6px; }
+  .errorlist.inline { margin: 4px 0 0; padding: 0; }
+  .results { overflow-x: auto; }              /* wide tables scroll sideways */
+  #changelist table td, #changelist table th { white-space: nowrap; }
+</style>
+</head>
+
+<body class="us-page">
+<a href="#content-start" class="skip-to-content-link">Skip to main content</a>
+<div id="container">
+
+  <!-- Header: the designer's branding (verified_user icon + Mingalaba Admin) -->
+  <header id="header">
+    <div id="branding">
+      <div id="site-name"><a href="admin.html">
+      Mingalaba Admin
+      </a></div>
+    </div>
+    <div id="user-tools" class="admin-user">
+      <span class="admin-avatar" aria-hidden="true">DA</span>
+      <strong class="admin-name">Demo</strong>
+    </div>
+  </header>
+
+  
+  <nav aria-label="Breadcrumbs">
+    <div class="breadcrumbs">
+      <a href="admin.html">Home</a>
+       &rsaquo; Portal usage &rsaquo; Sign-in activity
+    </div>
+  </nav>
+  
+
+  <div class="main" id="main">
+    
+    <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+    <nav class="sticky" id="nav-sidebar" aria-label="Sidebar">
+      <input type="search" id="nav-filter" placeholder="Start typing to filter…" aria-label="Filter navigation items">
+      
+
+
+  
+    <div class="app-super admins module">
+      <table>
+        <caption><span class="section">Super admins</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-super-admins">
+            <th scope="row" id="super admins-super-admins"><a href="admin-super-admins.html">Super admins (who can open Admin)</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-announcements module">
+      <table>
+        <caption><span class="section">Announcements</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-announcement-access">
+            <th scope="row" id="announcements-announcement-access"><a href="admin-announcements-access.html">Who can manage announcements</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-checklists module">
+      <table>
+        <caption><span class="section">Checklists</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-checklist-icons">
+            <th scope="row" id="checklists-checklist-icons"><a href="admin-checklists-icons.html">Checklist icons</a></th>
+            <td><a href="admin-checklists-icons-add.html" class="addlink" aria-describedby="checklists-checklist-icons">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-departments">
+            <th scope="row" id="checklists-departments"><a href="admin-checklists-departments.html">Departments</a></th>
+            <td><a href="admin-checklists-departments-add.html" class="addlink" aria-describedby="checklists-departments">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-designations">
+            <th scope="row" id="checklists-designations"><a href="admin-checklists-designations.html">Designations</a></th>
+            <td><a href="admin-checklists-designations-add.html" class="addlink" aria-describedby="checklists-designations">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-employees">
+            <th scope="row" id="checklists-employees"><a href="admin-employees.html">Employees</a></th>
+            <td></td>
+            
+          </tr>
+        
+          <tr class="model-icon-grants">
+            <th scope="row" id="checklists-icon-grants"><a href="admin-checklists-grants.html">Icon access grants</a></th>
+            <td><a href="admin-checklists-grants-add.html" class="addlink" aria-describedby="checklists-icon-grants">Add</a></td>
+            
+          </tr>
+        
+          <tr class="model-stores">
+            <th scope="row" id="checklists-stores"><a href="admin-stores.html">Stores</a></th>
+            <td><a href="admin-stores-add.html" class="addlink" aria-describedby="checklists-stores">Add</a></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-jobs module">
+      <table>
+        <caption><span class="section">Jobs</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-job-access">
+            <th scope="row" id="jobs-job-access"><a href="admin-jobs-access.html">Who can manage job postings</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+    <div class="app-portal usage module current-app">
+      <table>
+        <caption><span class="section">Portal usage</span></caption>
+        <thead class="visually-hidden"><tr><th scope="col">Model name</th><th scope="col">Add link</th></tr></thead>
+        
+          <tr class="model-usage current-model">
+            <th scope="row" id="portal usage-usage"><a href="admin-usage.html" aria-current="page">Sign-in activity</a></th>
+            <td></td>
+            
+          </tr>
+        
+      </table>
+    </div>
+  
+
+
+    </nav>
+    
+    <main id="content-start" class="content" tabindex="-1">
+      
+      <div id="content" class="colM">
+        <a href="admin.html" class="back-tab" id="back-tab" title="Go back to the previous page"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>Back</a><h1>Sign-in activity</h1>
+        
+<div id="content-main" class="us">
+  
+
+  <div class="us-kpis">
+    <div class="us-tile"><small>Total users</small><b>21</b><span>Active employees (24 counting resigned and others)</span></div>
+    <div class="us-tile"><small>Actually signed in</small><b>14</b><span><span class="good">67%</span> of active employees, at least once</span></div>
+    <div class="us-tile"><small>Signed in today</small><b>9</b><span>Different people since midnight</span></div>
+    <div class="us-tile"><small>Active now</small><b><span class="us-dot"></span>5</b><span>People seen in the last 5 minutes</span></div>
+  </div>
+
+  <div class="us-cols">
+    <div class="us-box">
+      <h2>People who signed in, per day <em>(last 14 days)</em></h2>
+      <div class="us-bars big"><i style="height: 23%" title="29 Sep 2026: 3 people"></i><i style="height: 38%" title="30 Sep 2026: 5 people"></i><i style="height: 46%" title="01 Oct 2026: 6 people"></i><i style="height: 62%" title="02 Oct 2026: 8 people"></i><i style="height: 54%" title="03 Oct 2026: 7 people"></i><i style="height: 31%" title="04 Oct 2026: 4 people"></i><i style="height: 15%" title="05 Oct 2026: 2 people"></i><i style="height: 69%" title="06 Oct 2026: 9 people"></i><i style="height: 85%" title="07 Oct 2026: 11 people"></i><i style="height: 77%" title="08 Oct 2026: 10 people"></i><i style="height: 92%" title="09 Oct 2026: 12 people"></i><i style="height: 69%" title="10 Oct 2026: 9 people"></i><i style="height: 100%" title="11 Oct 2026: 13 people"></i><i class="hot" style="height: 69%" title="12 Oct 2026: 9 people"></i></div>
+      <div class="us-labels"><span>29</span><span>30</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>Today</span></div>
+      
+    </div>
+    <div class="us-box">
+      <h2>Active now <em>(5 people)</em></h2>
+      
+      <div class="us-scroll"><table><thead><tr><th>Person</th><th>Outlet</th><th>Since</th><th>Last seen</th></tr></thead><tbody>
+      <tr><td><b>Demo Admin</b> <span class="us-note">D001</span> &#128241;</td><td>-</td><td>08:33</td><td>just now</td></tr><tr><td><b>Aarav Mehta</b> <span class="us-note">D002</span></td><td>-</td><td>08:40</td><td>just now</td></tr><tr><td><b>Diya Shah</b> <span class="us-note">D003</span> &#128241;</td><td>-</td><td>08:55</td><td>1 min ago</td></tr><tr><td><b>Kabir Rao</b> <span class="us-note">D004</span> &#128241;</td><td>-</td><td>09:03</td><td>2 min ago</td></tr><tr><td><b>Isha Nair</b> <span class="us-note">D005</span></td><td>-</td><td>09:10</td><td>4 min ago</td></tr>
+      </tbody></table></div>
+      
+    </div>
+  </div>
+
+  <div class="us-box">
+    <h2>Not signed in yet <em>(7 people, 33%)</em></h2>
+    
+    <div class="us-scroll tall"><table><thead><tr><th>Employee ID</th><th>Name</th><th>Outlet</th><th>Department</th></tr></thead><tbody>
+    <tr><td>D015</td><td>Riya Gupta</td><td>-</td><td>Human Resource</td></tr><tr><td>D016</td><td>Yash Kulkarni</td><td>-</td><td>Store</td></tr><tr><td>D017</td><td>Pooja Reddy</td><td>-</td><td>Human Resource</td></tr><tr><td>D018</td><td>Dev Malhotra</td><td>-</td><td>Business Intelligence andAutomation</td></tr><tr><td>D019</td><td>Nisha Bhatt</td><td>-</td><td>Business Intelligence andAutomation</td></tr><tr><td>D020</td><td>Ishaan Roy</td><td>-</td><td>Human Resource</td></tr><tr><td>D021</td><td>Kavya Pillai</td><td>-</td><td>Human Resource</td></tr>
+    </tbody></table></div>
+    
+    <p style="margin: 10px 0 0"><a class="us-pill" href="javascript:void(0)" data-demo-off="1">&#11015; Download Excel</a></p>
+  </div>
+
+  <div class="us-two">
+    <div class="us-box">
+      <h2>Busiest hours <em>(sign-ins by hour, last 30 days)</em></h2>
+      
+      <div class="us-bars" style="height: 100px"><i style="height: 2%" title="00:00 - 0 sign-ins"></i><i style="height: 2%" title="01:00 - 0 sign-ins"></i><i style="height: 2%" title="02:00 - 0 sign-ins"></i><i style="height: 2%" title="03:00 - 0 sign-ins"></i><i style="height: 2%" title="04:00 - 0 sign-ins"></i><i style="height: 2%" title="05:00 - 0 sign-ins"></i><i style="height: 7%" title="06:00 - 1 sign-in"></i><i style="height: 21%" title="07:00 - 3 sign-ins"></i><i style="height: 43%" title="08:00 - 6 sign-ins"></i><i style="height: 64%" title="09:00 - 9 sign-ins"></i><i style="height: 86%" title="10:00 - 12 sign-ins"></i><i style="height: 57%" title="11:00 - 8 sign-ins"></i><i style="height: 36%" title="12:00 - 5 sign-ins"></i><i style="height: 29%" title="13:00 - 4 sign-ins"></i><i style="height: 43%" title="14:00 - 6 sign-ins"></i><i style="height: 64%" title="15:00 - 9 sign-ins"></i><i style="height: 86%" title="16:00 - 12 sign-ins"></i><i class="hot" style="height: 100%" title="17:00 - 14 sign-ins"></i><i style="height: 71%" title="18:00 - 10 sign-ins"></i><i style="height: 43%" title="19:00 - 6 sign-ins"></i><i style="height: 21%" title="20:00 - 3 sign-ins"></i><i style="height: 7%" title="21:00 - 1 sign-in"></i><i style="height: 2%" title="22:00 - 0 sign-ins"></i><i style="height: 2%" title="23:00 - 0 sign-ins"></i></div>
+      <div class="us-labels"><span>00</span><span></span><span></span><span>03</span><span></span><span></span><span>06</span><span></span><span></span><span>09</span><span></span><span></span><span>12</span><span></span><span></span><span>15</span><span></span><span></span><span>18</span><span></span><span></span><span>21</span><span></span><span></span></div>
+      <p class="us-note" style="margin-top: 10px">&#128241; Phone 70% (42) &nbsp;&nbsp; &#128187; Computer 30% (18)</p>
+    </div>
+    <div class="us-box">
+      <h2>Most-used pages <em>(last 30 days)</em></h2>
+      
+      <table><thead><tr><th>Page</th><th>Views</th><th>People</th><th></th></tr></thead><tbody>
+      <tr><td>Log Book</td><td>120</td><td>11</td><td><div class="us-meter"><i style="width: 100%"></i></div></td></tr><tr><td>Dashboard</td><td>98</td><td>13</td><td><div class="us-meter"><i style="width: 82%"></i></div></td></tr><tr><td>Announcements</td><td>61</td><td>10</td><td><div class="us-meter"><i style="width: 51%"></i></div></td></tr><tr><td>Knowledge Center</td><td>44</td><td>8</td><td><div class="us-meter"><i style="width: 37%"></i></div></td></tr><tr><td>Restaurant Details</td><td>23</td><td>6</td><td><div class="us-meter"><i style="width: 19%"></i></div></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <p class="us-note">Counting started when this feature was installed; people already signed in then are counted at their next click.
+    Only Super admins can see this page. No passwords or IP addresses are recorded.</p>
+</div>
+
+        
+        <br class="clear">
+      </div>
+    </main>
+  </div>
+  <footer id="footer"></footer>
+</div>
+
+<!-- The three theme icons (from Django's admin) -->
+<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
+</svg>
+<script src="static/portal/admin/js/back-tab.js" defer></script>
+
+</body>
+</html>
