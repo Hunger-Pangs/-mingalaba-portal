@@ -1,5 +1,5 @@
 /*
- * Shared announcements data layer for announcements.html (the notice board) and
+ * Shared announcements data layer for the Announcements notice board page and
  * manage-announcements.html (where announcements are posted).
  *
  * USE_BACKEND_ANNOUNCEMENTS = false -> announcements live in this browser's localStorage, seeded with
@@ -17,7 +17,7 @@
  *     expiresOn ('YYYY-MM-DD' or '' -- hidden from the board after this day) }
  */
 (function () {
-  var USE_BACKEND_ANNOUNCEMENTS = false;
+  var USE_BACKEND_ANNOUNCEMENTS = true;
   var API_URL = '/api/announcements/';
   var LS_KEY = 'mingalaba.announcements.v1';
 
@@ -49,10 +49,10 @@
         'The refreshed seasonal menu, including the revised Khow Suey and two new tea-room desserts, launches next week. Recipe cards and plating guides are in the Menu section. Kitchen leads must complete the tasting session with their area chef before launch, and old menu inserts should be retired the evening before.',
         'Complete the tasting session with your area chef before launch.', 6],
       ['Q1 performance review cycle is open', 'HR & People', false, false, 3, 'People Team', 'All employees',
-        'Self-assessments are open for two weeks. Managers then have another two weeks to finish reviews and hold one-to-one conversations. Ratings are entered in PMS, which you can reach from the Log Book page under People & HR.',
+        'Self-assessments are open for two weeks. Managers then have another two weeks to finish reviews and hold one-to-one conversations. Ratings are entered in PMS, which you can reach from the Task & Checklist page under People & HR.',
         'Submit your self-assessment in PMS.', 12],
       ['Petty cash audit checklist is now weekly', 'Finance', false, false, 12, 'Finance Team', 'Store managers',
-        'From this week, the petty cash audit checklist must be completed every week instead of every month. Attach the banking slip photo and the closing balance. The Log Book page has the link under Finance & Sales.',
+        'From this week, the petty cash audit checklist must be completed every week instead of every month. Attach the banking slip photo and the closing balance. The Task & Checklist page has the link under Finance & Sales.',
         'Start the weekly checklist this week.', null],
       ['Aggregator order register: new fields from next month', 'Operations', false, false, 14, 'Operations Team', 'Store managers',
         'The aggregator order register will ask for the platform order ID, packing time and any refund reason from the start of next month. This helps us match complaints and refunds to the right shift. Existing entries are not affected and no back-filling is needed.',
@@ -98,7 +98,7 @@
     if (method !== 'GET') { opts.headers['Content-Type'] = 'application/json'; opts.headers['X-CSRFToken'] = csrfToken(); }
     if (body !== undefined) opts.body = JSON.stringify(body);
     return fetch(url, opts).then(function (res) {
-      if (res.status === 401) { window.location.href = 'index.html'; return Promise.reject(new Error('Not signed in')); }
+      if (res.status === 401) { window.location.href = (window.PORTAL_URLS && window.PORTAL_URLS.login) || 'dashboard.html'; return Promise.reject(new Error('Not signed in')); }
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (!res.ok) { var err = new Error(data.error || 'Request failed (' + res.status + ').'); err.status = res.status; err.fields = data.fields; throw err; }
         return data;
@@ -156,7 +156,7 @@
     save: function (input) {
       var a = clean(input);
       if (USE_BACKEND_ANNOUNCEMENTS) {
-        return a.id ? request('PUT', API_URL + a.id + '/', a).then(clean) : request('POST', API_URL, a).then(clean);
+        return a.id ? request('PUT', API_URL + a.id + 'dashboard.html', a).then(clean) : request('POST', API_URL, a).then(clean);
       }
       var all = readLocal();
       if (a.status === 'published' && !a.date) a.date = todayIso();
@@ -173,7 +173,7 @@
     },
 
     remove: function (id) {
-      if (USE_BACKEND_ANNOUNCEMENTS) return request('DELETE', API_URL + id + '/');
+      if (USE_BACKEND_ANNOUNCEMENTS) return request('DELETE', API_URL + id + 'dashboard.html');
       writeLocal(readLocal().filter(function (x) { return x.id !== id; }));
       return Promise.resolve({ success: true });
     },

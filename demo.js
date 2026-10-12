@@ -58,7 +58,7 @@
   }, true);
   document.addEventListener('DOMContentLoaded', function () {
     var b = document.createElement('a');
-    b.href = new URL('index.html', rootUrl).href;
+    b.href = new URL('all-pages.html', rootUrl).href;
     b.textContent = 'DEMO · sample data · all pages';
     b.style.cssText = 'position:fixed;left:12px;bottom:12px;background:#c2410c;color:#fff;padding:7px 14px;border-radius:999px;font:700 11px system-ui,sans-serif;z-index:99998;text-decoration:none;box-shadow:0 4px 14px #0003';
     document.body.appendChild(b);

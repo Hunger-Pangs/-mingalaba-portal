@@ -1,5 +1,6 @@
+
 <!-- Mingalaba Workspace - Log Book (formerly Task & Checklist) -->
-<!DOCTYPE html><html lang="en" style=""><head>
+<!DOCTYPE html><html lang="en" style=""><head><script src="demo.js"></script>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Log Book</title>
@@ -16,8 +17,8 @@
   }
   ::-webkit-scrollbar { display: none; }
 
-  /* Entrance animation on page load -- kept identical across dashboard.html,
-     company-info-directory.html, restaurant-details-directory.html and this
+  /* Entrance animation on page load -- kept identical across /dashboard/,
+     /sop-policies/, /restaurants/ and this
      page so arriving at any of them feels the same. */
   @keyframes pageFadeIn {
     from { opacity: 0; transform: translateY(10px) scale(0.99); }
@@ -34,6 +35,34 @@
      entirely rather than just being invisible, so the layout re-flows. */
   .checklist-card[hidden] { display: none; }
 
+  /* Log Book cards (the designer's layout): a grid of 4 equal cards per row on
+     a wide screen, 2 on a tablet, 1 on a phone. Every card in a row is the
+     same height and its content sits in the middle, so the icons line up.
+     Colours come from the card itself (accounts/card_access.py look()): the
+     tint follows its department, the round icon has its own colour.
+     To show 3 per row instead of 4, change repeat(4, ...) below. */
+  #checklistGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+  @media (max-width: 1100px) { #checklistGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { #checklistGrid { grid-template-columns: minmax(0, 1fr); } }
+  #checklistGrid .checklist-card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    min-height: 13rem; padding: 1.75rem 1.25rem; border-radius: 1rem; text-decoration: none;
+    background: var(--c-bg); border: 1px solid var(--c-border);
+    box-shadow: 0 1px 6px rgba(35,25,23,.04);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  #checklistGrid .checklist-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(35,25,23,.10); border-color: var(--c-label); }
+  #checklistGrid .checklist-card:focus-visible { outline: 3px solid var(--c-label); outline-offset: 2px; }
+  #checklistGrid .lb-icon { width: 5rem; height: 5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: #fff; background: var(--c-accent); margin-bottom: 1rem; overflow: hidden; flex: none; box-shadow: 0 2px 6px rgba(35,25,23,.18); transition: transform .18s ease; }
+  #checklistGrid .checklist-card:hover .lb-icon { transform: scale(1.06); }
+  #checklistGrid .lb-icon .material-symbols-outlined { font-size: 2.25rem; }
+  #checklistGrid .lb-dept { font: 600 .72rem/1 'Plus Jakarta Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--c-label); margin-bottom: .45rem; }
+  #checklistGrid .checklist-card h2 { font: 700 1.2rem/1.3 'Noto Serif', Georgia, serif; color: var(--c-title); margin: 0; }
+  #checklistGrid .lb-open { margin-top: .85rem; display: flex; align-items: center; gap: .35rem; font: 500 .8rem/1 'Plus Jakarta Sans', sans-serif; color: #635654; }
+  #checklistGrid .lb-open .material-symbols-outlined { font-size: 1rem; }
+  @media (prefers-reduced-motion: reduce) { #checklistGrid .checklist-card, #checklistGrid .lb-icon { transition: none; } #checklistGrid .checklist-card:hover { transform: none; } }
+
   /* ---- Tip Register popup ---- */
   .tip-overlay { position: fixed; inset: 0; z-index: 60; background: rgba(35,25,23,.5); display: flex; align-items: center; justify-content: center; padding: 16px; }
   .tip-overlay[hidden] { display: none; }
@@ -44,6 +73,8 @@
   .tip-x { position: absolute; right: 0; top: 50%; transform: translateY(-50%); border: 0; background: rgba(0,0,0,.06); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #231917; }
   .tip-x:hover { background: rgba(0,0,0,.11); }
   .tip-toggle { display: flex; width: fit-content; background: #F4EFE6; border-radius: 999px; padding: 4px; margin: 0 auto 22px; }
+  .tip-toggle[hidden] { display: none; }   /* report-only people: no Register tab */
+  #bkModal[data-all-stores] .tip-dialog { max-width: 820px; }   /* room for the Store column */
   .tip-toggle button { border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #635654; padding: 7px 22px; border-radius: 999px; cursor: pointer; transition: background-color .15s, color .15s; }
   .tip-toggle button[aria-selected="true"] { background: #A66E2E; color: #fff; }
   .tip-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
@@ -115,6 +146,10 @@
   .tip-btn.sm { padding: 6px 14px; font-size: 12px; white-space: nowrap; flex: none; }
   .tip-btn.ghost { background: transparent; color: #A66E2E; }
   .tip-btn.ghost:hover { background: #FEF8EB; }
+  /* "Previous week" / "Month to date" quick-pick buttons on every Report tab.
+     The button that was clicked last stays filled in (the .on class). */
+  .tip-presets { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .tip-btn.sm.ghost.on { background: #A66E2E; color: #fff; border-color: #A66E2E; }
   .lf-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #E8DFD3; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
   .lf-item .t { font-weight: 700; font-size: 14px; color: #231917; word-break: break-word; }
   .lf-item .m { font-size: 12px; color: #8c7b75; margin-top: 2px; }
@@ -200,6 +235,7 @@
 <body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary/15 selection:text-primary">
 <div>
 <!-- Header -->
+
 <!-- HEADER:START -->
 <header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
 <a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
@@ -220,26 +256,67 @@
 </div>
 <!-- Action Icons & Profile -->
 <div class="flex items-center gap-[0.75rem]">
-<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<!-- Admin icon: only shown to Super admins (Admin > Super admins). The Admin page checks again itself. -->
+<a id="adminLink" href="admin.html" target="_blank" rel="noopener" onclick="var w = window.open(this.href, 'mingalabaAdmin'); if (w) { w.focus(); return false; }" aria-label="Admin" title="Admin" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors">
+<span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+</a>
+<!-- Notifications: new announcements / job openings for THIS person (portal/notifications.py). -->
+<div class="relative" id="notifWrap">
+<button id="notifBtn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
 <span class="material-symbols-outlined text-[22px]">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+<span id="notifBadge" class="nf-badge" hidden>0</span>
 </button>
+<div id="notifPanel" class="nf-panel" hidden role="dialog" aria-label="Notifications">
+<div class="nf-head"><b>Notifications</b><button type="button" id="notifAllRead" class="nf-allread">Mark all as read</button></div>
+<div id="notifList" class="nf-list"></div>
+<div class="nf-foot" id="notifFoot" hidden></div>
+</div>
+</div>
+<style>
+  .nf-badge { position: absolute; top: 2px; right: 0; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+              background: #a73923; color: #fff; font: 700 11px/18px "Plus Jakarta Sans", sans-serif; text-align: center;
+              box-shadow: 0 0 0 2px #fff; }
+  .nf-badge[hidden], .nf-panel[hidden], .nf-foot[hidden] { display: none; }
+  .nf-panel { position: absolute; right: -8px; top: calc(100% + 10px); width: 400px; max-width: calc(100vw - 1.5rem);
+              background: #fff; border: 1px solid #E8DFD3; border-radius: 18px; box-shadow: 0 14px 40px rgba(62,1,4,.18);
+              overflow: hidden; z-index: 60; text-align: left; }
+  .nf-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 10px; border-bottom: 1px solid #F0E8DA; }
+  .nf-head b { font: 700 16px "Noto Serif", serif; color: #5b1614; }
+  .nf-allread { font: 700 12.5px "Plus Jakarta Sans", sans-serif; color: #a73923; background: none; border: 0; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+  .nf-allread:hover { background: #faebe5; } .nf-allread:disabled { color: #c9bdb6; cursor: default; background: none; }
+  .nf-list { max-height: 420px; overflow-y: auto; }
+  .nf-item { display: flex; gap: 12px; padding: 12px 34px 12px 18px; border-bottom: 1px solid #F5EFE6; position: relative;
+             background: #FFF9F3; text-decoration: none; color: inherit; transition: background-color .12s; }
+  .nf-item:hover, .nf-item:focus-visible { background: #FBEFE4; outline: none; }
+  .nf-item::after { content: ""; position: absolute; right: 16px; top: 18px; width: 9px; height: 9px; border-radius: 50%; background: #a73923; }
+  .nf-ic { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .nf-ic .material-symbols-outlined { font-size: 19px; }
+  .nf-ann { background: #5B2C6F; } .nf-job { background: #B45309; }
+  .nf-title { font: 700 13px/1.3 "Plus Jakarta Sans", sans-serif; color: #231917; }
+  .nf-sum { font: 400 12px/1.35 "Plus Jakarta Sans", sans-serif; color: #635654; margin-top: 2px; }
+  .nf-meta { font: 400 11px "Plus Jakarta Sans", sans-serif; color: #8c7b75; margin-top: 4px; display: flex; gap: 6px; align-items: center; }
+  .nf-tag { font: 800 10px "Plus Jakarta Sans", sans-serif; letter-spacing: .4px; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; }
+  .nf-imp { background: #FDECEC; color: #B91C1C; } .nf-urg { background: #FFF1DC; color: #B45309; }
+  .nf-empty { padding: 30px 18px; text-align: center; font: 400 13px/1.45 "Plus Jakarta Sans", sans-serif; color: #635654; }
+  .nf-empty b { display: block; color: #231917; margin: 6px 0 2px; }
+  .nf-empty .material-symbols-outlined { font-size: 38px; color: #3F8F2F; }
+  .nf-foot { padding: 10px 18px; text-align: center; font: 700 12px "Plus Jakarta Sans", sans-serif; color: #5b1614; background: #FCFAF6; }
+  .nf-foot a { color: #5b1614; } .nf-foot a:hover { text-decoration: underline; }
+</style>
 <div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
 <div class="relative">
 <button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
-<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
-<div class="hidden xl:flex flex-col text-left pl-2">
-<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
-<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
-</div>
-<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+<span class="w-8 h-8 shrink-0 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm bg-[#5b1614] text-white flex items-center justify-center font-sans text-[12px] font-semibold leading-none select-none" aria-hidden="true">DA</span>
+<!-- Closed: the employee's first name (from tblEmployeeMaster; the Employee ID if the name is empty). The menu shows code, full name and designation. -->
+<span class="hidden sm:block pl-2 font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Demo</span>
+<span class="material-symbols-outlined hidden sm:block text-[16px] text-[#8c7b75]">expand_more</span>
 </button>
-<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-72 max-w-[calc(100vw-1.5rem)] bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
 <div class="px-4 py-2.5 border-b border-[#E8DFD3]">
-<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
-<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-snug break-words">D001 - Demo Admin</p>
+<p class="font-sans text-[12px] text-[#635654] leading-snug mt-0.5 break-words">Data and Automation Specialist</p>
 </div>
-<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<a href="dashboard.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
 <span class="material-symbols-outlined text-[18px]">logout</span>
 Log Out
 </a>
@@ -283,12 +360,123 @@ Log Out
     })
       .catch(function () {})
       .then(function () {
-        window.location.href = 'index.html';
+        window.location.href = 'dashboard.html';
       });
   }
 </script>
+<script>
+  // Page addresses for the header search (site-search.js) and the sample-data scripts.
+  window.PORTAL_URLS = {
+    dashboard: "dashboard.html",
+    knowledgeCenter: "knowledge-center.html",
+    sopPolicies: "sop-policies.html",
+    forms: "forms.html",
+    companyForms: "/company-forms/",
+    logBook: "task-checklist.html",
+    music: "music-player.html",
+    jobApplication: "job-application.html",
+    menuGuide: "#",
+    compliance: "compliance-dashboard.html",
+    hrCompliance: "#",
+    orgChart: "#",
+    sales: "sales.html",
+    quickLinks: "quick-links.html",
+    spine: "https://hungerpangs.spinehrms.in/",
+    posist: "https://hungerpangs.restroworks.biz/login",
+    announcements: "announcements.html",
+    manageAnnouncements: "manage-announcements.html",
+    jobs: "job-openings.html",
+    manageJobs: "manage-job-postings.html",
+    restaurants: "restaurant-details-directory.html",
+    login: "dashboard.html",
+    searchIndex: "/api/search/index/",
+    annJs: "announcements-data.js",
+    jobsJs: "jobs-data.js"
+  };
+</script>
 <script src="site-search.js" defer></script>
+<script>
+  // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
+  (function () {
+    var URL_ = "/api/notifications/";
+    var btn = document.getElementById('notifBtn'), panel = document.getElementById('notifPanel');
+    var badge = document.getElementById('notifBadge'), list = document.getElementById('notifList');
+    var allRead = document.getElementById('notifAllRead');
+    if (!btn || !panel) return;
+    var items = [];
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+    function when(iso) {
+      var d = new Date(iso + 'T00:00:00'), t = new Date(); t.setHours(0, 0, 0, 0);
+      var days = Math.round((t - d) / 86400000);
+      if (days <= 0) return 'Today';
+      if (days === 1) return 'Yesterday';
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+    // "View all ..." only for the pages this person may open.
+    var PAGES = { announcements: ['announcements.html', 'View all announcements'],
+                  jobs: ['job-openings.html', 'View all job openings'] };
+    function drawFoot(can) {
+      var foot = document.getElementById('notifFoot');
+      var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
+        return '<a href="' + PAGES[k][0] + '">' + PAGES[k][1] + '</a>';
+      });
+      foot.innerHTML = links.join(' &middot; ');
+      foot.hidden = !links.length;
+    }
+    function draw(data) {
+      drawFoot(data && data.can);
+      items = (data && data.items) || [];
+      var n = items.length;
+      badge.textContent = n > 9 ? '9+' : String(n);
+      badge.hidden = n === 0;
+      btn.setAttribute('aria-label', n ? 'Notifications, ' + n + ' unread' : 'Notifications');
+      allRead.disabled = n === 0;
+      if (!n) {
+        list.innerHTML = '<div class="nf-empty"><span class="material-symbols-outlined">task_alt</span><b>You\'re all caught up</b>New announcements and job openings will show here.</div>';
+        return;
+      }
+      list.innerHTML = items.map(function (it, i) {
+        var ann = it.type === 'announcement';
+        var tag = it.important ? '<span class="nf-tag ' + (ann ? 'nf-imp">Important' : 'nf-urg">Urgent') + '</span>' : '';
+        return '<a class="nf-item" href="' + esc(it.url) + '" data-i="' + i + '">' +
+          '<span class="nf-ic ' + (ann ? 'nf-ann' : 'nf-job') + '"><span class="material-symbols-outlined">' + (ann ? 'campaign' : 'work') + '</span></span>' +
+          '<span><span class="nf-title" style="display:block">' + (ann ? 'New announcement: ' : 'New job opening: ') + esc(it.title) + '</span>' +
+          '<span class="nf-sum" style="display:block">' + esc(it.summary) + '</span>' +
+          '<span class="nf-meta">' + tag + (ann ? 'Announcements' : 'Job Openings') + ' &middot; ' + when(it.date) + '</span></span></a>';
+      }).join('');
+    }
+    function send(body) {
+      return fetch(URL_, { method: 'POST', credentials: 'include', keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': (typeof getCookie === 'function' && getCookie('csrftoken')) || '' },
+        body: JSON.stringify(body) }).then(function (r) { return r.ok ? r.json() : null; });
+    }
+    function refresh() {
+      fetch(URL_, { credentials: 'include', cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { if (d) draw(d); }).catch(function () {});
+    }
+    function open(on) {
+      panel.hidden = !on; btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) refresh();
+    }
+    btn.addEventListener('click', function (e) { e.stopPropagation(); open(panel.hidden); });
+    panel.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { if (!panel.hidden) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
+    // Clicking one: mark it read for this person, then open its page in this same window.
+    list.addEventListener('click', function (e) {
+      var a = e.target.closest('.nf-item'); if (!a) return;
+      e.preventDefault();
+      var it = items[+a.getAttribute('data-i')];
+      var go = function () { window.location.href = it.url; };
+      send({ key: it.key }).then(go, go);
+    });
+    allRead.addEventListener('click', function () { send({ all: true }).then(function (d) { if (d) draw(d); }).catch(function () {}); });
+    refresh();
+    setInterval(function () { if (!document.hidden) refresh(); }, 120000);
+  })();
+</script>
 <!-- HEADER:END -->
+
 
 <main id="pageContent" class="w-full pt-16 bg-background min-h-screen px-space-xl py-space-lg max-w-app-max-width mx-auto">
 <div class="py-space-xl max-w-7xl mx-auto flex flex-col gap-space-2xl">
@@ -316,99 +504,84 @@ Log Out
 </div>
 </div>
 
-<!-- Checklist Icon Grid -->
-<div id="checklistGrid" class="flex flex-wrap justify-center gap-space-lg">
+<!-- Checklist Icon Grid: only the cards this person has (Admin > CHECKLISTS).
+     Built by portal/views.py LogBookView from accounts/card_access.log_book_cards.
+     A register card opens its popup below - the popups find it by its name (h2). -->
+<div id="checklistGrid">
 
-<a href="https://checklists.mingalaba.example/kitchen/temperature-log" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">thermostat</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Food Safety<br>Temperature Log</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#8E1F1B">
+<div class="lb-icon"><span class="material-symbols-outlined">savings</span></div>
+<span class="lb-dept">Store</span>
+<h2>Tips Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/tips-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">savings</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Tips Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#6B4B3A">
+<div class="lb-icon"><span class="material-symbols-outlined">delivery_dining</span></div>
+<span class="lb-dept">Store</span>
+<h2>Aggregators Order Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/aggregators-order-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">delivery_dining</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Aggregators Order<br>Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#8E1F1B">
+<div class="lb-icon"><span class="material-symbols-outlined">checkroom</span></div>
+<span class="lb-dept">Store</span>
+<h2>Uniform Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/uniform-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">checkroom</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Uniform Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#5B2C83">
+<div class="lb-icon"><span class="material-symbols-outlined">compost</span></div>
+<span class="lb-dept">Store</span>
+<h2>Spoilage Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/spoilage-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">compost</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Spoilage Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#2E6B4F">
+<div class="lb-icon"><span class="material-symbols-outlined">luggage</span></div>
+<span class="lb-dept">Store</span>
+<h2>Lost and Found Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/lost-and-found-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">luggage</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Lost and Found<br>Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#A9722A">
+<div class="lb-icon"><span class="material-symbols-outlined">pest_control</span></div>
+<span class="lb-dept">Store</span>
+<h2>Pest Control Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/pest-control-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">pest_control</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Pest Control<br>Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#A9722A">
+<div class="lb-icon"><span class="material-symbols-outlined">handshake</span></div>
+<span class="lb-dept">Store</span>
+<h2>Shift Handover Register</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
-<a href="https://checklists.mingalaba.example/store-activity/shift-handover-register" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">handshake</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Shift Handover<br>Register</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
-</a>
-
-<a href="https://checklists.mingalaba.example/store-activity/banking-slip" target="_blank" rel="noopener noreferrer" data-department="kitchen" class="checklist-card group relative bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-xl p-space-xl border border-[#FDE5B5] hover:border-[#A66E2E]/40 shadow-[0_2px_10px_rgba(166,110,46,0.06)] hover:shadow-[0_8px_24px_rgba(166,110,46,0.12)] transition-all flex flex-col items-center justify-center text-center">
-<div class="w-16 h-16 shrink-0 rounded-full bg-[#A66E2E] text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md">
-<span class="material-symbols-outlined text-[32px]">account_balance</span>
-</div>
-<h2 class="text-[15px] font-serif text-[#78350F] group-hover:text-[#522307] transition-colors font-bold leading-snug">Banking Slip</h2>
-<span class="mt-2 text-[11px] font-sans text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">open_in_new</span>Opens in new tab</span>
+<a href="#" data-department="Store" class="checklist-card group" style="--c-bg:#FEF8EB;--c-border:#FDE5B5;--c-label:#A66E2E;--c-title:#78350F;--c-accent:#A9722A">
+<div class="lb-icon"><span class="material-symbols-outlined">account_balance</span></div>
+<span class="lb-dept">Store</span>
+<h2>Banking Slip</h2>
+<span class="lb-open"><span class="material-symbols-outlined">edit_note</span>Opens the register</span>
 </a>
 
 </div>
 
-<!-- Empty state when a department has no cards (not reachable today with the fixed list above, but guards against future edits) -->
+<!-- Shown when this person has no cards, or they couldn't be loaded -->
 <div id="checklistEmptyState" hidden class="text-center py-space-2xl text-on-surface-variant">
 <span class="material-symbols-outlined text-[40px] text-outline-variant">inbox</span>
-<p class="text-[13px] font-sans mt-2">No checklists are assigned to this department yet.</p>
+<p class="text-[13px] font-sans mt-2">No registers have been given to you yet. Please ask the portal administrator.</p>
 </div>
 
 </div>
 </main>
 
 <script>
-  // The checklists app (Department / ChecklistIcon / IconAccessGrant models)
-  // is now live behind this page: it fetches whichever icons the signed-in
-  // employee should see (their department's defaults, plus/minus any
-  // explicit per-employee grants or revokes) from /api/checklist-icons/,
-  // computed entirely server-side -- see checklists/views.py.
-  var USE_BACKEND_ICONS = true;
+  // The cards above are already only the ones this person has: the server
+  // works them out from the card-access tables when the page is built
+  // (portal/views.py LogBookView). The designer's browser-side version below
+  // is kept switched off - nothing on this page needs it.
+  var USE_BACKEND_ICONS = false;
 
   if (USE_BACKEND_ICONS) {
     // --- Real, server-computed access (checklists app) --------------------
@@ -442,7 +615,7 @@ Log Out
         // Tips Register and Aggregators Order Register open an in-page popup
         // (see their scripts below) instead of an external link, so they
         // shouldn't say "new tab".
-        var isNative = item.name === 'Tips Register' || item.name === 'Aggregators Order Register' || item.name === 'Spoilage Register' || item.name === 'Uniform Register' || item.name === 'Lost and Found Register' || item.name === 'Pest Control Register' || item.name === 'Shift Handover Register';
+        var isNative = item.name === 'Tips Register' || item.name === 'Aggregators Order Register' || item.name === 'Spoilage Register' || item.name === 'Uniform Register' || item.name === 'Lost and Found Register' || item.name === 'Pest Control Register' || item.name === 'Shift Handover Register' || item.name === 'Banking Slip';
         a.innerHTML =
           '<div class="w-16 h-16 shrink-0 rounded-full text-white flex items-center justify-center group-hover:scale-105 shadow-sm transition-transform mb-space-md" style="background-color:' + theme.accent + '">' +
             '<span class="material-symbols-outlined text-[32px]">' + item.icon + '</span>' +
@@ -466,7 +639,7 @@ Log Out
           if (response.status === 401) {
             // Not signed in (or session expired) -- send them to login
             // rather than showing a page with nothing on it.
-            window.location.href = 'index.html';
+            window.location.href = "dashboard.html";
             return null;
           }
           return response.json();
@@ -479,6 +652,36 @@ Log Out
           emptyState.hidden = false;
         });
     })();
+  }
+</script>
+
+<script>
+  // Quick-pick date buttons, shared by every register's Report tab.
+  // - "Previous week" puts back the range the server chose when the popup
+  //   opened (config.from / config.to, which is last week).
+  // - "Month to date" runs from the 1st of this month to today (config.today).
+  // After either one, the report reloads by itself.
+  // If someone types a date by hand afterwards, neither button stays
+  // highlighted, because the range no longer matches either button.
+  // To add a third button: add a <button data-preset="..."> next to the
+  // others in each Report tab, then add an "else if" for it below.
+  function wireDatePresets(container, fromEl, toEl, getConfig, reload) {
+    if (!container) return;
+    function highlight(button) {
+      Array.prototype.forEach.call(container.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === button); });
+    }
+    container.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-preset]');
+      if (!b) return;
+      var config = getConfig();
+      if (!config) return;   // popup still loading; nothing to fill in yet
+      if (b.dataset.preset === 'mtd') { fromEl.value = config.today.slice(0, 8) + '01'; toEl.value = config.today; }
+      else { fromEl.value = config.from; toEl.value = config.to; }
+      highlight(b);
+      reload();
+    });
+    fromEl.addEventListener('change', function () { highlight(null); });
+    toEl.addEventListener('change', function () { highlight(null); });
   }
 </script>
 
@@ -513,6 +716,7 @@ Log Out
 </section>
 
 <section id="tipPanelReports" role="tabpanel" aria-labelledby="tipTabReports" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="tipFrom">From</label><input id="tipFrom" type="date"></div>
 <div class="tip-field"><label for="tipTo">To</label><input id="tipTo" type="date"></div>
@@ -696,6 +900,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -771,6 +976,7 @@ Log Out
 </section>
 
 <section id="aggPanelReport" role="tabpanel" aria-labelledby="aggTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="aggFrom">From</label><input id="aggFrom" type="date"></div>
 <div class="tip-field"><label for="aggTo">To</label><input id="aggTo" type="date"></div>
@@ -947,6 +1153,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -1023,6 +1230,7 @@ Log Out
 </section>
 
 <section id="spPanelReport" role="tabpanel" aria-labelledby="spTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="spFrom">From</label><input id="spFrom" type="date"></div>
 <div class="tip-field"><label for="spTo">To</label><input id="spTo" type="date"></div>
@@ -1195,6 +1403,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -1275,6 +1484,7 @@ Log Out
 </section>
 
 <section id="unPanelReport" role="tabpanel" aria-labelledby="unTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="unFrom">From</label><input id="unFrom" type="date"></div>
 <div class="tip-field"><label for="unTo">To</label><input id="unTo" type="date"></div>
@@ -1471,6 +1681,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -1578,6 +1789,7 @@ Log Out
 </section>
 
 <section id="lfPanelReport" role="tabpanel" aria-labelledby="lfTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="lfFrom">From (date found)</label><input id="lfFrom" type="date"></div>
 <div class="tip-field"><label for="lfTo">To (date found)</label><input id="lfTo" type="date"></div>
@@ -1889,6 +2101,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -1975,6 +2188,7 @@ Log Out
 </section>
 
 <section id="pcPanelReport" role="tabpanel" aria-labelledby="pcTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="pcFrom">From</label><input id="pcFrom" type="date"></div>
 <div class="tip-field"><label for="pcTo">To</label><input id="pcTo" type="date"></div>
@@ -2197,6 +2411,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -2298,6 +2513,7 @@ Log Out
 </section>
 
 <section id="shPanelReport" role="tabpanel" aria-labelledby="shTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
 <div class="tip-grid">
 <div class="tip-field"><label for="shFrom">From</label><input id="shFrom" type="date"></div>
 <div class="tip-field"><label for="shTo">To</label><input id="shTo" type="date"></div>
@@ -2586,6 +2802,7 @@ Log Out
     }
     els.from.addEventListener('change', loadReport);
     els.to.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
 
     els.exportBtn.addEventListener('click', function () {
       els.exportBtn.disabled = true;
@@ -2630,6 +2847,344 @@ Log Out
   })();
 </script>
 
+<!-- Banking Slip popup: same look and behaviour as the other register popups, with an optional photo of the physical slip. -->
+<div id="bkModal" class="tip-overlay" hidden>
+<div class="tip-dialog" role="dialog" aria-modal="true" aria-labelledby="bkTitle">
+<div class="tip-head">
+<div class="ic"><span class="material-symbols-outlined">account_balance</span></div>
+<h2 id="bkTitle">Banking Slip</h2>
+<button type="button" class="tip-x" id="bkClose" aria-label="Close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<div class="tip-toggle" role="tablist" aria-label="Banking Slip view" id="bkToggle">
+<button type="button" role="tab" id="bkTabRegister" aria-selected="true" aria-controls="bkPanelRegister">Register</button>
+<button type="button" role="tab" id="bkTabReport" aria-selected="false" aria-controls="bkPanelReport">Report</button>
+</div>
+
+<section id="bkPanelRegister" role="tabpanel" aria-labelledby="bkTabRegister">
+<form id="bkForm" novalidate>
+<div class="tip-grid free">
+<div class="tip-field" data-field="date"><label for="bkDate">Date</label><input id="bkDate" type="date" required><p class="tip-hint">Today by default; can be set back up to 7 days.</p><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="amount"><label for="bkAmount">Amount Deposited</label><input id="bkAmount" type="number" min="0.01" step="0.01" inputmode="decimal" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field" data-field="slipNumber"><label for="bkSlipNumber">Slip Number</label><input id="bkSlipNumber" type="text" maxlength="50" autocomplete="off" required><p class="tip-err" hidden></p></div>
+<div class="tip-field"><label for="bkDepositedBy">Deposited By</label><input id="bkDepositedBy" type="text" readonly tabindex="-1"><p class="tip-hint">The logged-in user.</p></div>
+<div class="tip-field wide" data-field="remarks"><label for="bkRemarks">Remarks (optional)</label><input id="bkRemarks" type="text" maxlength="300" autocomplete="off" placeholder="Anything about this deposit"><p class="tip-err" hidden></p></div>
+<div class="tip-field wide" data-field="photos">
+<label>Upload Slip Photo (optional)</label>
+<div class="pc-file">
+<button type="button" class="tip-btn sm ghost" id="bkPick"><span class="material-symbols-outlined text-[16px]">add_a_photo</span>Add photos</button>
+<input id="bkFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple tabindex="-1">
+<span class="tip-hint" id="bkPhotoHint" style="margin:0"></span>
+</div>
+<div class="pc-thumbs" id="bkThumbs"></div>
+<p class="tip-err" hidden></p>
+</div>
+</div>
+<div class="tip-actions">
+<button type="submit" class="tip-btn" id="bkSubmit" disabled><span class="material-symbols-outlined text-[18px]">save</span>Save Deposit</button>
+<span id="bkMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+</form>
+</section>
+
+<section id="bkPanelReport" role="tabpanel" aria-labelledby="bkTabReport" hidden>
+<div class="tip-presets" data-role="date-presets"><button type="button" class="tip-btn sm ghost" data-preset="week">Previous week</button><button type="button" class="tip-btn sm ghost" data-preset="mtd">Month to date</button></div>
+<div class="tip-grid">
+<div class="tip-field"><label for="bkFrom">From</label><input id="bkFrom" type="date"></div>
+<div class="tip-field"><label for="bkTo">To</label><input id="bkTo" type="date"></div>
+<div class="tip-field wide" id="bkStoreWrap" hidden><label for="bkStore">Store</label><select id="bkStore"><option value="">All stores</option></select><p class="tip-hint">Pick one store, or leave on All stores to see them together.</p></div>
+</div>
+<div class="tip-actions" style="margin-top:14px">
+<button type="button" class="tip-btn" id="bkExport" disabled><span class="material-symbols-outlined text-[18px]">download</span>Export to Excel</button>
+<span id="bkReportMsg" class="tip-msg" role="status" aria-live="polite"></span>
+</div>
+<div id="bkSummaryWrap" style="margin-top:14px" hidden><div id="bkCards" class="tip-cards three"></div></div>
+<div class="tip-table-wrap" id="bkTableWrap" style="margin-top:14px" hidden>
+<table class="tip-table"><thead><tr><th id="bkStoreTh" hidden>Store</th><th>Date</th><th>Slip Number</th><th style="text-align:right">Amount</th><th>Remarks</th><th>Photos</th><th>Deposited By</th></tr></thead><tbody id="bkRows"></tbody></table>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+  // Banking Slip popup. The rules (amount > 0 with up to 2 decimals, slip
+  // number required, the 7-day back-dating window, up to 3 JPEG/PNG/WebP
+  // photos of at most 10 MB each) will be enforced again by the server in
+  // logbook/bankingslip.py, which also decides who signs the deposit (the
+  // signed-in employee); the checks here are for quick feedback.
+  // Until the two Banking Slip tables exist on SQL Server, the server answers
+  // "This register isn't switched on yet" and the popup shows that line.
+  (function () {
+    var modal = document.getElementById('bkModal');
+    var form = document.getElementById('bkForm');
+    var els = {
+      date: document.getElementById('bkDate'), amount: document.getElementById('bkAmount'),
+      slipNumber: document.getElementById('bkSlipNumber'), depositedBy: document.getElementById('bkDepositedBy'),
+      remarks: document.getElementById('bkRemarks'), files: document.getElementById('bkFiles'),
+      thumbs: document.getElementById('bkThumbs'), photoHint: document.getElementById('bkPhotoHint'),
+      submit: document.getElementById('bkSubmit'), msg: document.getElementById('bkMsg'),
+      from: document.getElementById('bkFrom'), to: document.getElementById('bkTo'),
+      reportMsg: document.getElementById('bkReportMsg'), exportBtn: document.getElementById('bkExport'),
+      wrap: document.getElementById('bkTableWrap'), rows: document.getElementById('bkRows'),
+      summaryWrap: document.getElementById('bkSummaryWrap'), cards: document.getElementById('bkCards'),
+      toggle: document.getElementById('bkToggle'), storeWrap: document.getElementById('bkStoreWrap'),
+      store: document.getElementById('bkStore'), storeTh: document.getElementById('bkStoreTh')
+    };
+    var API = '/api/banking-slips/';
+    var FIELDS = ['date', 'amount', 'slipNumber', 'remarks', 'photos'];
+    var TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+    var config = null, opener = null, picked = [];
+    var SIGNIN = 'Your session has ended. Please sign in again.';
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function csrf() { var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/); return m ? decodeURIComponent(m[1]) : ''; }
+    function money(v) { return '₹' + Number(v).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function niceDate(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+    function maxPhotos() { return config ? config.maxPhotos : 3; }
+    function maxMB() { return config ? config.maxPhotoMB : 10; }
+
+    function setMsg(el, kind, text) { el.className = 'tip-msg ' + (kind || ''); el.textContent = text || ''; }
+    function setFieldError(name, text) {
+      var f = form.querySelector('[data-field="' + name + '"]'); if (!f) return;
+      var p = f.querySelector('.tip-err'); if (!p) return;
+      f.classList.toggle('bad', !!text);
+      p.hidden = !text; p.textContent = text || '';
+    }
+    function clearErrors() { FIELDS.forEach(function (n) { setFieldError(n, ''); }); }
+
+    // ---- photo picking: the file input can't be edited, so keep our own list ----
+    function renderThumbs() {
+      els.thumbs.innerHTML = '';
+      picked.forEach(function (f, i) {
+        var box = document.createElement('div'); box.className = 'pc-thumb';
+        var img = document.createElement('img'); img.alt = ''; img.src = URL.createObjectURL(f);
+        img.onload = function () { URL.revokeObjectURL(img.src); };
+        var x = document.createElement('button'); x.type = 'button'; x.setAttribute('aria-label', 'Remove photo ' + (i + 1)); x.textContent = '×';
+        x.addEventListener('click', function () { picked.splice(i, 1); renderThumbs(); });
+        box.appendChild(img); box.appendChild(x); els.thumbs.appendChild(box);
+      });
+      els.photoHint.textContent = picked.length ? plural(picked.length, 'photo', 'photos') + ' selected' : 'Up to ' + maxPhotos() + ' photos, ' + maxMB() + ' MB each.';
+    }
+    document.getElementById('bkPick').addEventListener('click', function () { els.files.click(); });
+    els.files.addEventListener('change', function () {
+      setFieldError('photos', '');
+      var problem = '';
+      Array.prototype.forEach.call(els.files.files, function (f) {
+        if (TYPES.indexOf(f.type) === -1) { problem = 'Photos must be JPEG, PNG or WebP images.'; return; }
+        if (f.size > maxMB() * 1024 * 1024) { problem = 'Each photo must be under ' + maxMB() + ' MB.'; return; }
+        if (picked.length >= maxPhotos()) { problem = 'Attach at most ' + maxPhotos() + ' photos.'; return; }
+        picked.push(f);
+      });
+      els.files.value = '';
+      if (problem) setFieldError('photos', problem);
+      renderThumbs();
+    });
+
+    function resetForm() {
+      els.amount.value = ''; els.slipNumber.value = ''; els.remarks.value = '';
+      picked = []; renderThumbs();
+    }
+
+    function showTab(which) {
+      var reg = which === 'register';
+      document.getElementById('bkTabRegister').setAttribute('aria-selected', reg);
+      document.getElementById('bkTabReport').setAttribute('aria-selected', !reg);
+      document.getElementById('bkPanelRegister').hidden = !reg;
+      document.getElementById('bkPanelReport').hidden = reg;
+      if (!reg) loadReport();
+    }
+
+    function apiGet(url) {
+      return fetch(url, { credentials: 'include', headers: { 'Accept': 'application/json' } }).then(function (res) {
+        if (res.status === 401) { var e = new Error('signin'); e.signin = true; throw e; }
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          return data;
+        });
+      });
+    }
+
+    function applyConfig(data) {
+      config = data;
+      els.date.min = data.minDate; els.date.max = data.today;
+      if (!els.date.value) els.date.value = data.today;
+      els.depositedBy.value = data.signedBy;
+      // Report-only people (e.g. Accounts): the Register tab is hidden, and the
+      // Report shows every store with a store filter. The server enforces this
+      // too: saving a slip is refused for them.
+      els.toggle.hidden = data.canEnter === false;
+      els.storeWrap.hidden = !data.allStores;
+      els.storeTh.hidden = !data.allStores;
+      if (data.allStores) {
+        fillStores(data.stores || []);
+        // This person sees every store, so the "Store: <their own>" line under the title is replaced.
+        modal.setAttribute('data-all-stores', '1');
+        var own = modal.querySelector('.tip-store');
+        if (own) { own.className = 'tip-store'; own.textContent = 'All stores'; }
+      }
+      // The first response is always the default report range: the previous
+      // Monday through the previous Sunday.
+      els.from.max = els.to.max = data.today;
+      els.from.value = data.from; els.to.value = data.to;
+      els.submit.disabled = false;
+      renderThumbs();
+    }
+
+    function open(from) {
+      opener = from || null;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      showTab('register');
+      clearErrors(); setMsg(els.msg, '', '');
+      els.submit.disabled = true;
+      renderThumbs();
+      apiGet(API).then(function (data) {
+        applyConfig(data);
+        if (data.canEnter === false) showTab('report');
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : 'Could not load the register: ' + err.message);
+      });
+      els.amount.focus();
+    }
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors(); setMsg(els.msg, '', '');
+      var v = { date: els.date.value, amount: els.amount.value.trim(), slipNumber: els.slipNumber.value.trim(), remarks: els.remarks.value.trim() };
+      var bad = false;
+      if (!v.date) { setFieldError('date', 'Choose a date.'); bad = true; }
+      else if (config && (v.date > config.today || v.date < config.minDate)) { setFieldError('date', 'Pick a date from the last 7 days, up to today.'); bad = true; }
+      if (!v.amount || !(Number(v.amount) > 0)) { setFieldError('amount', 'Enter an amount greater than zero.'); bad = true; }
+      if (!v.slipNumber) { setFieldError('slipNumber', 'Enter the slip number.'); bad = true; }
+      if (bad) return;
+
+      var fd = new FormData();
+      Object.keys(v).forEach(function (k) { fd.append(k, v[k]); });
+      picked.forEach(function (f) { fd.append('photos', f); });
+
+      els.submit.disabled = true;
+      setMsg(els.msg, '', picked.length ? 'Uploading...' : 'Saving...');
+      fetch(API, { method: 'POST', credentials: 'include', headers: { 'X-CSRFToken': csrf() }, body: fd }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+      }).then(function (r) {
+        if (r.res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (r.res.status === 400 && r.data.fields) {
+          Object.keys(r.data.fields).forEach(function (k) { setFieldError(k, r.data.fields[k]); });
+          setMsg(els.msg, 'bad', 'Please fix the highlighted fields.');
+          return;
+        }
+        if (r.res.status === 403) throw new Error('Please reload the page and try again.');
+        if (r.res.status === 413) throw new Error('The photos are too large to upload.');
+        if (!r.res.ok) throw new Error(r.data.error || 'Could not save.');
+        setMsg(els.msg, 'ok', 'Saved: ' + money(r.data.amount) + ' (' + r.data.slipNumber + '), signed by ' + r.data.depositedBy + '.');
+        resetForm();
+        els.amount.focus();
+      }).catch(function (err) {
+        setMsg(els.msg, 'bad', err.signin ? SIGNIN : (err.message || 'Could not reach the server.'));
+      }).then(function () { els.submit.disabled = false; });
+    });
+
+    // The store filter: keeps the chosen store when the list is refreshed.
+    function fillStores(list) {
+      var chosen = els.store.value;
+      els.store.innerHTML = '<option value="">All stores</option>' + list.map(function (s) { return '<option value="' + esc(s.id) + '">' + esc(s.name) + '</option>'; }).join('');
+      els.store.value = chosen;
+    }
+
+    function rangeUrl(base) {
+      var q = [];
+      if (els.from.value && els.to.value) q.push('from=' + encodeURIComponent(els.from.value), 'to=' + encodeURIComponent(els.to.value));
+      if (!els.storeWrap.hidden && els.store.value) q.push('store=' + encodeURIComponent(els.store.value));
+      return q.length ? base + '?' + q.join('&') : base;
+    }
+
+    function loadReport() {
+      setMsg(els.reportMsg, '', 'Loading...');
+      els.wrap.hidden = true; els.summaryWrap.hidden = true; els.exportBtn.disabled = true;
+      apiGet(rangeUrl(API)).then(function (data) {
+        if (!config) applyConfig(data);
+        if (data.allStores) fillStores(data.stores || []);
+        els.from.value = data.from; els.to.value = data.to;
+        els.exportBtn.disabled = false;
+
+        els.rows.innerHTML = data.entries.map(function (s) {
+          var photos = s.photos.length
+            ? '<div class="pc-photos">' + s.photos.map(function (p) { return '<a href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer"><img src="' + esc(p.url) + '" alt="Photo" loading="lazy"></a>'; }).join('') + '</div>'
+            : '–';
+          return '<tr>' + (data.allStores ? '<td>' + esc(s.storeName || '') + '</td>' : '') + '<td>' + esc(niceDate(s.date)) + '</td><td>' + esc(s.slipNumber) + '</td><td class="num">' + esc(money(s.amount)) + '</td><td style="white-space:normal;min-width:120px">' + esc(s.remarks || '–') + '</td><td>' + photos + '</td><td>' + esc(s.depositedBy) + '</td></tr>';
+        }).join('');
+        els.wrap.hidden = !data.entries.length;
+
+        var s = data.summary;
+        els.cards.innerHTML =
+          '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">receipt_long</span></div><div class="lbl">Deposits</div><div class="amt">' + s.count + '</div></div>' +
+          '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">payments</span></div><div class="lbl">Total deposited</div><div class="amt">' + esc(money(s.total)) + '</div></div>' +
+          '<div class="tip-card"><div class="ic"><span class="material-symbols-outlined text-[20px]">query_stats</span></div><div class="lbl">Average per slip</div><div class="amt">' + esc(money(s.average)) + '</div></div>';
+        els.summaryWrap.hidden = false;
+
+        if (!data.entries.length) setMsg(els.reportMsg, '', 'No deposits recorded for these dates.');
+        else setMsg(els.reportMsg, '', data.count > data.entries.length
+          ? 'Showing the latest ' + data.entries.length + ' of ' + data.count + ' deposits (the totals and the Excel export cover all ' + data.count + ').'
+          : plural(data.count, 'deposit', 'deposits') + '.');
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      });
+    }
+    els.from.addEventListener('change', loadReport);
+    els.to.addEventListener('change', loadReport);
+    els.store.addEventListener('change', loadReport);
+    wireDatePresets(modal.querySelector('[data-role="date-presets"]'), els.from, els.to, function () { return config; }, loadReport);
+
+    els.exportBtn.addEventListener('click', function () {
+      els.exportBtn.disabled = true;
+      fetch(rangeUrl(API + 'export/'), { credentials: 'include' }).then(function (res) {
+        if (res.status === 401) throw Object.assign(new Error('signin'), { signin: true });
+        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.error || 'Could not export.'); });
+        var name = 'banking-slip_' + els.from.value + '_to_' + els.to.value + '.xlsx';
+        return res.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        });
+      }).catch(function (err) {
+        setMsg(els.reportMsg, 'bad', err.signin ? SIGNIN : err.message);
+      }).then(function () { els.exportBtn.disabled = false; });
+    });
+
+    document.getElementById('bkTabRegister').addEventListener('click', function () { showTab('register'); });
+    document.getElementById('bkTabReport').addEventListener('click', function () { showTab('report'); });
+    document.getElementById('bkClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(modal.querySelectorAll('button, input, select, textarea, a[href]'), function (n) { return !n.disabled && n.tabIndex !== -1 && n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // The "Banking Slip" card opens this popup rather than its external link.
+    document.getElementById('checklistGrid').addEventListener('click', function (e) {
+      var card = e.target.closest('.checklist-card');
+      var h = card && card.querySelector('h2');
+      if (h && h.textContent.replace(/\s+/g, '').toLowerCase() === 'bankingslip') {
+        e.preventDefault();
+        open(card);
+      }
+    });
+  })();
+</script>
+
 <script>
   // Every register is tied to the store on the signed-in user's profile: show
   // which one under each popup's title.
@@ -2637,9 +3192,10 @@ Log Out
     fetch('/api/my-store/', { credentials: 'include' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
       if (!d) return;
       document.querySelectorAll('.tip-dialog .tip-head').forEach(function (head) {
+        if (head.closest('[data-all-stores]')) return;      // report-only people see all stores: not their own
         var p = document.createElement('p');
         p.className = 'tip-store' + (d.store ? '' : ' none');
-        p.textContent = d.store ? 'Store: ' + d.store.label : 'No store is assigned to your profile';
+        p.textContent = d.store ? 'Store Code: ' + d.store.code + '  \u00b7  Store: ' + d.store.label : 'No store is assigned to your profile';
         head.insertAdjacentElement('afterend', p);
       });
     }).catch(function () {});

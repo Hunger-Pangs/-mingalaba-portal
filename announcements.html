@@ -346,11 +346,11 @@ Log Out
     sopPolicies: "sop-policies.html",
     forms: "forms.html",
     companyForms: "/company-forms/",
-    logBook: "log-book.html",
-    music: "music.html",
-    jobApplication: "jobs-apply.html",
+    logBook: "task-checklist.html",
+    music: "music-player.html",
+    jobApplication: "job-application.html",
     menuGuide: "#",
-    compliance: "compliance.html",
+    compliance: "compliance-dashboard.html",
     hrCompliance: "#",
     orgChart: "#",
     sales: "sales.html",
@@ -358,17 +358,17 @@ Log Out
     spine: "https://hungerpangs.spinehrms.in/",
     posist: "https://hungerpangs.restroworks.biz/login",
     announcements: "announcements.html",
-    manageAnnouncements: "announcements-manage.html",
-    jobs: "jobs.html",
-    manageJobs: "jobs-manage.html",
-    restaurants: "restaurants.html",
+    manageAnnouncements: "manage-announcements.html",
+    jobs: "job-openings.html",
+    manageJobs: "manage-job-postings.html",
+    restaurants: "restaurant-details-directory.html",
     login: "dashboard.html",
     searchIndex: "/api/search/index/",
-    annJs: "static/portal/js/announcements-data.js",
-    jobsJs: "static/portal/js/jobs-data.js"
+    annJs: "announcements-data.js",
+    jobsJs: "jobs-data.js"
   };
 </script>
-<script src="static/portal/js/site-search.js" defer></script>
+<script src="site-search.js" defer></script>
 <script>
   // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
   (function () {
@@ -388,7 +388,7 @@ Log Out
     }
     // "View all ..." only for the pages this person may open.
     var PAGES = { announcements: ['announcements.html', 'View all announcements'],
-                  jobs: ['jobs.html', 'View all job openings'] };
+                  jobs: ['job-openings.html', 'View all job openings'] };
     function drawFoot(can) {
       var foot = document.getElementById('notifFoot');
       var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
@@ -489,7 +489,7 @@ Log Out
 <!-- Announcement reader (outside <main> so its fade-in transform can't trap this fixed overlay) -->
 <div id="annOverlay" class="nb-ov" role="dialog" aria-modal="true" aria-label="Announcement"><div id="annSheet" class="nb-sheet"></div></div>
 
-<script src="static/portal/js/announcements-data.js"></script>
+<script src="announcements-data.js"></script>
 <script>
   (function () {
     function esc(s) {
@@ -644,7 +644,7 @@ Log Out
       var fresh = ANNOUNCEMENTS.filter(isNew).length, total = ANNOUNCEMENTS.length;
       var chip = '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E2D5F0] text-[12px] font-sans font-semibold text-[#4A235A]">' + total + (total === 1 ? ' notice' : ' notices') + '</span>' +
         (fresh ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-sans font-bold text-[#5b1614]" style="background:#FFE9A8">' + fresh + ' new</span>' : '');
-      var post = canManage ? '<a href="announcements-manage.html" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#5B2C6F] hover:bg-[#4A235A] text-white text-[12.5px] font-sans font-bold transition-colors"><span class="material-symbols-outlined text-[16px]">edit_note</span>Post announcement</a>' : '';
+      var post = canManage ? '<a href="manage-announcements.html" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#5B2C6F] hover:bg-[#4A235A] text-white text-[12.5px] font-sans font-bold transition-colors"><span class="material-symbols-outlined text-[16px]">edit_note</span>Post announcement</a>' : '';
       document.getElementById('annSummary').innerHTML = chip + post;
     }
     document.getElementById('annList').innerHTML = '<div class="nb-empty">Loading announcements…</div>';

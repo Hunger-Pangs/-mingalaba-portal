@@ -240,11 +240,11 @@ Log Out
     sopPolicies: "sop-policies.html",
     forms: "forms.html",
     companyForms: "/company-forms/",
-    logBook: "log-book.html",
-    music: "music.html",
-    jobApplication: "jobs-apply.html",
+    logBook: "task-checklist.html",
+    music: "music-player.html",
+    jobApplication: "job-application.html",
     menuGuide: "#",
-    compliance: "compliance.html",
+    compliance: "compliance-dashboard.html",
     hrCompliance: "#",
     orgChart: "#",
     sales: "sales.html",
@@ -252,17 +252,17 @@ Log Out
     spine: "https://hungerpangs.spinehrms.in/",
     posist: "https://hungerpangs.restroworks.biz/login",
     announcements: "announcements.html",
-    manageAnnouncements: "announcements-manage.html",
-    jobs: "jobs.html",
-    manageJobs: "jobs-manage.html",
-    restaurants: "restaurants.html",
+    manageAnnouncements: "manage-announcements.html",
+    jobs: "job-openings.html",
+    manageJobs: "manage-job-postings.html",
+    restaurants: "restaurant-details-directory.html",
     login: "dashboard.html",
     searchIndex: "/api/search/index/",
-    annJs: "static/portal/js/announcements-data.js",
-    jobsJs: "static/portal/js/jobs-data.js"
+    annJs: "announcements-data.js",
+    jobsJs: "jobs-data.js"
   };
 </script>
-<script src="static/portal/js/site-search.js" defer></script>
+<script src="site-search.js" defer></script>
 <script>
   // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
   (function () {
@@ -282,7 +282,7 @@ Log Out
     }
     // "View all ..." only for the pages this person may open.
     var PAGES = { announcements: ['announcements.html', 'View all announcements'],
-                  jobs: ['jobs.html', 'View all job openings'] };
+                  jobs: ['job-openings.html', 'View all job openings'] };
     function drawFoot(can) {
       var foot = document.getElementById('notifFoot');
       var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
@@ -369,7 +369,7 @@ Log Out
 <h2 class="text-[18px] font-serif text-[#1E4620] group-hover:text-[#133015] transition-colors text-center font-bold">Knowledge Center</h2>
 </a>
 <!-- 2: Job Openings (Golden Honey / Amber Tint) -->
-<a href="jobs.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-[1.75rem] p-space-2xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
+<a href="job-openings.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FEF8EB] hover:bg-[#FDF0D5] rounded-[1.75rem] p-space-2xl border border-[#FDE5B5] hover:border-[#B45309]/40 shadow-[0_2px_10px_rgba(180,83,9,0.06)] hover:shadow-[0_8px_24px_rgba(180,83,9,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#B45309">
 <div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#B45309] text-white flex items-center justify-center mb-space-lg">
 <span class="material-symbols-outlined text-[40px]">badge</span>
 </div>
@@ -397,7 +397,7 @@ Log Out
 <h2 class="text-[18px] font-serif text-primary group-hover:text-primary-dark transition-colors text-center font-bold">Quick Links</h2>
 </a>
 <!-- 6: Log Book, at last (Warm Rose/Burgundy Tint) -->
-<a href="log-book.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FDF2F0] hover:bg-[#FCE8E6] rounded-[1.75rem] p-space-2xl border border-[#F4C5C0] hover:border-[#8E281F]/40 shadow-[0_2px_10px_rgba(142,40,31,0.06)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8E281F">
+<a href="task-checklist.html" class="group kc-tile w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-[#FDF2F0] hover:bg-[#FCE8E6] rounded-[1.75rem] p-space-2xl border border-[#F4C5C0] hover:border-[#8E281F]/40 shadow-[0_2px_10px_rgba(142,40,31,0.06)] hover:shadow-[0_8px_24px_rgba(142,40,31,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#8E281F">
 <div class="kc-ic w-20 h-20 shrink-0 rounded-full bg-[#8E281F] text-white flex items-center justify-center mb-space-lg">
 <span class="material-symbols-outlined text-[40px]">checklist</span>
 </div>

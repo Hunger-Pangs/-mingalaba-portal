@@ -15,7 +15,7 @@
  *     status ('draft' | 'open' | 'closed'), postedAt ('YYYY-MM-DD' or '') }
  */
 (function () {
-  var USE_BACKEND_JOBS = false;
+  var USE_BACKEND_JOBS = true;
   var API_URL = '/api/jobs/';
   var LS_KEY = 'mingalaba.jobs.v1';
 
@@ -121,7 +121,7 @@
     if (method !== 'GET') { opts.headers['Content-Type'] = 'application/json'; opts.headers['X-CSRFToken'] = csrfToken(); }
     if (body !== undefined) opts.body = JSON.stringify(body);
     return fetch(url, opts).then(function (res) {
-      if (res.status === 401) { window.location.href = 'index.html'; return Promise.reject(new Error('Not signed in')); }
+      if (res.status === 401) { window.location.href = (window.PORTAL_URLS && window.PORTAL_URLS.login) || 'dashboard.html'; return Promise.reject(new Error('Not signed in')); }
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (!res.ok) { var err = new Error(data.error || 'Request failed (' + res.status + ').'); err.status = res.status; err.fields = data.fields; throw err; }
         return data;
@@ -191,7 +191,7 @@
     save: function (input) {
       var job = clean(input);
       if (USE_BACKEND_JOBS) {
-        return job.id ? request('PUT', API_URL + job.id + '/', job).then(clean) : request('POST', API_URL, job).then(clean);
+        return job.id ? request('PUT', API_URL + job.id + 'dashboard.html', job).then(clean) : request('POST', API_URL, job).then(clean);
       }
       var all = readLocal();
       if (job.status === 'open' && !job.postedAt) job.postedAt = todayIso();
@@ -208,7 +208,7 @@
     },
 
     remove: function (id) {
-      if (USE_BACKEND_JOBS) return request('DELETE', API_URL + id + '/');
+      if (USE_BACKEND_JOBS) return request('DELETE', API_URL + id + 'dashboard.html');
       writeLocal(readLocal().filter(function (j) { return j.id !== id; }));
       return Promise.resolve({ success: true });
     },

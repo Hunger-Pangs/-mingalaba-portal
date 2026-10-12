@@ -246,11 +246,11 @@ Log Out
     sopPolicies: "sop-policies.html",
     forms: "forms.html",
     companyForms: "/company-forms/",
-    logBook: "log-book.html",
-    music: "music.html",
-    jobApplication: "jobs-apply.html",
+    logBook: "task-checklist.html",
+    music: "music-player.html",
+    jobApplication: "job-application.html",
     menuGuide: "#",
-    compliance: "compliance.html",
+    compliance: "compliance-dashboard.html",
     hrCompliance: "#",
     orgChart: "#",
     sales: "sales.html",
@@ -258,17 +258,17 @@ Log Out
     spine: "https://hungerpangs.spinehrms.in/",
     posist: "https://hungerpangs.restroworks.biz/login",
     announcements: "announcements.html",
-    manageAnnouncements: "announcements-manage.html",
-    jobs: "jobs.html",
-    manageJobs: "jobs-manage.html",
-    restaurants: "restaurants.html",
+    manageAnnouncements: "manage-announcements.html",
+    jobs: "job-openings.html",
+    manageJobs: "manage-job-postings.html",
+    restaurants: "restaurant-details-directory.html",
     login: "dashboard.html",
     searchIndex: "/api/search/index/",
-    annJs: "static/portal/js/announcements-data.js",
-    jobsJs: "static/portal/js/jobs-data.js"
+    annJs: "announcements-data.js",
+    jobsJs: "jobs-data.js"
   };
 </script>
-<script src="static/portal/js/site-search.js" defer></script>
+<script src="site-search.js" defer></script>
 <script>
   // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
   (function () {
@@ -288,7 +288,7 @@ Log Out
     }
     // "View all ..." only for the pages this person may open.
     var PAGES = { announcements: ['announcements.html', 'View all announcements'],
-                  jobs: ['jobs.html', 'View all job openings'] };
+                  jobs: ['job-openings.html', 'View all job openings'] };
     function drawFoot(can) {
       var foot = document.getElementById('notifFoot');
       var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
