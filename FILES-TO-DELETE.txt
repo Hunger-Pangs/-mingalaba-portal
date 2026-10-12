@@ -1,0 +1,14 @@
+Old files from the earlier uploads that this version replaces (delete them from the repository):
+
+announcements-manage.html      -> now manage-announcements.html
+compliance.html                -> now compliance-dashboard.html
+jobs.html                      -> now job-openings.html
+jobs-apply.html                -> now job-application.html
+jobs-manage.html               -> now manage-job-postings.html
+log-book.html                  -> now task-checklist.html
+login.html                     -> now index.html
+music.html                     -> now music-player.html
+restaurants.html               -> now restaurant-details-directory.html
+sop-policies-finance-sales.html, sop-policies-operations.html,
+sop-policies-people-hr.html, sop-policies-store.html
+                               -> now sop-finance-sales.html, sop-operations.html, sop-people-hr.html, sop-store.html

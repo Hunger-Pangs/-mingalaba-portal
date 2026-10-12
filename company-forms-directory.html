@@ -1,10 +1,29 @@
-<!-- Company Forms - Directory -->
-<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><title>Company Forms</title><link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+
+<!-- One department of a library: its folders, its files and the document viewer.
+     The section (which folder it reads) is set by the view - see directory/views.py. -->
+<!DOCTYPE html><html lang="en" style=""><head><script src="demo.js"></script><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+  /* ---- Excel / Word shown inside the page ---- */
+  /* A panel switched off with hidden="" must really disappear. Without this,
+     a panel that is also a flex box (the sheet tabs, the download panel)
+     stays on screen, because the class beats the browser's own rule. */
+  [hidden] { display: none !important; }
+  .doc-render table { border-collapse: collapse; font-size: 12.5px; width: max-content; min-width: 100%; }
+  .doc-render th, .doc-render td { border: 1px solid #E8DFD3; padding: 5px 9px; text-align: left; vertical-align: top; white-space: pre-wrap; }
+  .doc-render thead th, .doc-render tr:first-child td { background: #F7F4EE; font-weight: 600; position: sticky; top: 0; }
+  .doc-render h1, .doc-render h2, .doc-render h3 { font-family: 'Noto Serif', serif; color: #5b1614; margin: 1em 0 .4em; }
+  .doc-render p { margin: 0 0 .7em; line-height: 1.6; font-size: 13.5px; }
+  .doc-render ul, .doc-render ol { margin: 0 0 .7em 1.2em; font-size: 13.5px; }
+  .doc-render img { max-width: 100%; height: auto; }
+  .doc-render pre { white-space: pre-wrap; font-size: 12.5px; margin: 0; }
+  .sheet-tab { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid #E8DFD3; background: #FFFDF9; color: #635654; cursor: pointer; }
+  .sheet-tab[aria-selected="true"] { background: #2D6A4F; border-color: #2D6A4F; color: #fff; }
+</style>
 <style>
   /* Entrance animation on page load -- kept identical across dashboard.html,
-     company-info-directory.html, this page and restaurant-details-directory.html
-     so arriving at any of them feels the same. */
+     company-info-directory.html and restaurant-details-directory.html so
+     arriving at any of them feels the same. */
   @keyframes pageFadeIn {
     from { opacity: 0; transform: translateY(10px) scale(0.99); }
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -277,7 +296,8 @@
         }
       },
     },
-  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><!-- HEADER:START -->
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased">
+<!-- HEADER:START -->
 <header class="fixed top-0 right-0 left-0 h-16 bg-[#ffffff]/95 backdrop-blur-md border-b border-[#ebe4d8] shadow-[0_2px_12px_rgba(62,1,4,0.03)] z-40 px-[1.5rem] flex items-center justify-between gap-[1.25rem]">
 <a href="dashboard.html" class="flex items-center gap-3 shrink-0 pr-[0.75rem]" aria-label="Go to Dashboard">
 <div class="flex items-center justify-center p-1 rounded-lg hover:bg-[#EDE6D8]/40 transition-colors">
@@ -297,26 +317,67 @@
 </div>
 <!-- Action Icons & Profile -->
 <div class="flex items-center gap-[0.75rem]">
-<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
+<!-- Admin icon: only shown to Super admins (Admin > Super admins). The Admin page checks again itself. -->
+<a id="adminLink" href="admin.html" target="_blank" rel="noopener" onclick="var w = window.open(this.href, 'mingalabaAdmin'); if (w) { w.focus(); return false; }" aria-label="Admin" title="Admin" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors">
+<span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+</a>
+<!-- Notifications: new announcements / job openings for THIS person (portal/notifications.py). -->
+<div class="relative" id="notifWrap">
+<button id="notifBtn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" class="relative p-2 rounded-full hover:bg-[#F3EDE3] text-[#635654] hover:text-[#5b1614] transition-colors" type="button">
 <span class="material-symbols-outlined text-[22px]">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a73923] ring-2 ring-white"></span>
+<span id="notifBadge" class="nf-badge" hidden>0</span>
 </button>
+<div id="notifPanel" class="nf-panel" hidden role="dialog" aria-label="Notifications">
+<div class="nf-head"><b>Notifications</b><button type="button" id="notifAllRead" class="nf-allread">Mark all as read</button></div>
+<div id="notifList" class="nf-list"></div>
+<div class="nf-foot" id="notifFoot" hidden></div>
+</div>
+</div>
+<style>
+  .nf-badge { position: absolute; top: 2px; right: 0; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+              background: #a73923; color: #fff; font: 700 11px/18px "Plus Jakarta Sans", sans-serif; text-align: center;
+              box-shadow: 0 0 0 2px #fff; }
+  .nf-badge[hidden], .nf-panel[hidden], .nf-foot[hidden] { display: none; }
+  .nf-panel { position: absolute; right: -8px; top: calc(100% + 10px); width: 400px; max-width: calc(100vw - 1.5rem);
+              background: #fff; border: 1px solid #E8DFD3; border-radius: 18px; box-shadow: 0 14px 40px rgba(62,1,4,.18);
+              overflow: hidden; z-index: 60; text-align: left; }
+  .nf-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 10px; border-bottom: 1px solid #F0E8DA; }
+  .nf-head b { font: 700 16px "Noto Serif", serif; color: #5b1614; }
+  .nf-allread { font: 700 12.5px "Plus Jakarta Sans", sans-serif; color: #a73923; background: none; border: 0; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+  .nf-allread:hover { background: #faebe5; } .nf-allread:disabled { color: #c9bdb6; cursor: default; background: none; }
+  .nf-list { max-height: 420px; overflow-y: auto; }
+  .nf-item { display: flex; gap: 12px; padding: 12px 34px 12px 18px; border-bottom: 1px solid #F5EFE6; position: relative;
+             background: #FFF9F3; text-decoration: none; color: inherit; transition: background-color .12s; }
+  .nf-item:hover, .nf-item:focus-visible { background: #FBEFE4; outline: none; }
+  .nf-item::after { content: ""; position: absolute; right: 16px; top: 18px; width: 9px; height: 9px; border-radius: 50%; background: #a73923; }
+  .nf-ic { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .nf-ic .material-symbols-outlined { font-size: 19px; }
+  .nf-ann { background: #5B2C6F; } .nf-job { background: #B45309; }
+  .nf-title { font: 700 13px/1.3 "Plus Jakarta Sans", sans-serif; color: #231917; }
+  .nf-sum { font: 400 12px/1.35 "Plus Jakarta Sans", sans-serif; color: #635654; margin-top: 2px; }
+  .nf-meta { font: 400 11px "Plus Jakarta Sans", sans-serif; color: #8c7b75; margin-top: 4px; display: flex; gap: 6px; align-items: center; }
+  .nf-tag { font: 800 10px "Plus Jakarta Sans", sans-serif; letter-spacing: .4px; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; }
+  .nf-imp { background: #FDECEC; color: #B91C1C; } .nf-urg { background: #FFF1DC; color: #B45309; }
+  .nf-empty { padding: 30px 18px; text-align: center; font: 400 13px/1.45 "Plus Jakarta Sans", sans-serif; color: #635654; }
+  .nf-empty b { display: block; color: #231917; margin: 6px 0 2px; }
+  .nf-empty .material-symbols-outlined { font-size: 38px; color: #3F8F2F; }
+  .nf-foot { padding: 10px 18px; text-align: center; font: 700 12px "Plus Jakarta Sans", sans-serif; color: #5b1614; background: #FCFAF6; }
+  .nf-foot a { color: #5b1614; } .nf-foot a:hover { text-decoration: underline; }
+</style>
 <div class="h-6 w-[1px] bg-[#E8DFD3]"></div>
 <div class="relative">
 <button type="button" id="profileMenuBtn" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation(); var m=document.getElementById('profileMenu'); var open=m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', open ? 'true' : 'false');" class="flex items-center gap-[0.5rem] cursor-pointer p-1 rounded-xl hover:bg-[#F3EDE3]/70 transition-colors">
-<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UobIn7wmCvN1zShzGWB-18pBdcmCDRUcZFZT7Yq7_WKL605v7qv6U1XUo0YVsROtO3yictHn-tKC14NytpFTS-2DR31pWS3L4KPMP_HtEyWvNZ9NvOCv9WHdts6aVZR-epONnfNMFl5c3Mo2d34gwj0zP2FFANAP5QgvqNsv71o1qigf1qgO1gz8Z9EI7I5i_h4yMzNzQGQEl5RFYrhF1xgwCfnuw8XunvE408cJgVxgnOZ7DMFJrKSOw">
-<div class="hidden xl:flex flex-col text-left pl-2">
-<span class="font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Sarah Jenkins</span>
-<span class="font-sans text-[10px] tracking-[0.08em] font-bold text-[#635654] leading-tight">Senior Product Specialist</span>
-</div>
-<span class="material-symbols-outlined hidden xl:block text-[16px] text-[#8c7b75]">expand_more</span>
+<span class="w-8 h-8 shrink-0 rounded-full object-cover ring-1.5 ring-[#C89C5D]/40 shadow-sm bg-[#5b1614] text-white flex items-center justify-center font-sans text-[12px] font-semibold leading-none select-none" aria-hidden="true">DA</span>
+<!-- Closed: the employee's first name (from tblEmployeeMaster; the Employee ID if the name is empty). The menu shows code, full name and designation. -->
+<span class="hidden sm:block pl-2 font-sans text-[12px] tracking-[0.05em] text-[#231917] font-semibold leading-tight">Demo</span>
+<span class="material-symbols-outlined hidden sm:block text-[16px] text-[#8c7b75]">expand_more</span>
 </button>
-<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-56 bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
+<div id="profileMenu" class="hidden absolute right-0 top-[calc(100%+10px)] w-72 max-w-[calc(100vw-1.5rem)] bg-white border border-[#E8DFD3] rounded-xl shadow-[0_8px_24px_rgba(62,1,4,0.14)] py-2 z-50">
 <div class="px-4 py-2.5 border-b border-[#E8DFD3]">
-<p class="font-sans text-[13px] font-semibold text-[#231917] leading-tight">Sarah Jenkins</p>
-<p class="font-sans text-[11px] text-[#635654] leading-tight mt-0.5">Senior Product Specialist</p>
+<p class="font-sans text-[13px] font-semibold text-[#231917] leading-snug break-words">D001 - Demo Admin</p>
+<p class="font-sans text-[12px] text-[#635654] leading-snug mt-0.5 break-words">Data and Automation Specialist</p>
 </div>
-<a href="index.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
+<a href="dashboard.html" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-sans font-semibold text-[#a73923] hover:bg-[#faebe5] transition-colors">
 <span class="material-symbols-outlined text-[18px]">logout</span>
 Log Out
 </a>
@@ -360,62 +421,198 @@ Log Out
     })
       .catch(function () {})
       .then(function () {
-        window.location.href = 'index.html';
+        window.location.href = 'dashboard.html';
       });
   }
 </script>
+<script>
+  // Page addresses for the header search (site-search.js) and the sample-data scripts.
+  window.PORTAL_URLS = {
+    dashboard: "dashboard.html",
+    knowledgeCenter: "knowledge-center.html",
+    sopPolicies: "sop-policies.html",
+    forms: "forms.html",
+    companyForms: "/company-forms/",
+    logBook: "task-checklist.html",
+    music: "music-player.html",
+    jobApplication: "job-application.html",
+    menuGuide: "#",
+    compliance: "compliance-dashboard.html",
+    hrCompliance: "#",
+    orgChart: "#",
+    sales: "sales.html",
+    quickLinks: "quick-links.html",
+    spine: "https://hungerpangs.spinehrms.in/",
+    posist: "https://hungerpangs.restroworks.biz/login",
+    announcements: "announcements.html",
+    manageAnnouncements: "manage-announcements.html",
+    jobs: "job-openings.html",
+    manageJobs: "manage-job-postings.html",
+    restaurants: "restaurant-details-directory.html",
+    login: "dashboard.html",
+    searchIndex: "/api/search/index/",
+    annJs: "announcements-data.js",
+    jobsJs: "jobs-data.js"
+  };
+</script>
 <script src="site-search.js" defer></script>
+<script>
+  // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
+  (function () {
+    var URL_ = "/api/notifications/";
+    var btn = document.getElementById('notifBtn'), panel = document.getElementById('notifPanel');
+    var badge = document.getElementById('notifBadge'), list = document.getElementById('notifList');
+    var allRead = document.getElementById('notifAllRead');
+    if (!btn || !panel) return;
+    var items = [];
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+    function when(iso) {
+      var d = new Date(iso + 'T00:00:00'), t = new Date(); t.setHours(0, 0, 0, 0);
+      var days = Math.round((t - d) / 86400000);
+      if (days <= 0) return 'Today';
+      if (days === 1) return 'Yesterday';
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+    // "View all ..." only for the pages this person may open.
+    var PAGES = { announcements: ['announcements.html', 'View all announcements'],
+                  jobs: ['job-openings.html', 'View all job openings'] };
+    function drawFoot(can) {
+      var foot = document.getElementById('notifFoot');
+      var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
+        return '<a href="' + PAGES[k][0] + '">' + PAGES[k][1] + '</a>';
+      });
+      foot.innerHTML = links.join(' &middot; ');
+      foot.hidden = !links.length;
+    }
+    function draw(data) {
+      drawFoot(data && data.can);
+      items = (data && data.items) || [];
+      var n = items.length;
+      badge.textContent = n > 9 ? '9+' : String(n);
+      badge.hidden = n === 0;
+      btn.setAttribute('aria-label', n ? 'Notifications, ' + n + ' unread' : 'Notifications');
+      allRead.disabled = n === 0;
+      if (!n) {
+        list.innerHTML = '<div class="nf-empty"><span class="material-symbols-outlined">task_alt</span><b>You\'re all caught up</b>New announcements and job openings will show here.</div>';
+        return;
+      }
+      list.innerHTML = items.map(function (it, i) {
+        var ann = it.type === 'announcement';
+        var tag = it.important ? '<span class="nf-tag ' + (ann ? 'nf-imp">Important' : 'nf-urg">Urgent') + '</span>' : '';
+        return '<a class="nf-item" href="' + esc(it.url) + '" data-i="' + i + '">' +
+          '<span class="nf-ic ' + (ann ? 'nf-ann' : 'nf-job') + '"><span class="material-symbols-outlined">' + (ann ? 'campaign' : 'work') + '</span></span>' +
+          '<span><span class="nf-title" style="display:block">' + (ann ? 'New announcement: ' : 'New job opening: ') + esc(it.title) + '</span>' +
+          '<span class="nf-sum" style="display:block">' + esc(it.summary) + '</span>' +
+          '<span class="nf-meta">' + tag + (ann ? 'Announcements' : 'Job Openings') + ' &middot; ' + when(it.date) + '</span></span></a>';
+      }).join('');
+    }
+    function send(body) {
+      return fetch(URL_, { method: 'POST', credentials: 'include', keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': (typeof getCookie === 'function' && getCookie('csrftoken')) || '' },
+        body: JSON.stringify(body) }).then(function (r) { return r.ok ? r.json() : null; });
+    }
+    function refresh() {
+      fetch(URL_, { credentials: 'include', cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { if (d) draw(d); }).catch(function () {});
+    }
+    function open(on) {
+      panel.hidden = !on; btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) refresh();
+    }
+    btn.addEventListener('click', function (e) { e.stopPropagation(); open(panel.hidden); });
+    panel.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { if (!panel.hidden) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
+    // Clicking one: mark it read for this person, then open its page in this same window.
+    list.addEventListener('click', function (e) {
+      var a = e.target.closest('.nf-item'); if (!a) return;
+      e.preventDefault();
+      var it = items[+a.getAttribute('data-i')];
+      var go = function () { window.location.href = it.url; };
+      send({ key: it.key }).then(go, go);
+    });
+    allRead.addEventListener('click', function () { send({ all: true }).then(function (d) { if (d) draw(d); }).catch(function () {}); });
+    refresh();
+    setInterval(function () { if (!document.hidden) refresh(); }, 120000);
+  })();
+</script>
 <!-- HEADER:END -->
 
+
 <div class=""><main id="pageContent" class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
-<div class="w-full px-6 pt-6 pb-space-md space-y-space-lg max-w-[1328px] mx-auto"><div class="flex flex-col gap-space-sm"><div class="flex flex-wrap items-start justify-between gap-x-3 gap-y-2"><nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]"><a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html"><span class="material-symbols-outlined text-[16px]">dashboard</span><span>Dashboard</span></a><span class="text-[#E8DFD3]">/</span><a class="hover:text-[#5b1614] transition-colors" href="knowledge-center.html">Knowledge Center</a><span class="text-[#E8DFD3]">/</span><a class="hover:text-[#5b1614] transition-colors" href="forms.html">Forms</a><span class="text-[#E8DFD3]">/</span><span class="text-[#5b1614] font-semibold">Company Forms</span></nav><div class="flex flex-wrap items-center gap-2 sm:-mt-[5px]"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-sand text-accent-moss font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-emerald-600"></span>Repository Online &middot; Realtime Sync</span><a class="inline-flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-cream border border-border-warm hover:bg-surface-sand text-on-surface font-label-sm text-label-sm transition-all shadow-sm" href="dashboard.html"><span class="material-symbols-outlined text-[16px]">dashboard</span><span class="">Dashboard</span></a></div></div><div class="bg-[#F0FDFA] border border-[#99F6E4] rounded-2xl p-4 md:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md transition-all"><div class="flex items-center gap-4 min-w-0"><div class="w-12 h-12 rounded-full bg-[#0F766E] text-white flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-[26px]">assignment</span></div><div class="space-y-0.5 min-w-0"><div class="flex items-center gap-2 flex-wrap"><h1 class="font-headline-md text-headline-md text-[#0B5C56] tracking-tight font-semibold">Company Forms</h1><span class="px-2 py-0.5 rounded-full bg-[#CCFBF1] text-[#0F766E] font-label-sm text-[10px] font-bold tracking-wider uppercase border border-[#99F6E4]">Forms Library</span></div><p class="font-body-md text-body-md text-[#115E56]">Central repository for HR, operations, finance and store forms used across Mingalaba.</p></div></div><div class="flex items-center gap-space-sm shrink-0"><div class="relative"><span class="material-symbols-outlined absolute left-3 top-2.5 text-[#115E56] text-[18px]">search</span><input class="bg-white text-on-surface placeholder:text-on-surface-variant/70 pl-9 pr-3 py-2 rounded-full font-body-sm text-body-sm focus:outline-none shadow-sm w-56 lg:w-64 border border-[#99F6E4] focus:border-[#0F766E] transition-all" id="repoSearch" placeholder="Quick search forms..." type="text" oninput="filterHierarchy(this.value)"></div><button class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-[#0F766E] hover:bg-[#0B5C56] text-white font-label-md text-label-md shadow-sm transition-all" type="button"><span class="material-symbols-outlined text-[18px]">cloud_upload</span><span class="">Upload New Form</span></button></div></div></div><div class="grid grid-cols-12 gap-space-lg items-start"><aside class="col-span-12 lg:col-span-4 xl:col-span-4 rounded-xl bg-surface-cream border border-border-warm/70 shadow-sm p-space-md space-y-space-md"><div class="space-y-space-xs pb-3 border-b border-border-warm/60"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[20px]">account_tree</span><span class="font-title-md text-title-md text-primary font-semibold">Forms Hierarchy</span></div><div class="flex items-center gap-2"><button onclick="toggleAllFolders(true)" class="text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors" type="button">Expand</button><span class="text-tertiary text-xs">|</span><button onclick="toggleAllFolders(false)" class="text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors" type="button">Collapse</button></div></div><div class="relative pt-1"><span class="material-symbols-outlined absolute left-2.5 top-3 text-on-surface-variant text-[16px]">filter_alt</span><input class="w-full bg-surface-linen text-on-surface text-body-sm font-body-sm pl-8 pr-3 py-1.5 rounded-full border border-border-warm/50 focus:outline-none transition-all placeholder:text-on-surface-variant/60" id="folderFilterInput" placeholder="Filter folders &amp; forms..." type="text" oninput="filterHierarchy(this.value)"></div></div><div class="space-y-1.5 max-h-[740px] overflow-y-auto pr-1" id="interactiveTree">
+<div class="w-full px-6 pt-6 pb-space-md space-y-space-lg max-w-[1328px] mx-auto"><div class="flex flex-col gap-space-sm"><div class="flex flex-wrap items-start justify-between gap-x-3 gap-y-2"><nav aria-label="Breadcrumb" class="flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] leading-5 text-[#635654]"><a class="hover:text-[#5b1614] transition-colors flex items-center gap-1" href="dashboard.html"><span class="material-symbols-outlined text-[16px]">dashboard</span><span>Dashboard</span></a><span class="text-[#E8DFD3]">/</span><a class="hover:text-[#5b1614] transition-colors" href="knowledge-center.html">Knowledge Center</a><span class="text-[#E8DFD3]">/</span><a class="hover:text-[#5b1614] transition-colors" href="forms.html">Forms</a><span class="text-[#E8DFD3]">/</span><span class="text-[#5b1614] font-semibold">Operations</span></nav></div><div class="bg-[#F0F7F2] border border-[#CBE4D3] rounded-2xl p-4 md:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md transition-all"><div class="flex items-center gap-4 min-w-0"><div class="w-12 h-12 rounded-full text-white flex items-center justify-center shrink-0 shadow-sm" style="background:#C2410C"><span class="material-symbols-outlined text-[26px]">storefront</span></div><div class="space-y-0.5 min-w-0"><div class="flex items-center gap-2 flex-wrap"><h1 class="font-headline-md text-headline-md text-[#1F3D2B] tracking-tight font-semibold">Operations</h1><span class="px-2 py-0.5 rounded-full bg-[#D8EEDF] text-[#2D6A4F] font-label-sm text-[10px] font-bold tracking-wider uppercase border border-[#B7DECE]">Forms</span></div><p class="font-body-md text-body-md text-[#3A5A40]">Everything filed under this department.</p></div></div><div class="flex items-center gap-space-sm shrink-0"><div class="relative"><span class="material-symbols-outlined absolute left-3 top-2.5 text-[#3A5A40] text-[18px]">search</span><input class="bg-white text-on-surface placeholder:text-on-surface-variant/70 pl-9 pr-3 py-2 rounded-full font-body-sm text-body-sm focus:outline-none shadow-sm w-56 lg:w-64 border border-[#CBE4D3] focus:border-[#2D6A4F] transition-all" id="repoSearch" placeholder="Quick search files..." type="text" oninput="filterHierarchy(this.value)"></div><button class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-[#2D6A4F] hover:bg-[#22533D] text-white font-label-md text-label-md shadow-sm transition-all" type="button"><span class="material-symbols-outlined text-[18px]">cloud_upload</span><span class="">Upload New File</span></button></div></div></div><div class="flex items-center justify-between gap-space-sm">
+<a href="forms.html" class="inline-flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-cream border border-border-warm hover:bg-surface-sand text-on-surface font-label-sm text-label-sm transition-all shadow-sm"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span>All departments</span></a>
+</div>
+<div class="grid grid-cols-12 gap-space-lg items-start"><aside class="col-span-12 lg:col-span-4 xl:col-span-4 rounded-xl bg-surface-cream border border-border-warm/70 shadow-sm p-space-md space-y-space-md"><div class="space-y-space-xs pb-3 border-b border-border-warm/60"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[20px]">account_tree</span><span class="font-title-md text-title-md text-primary font-semibold">Documents</span></div><div class="flex items-center gap-2"><button onclick="toggleAllFolders(true)" class="text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors" type="button">Expand</button><span class="text-tertiary text-xs">|</span><button onclick="toggleAllFolders(false)" class="text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors" type="button">Collapse</button></div></div><div class="relative pt-1"><span class="material-symbols-outlined absolute left-2.5 top-3 text-on-surface-variant text-[16px]">filter_alt</span><input class="w-full bg-surface-linen text-on-surface text-body-sm font-body-sm pl-8 pr-3 py-1.5 rounded-full border border-border-warm/50 focus:outline-none transition-all placeholder:text-on-surface-variant/60" id="folderFilterInput" placeholder="Filter folders &amp; files..." type="text" oninput="filterHierarchy(this.value)"></div></div><div class="space-y-1.5 max-h-[740px] overflow-y-auto pr-1" id="interactiveTree">
 
-<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-hr')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-hr-arrow">expand_more</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder_open</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">01 HR &amp; Workforce Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">4 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 block" id="folder-hr">
+<div class="space-y-2.5" id="folder-1">
 
-<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-1-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-1-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">1.1 Leave &amp; Attendance</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-1-1" class="pl-3.5 space-y-1 block">
-<div id="tree-item-doc_hr_leave" class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-primary/10 border border-primary/30"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate font-medium text-primary">Leave Application Form.pdf</span></div><span class="text-[10px] font-label-sm shrink-0 font-mono text-on-surface-variant">210 KB</span></div>
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-indigo-50 text-indigo-700 shrink-0 uppercase tracking-wide">DOC</span><span class="text-body-sm text-xs truncate text-[#231917]">Attendance Regularisation Form.docx</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">180 KB</span></div>
-</div></div>
+<button type="button" data-doc data-path="Forms/Operations/Daily Closing Sheet.xlsx" data-name="Daily Closing Sheet.xlsx" data-label="XLS" data-size="5 KB" data-modified="12 Oct 2026" data-folder="Operations" data-viewable="0" data-preview="sheet" class="tree-doc-row w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg cursor-pointer transition-all text-left bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50" title="Daily Closing Sheet.xlsx">
+<span class="flex items-center gap-2 min-w-0">
+<span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full shrink-0 uppercase tracking-wide bg-emerald-50 text-emerald-700">XLS</span>
+<span class="doc-name text-body-sm text-xs truncate text-[#231917]">Daily Closing Sheet.xlsx</span>
+</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">5 KB</span>
+</button>
 
-<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-1-2')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-1-2-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">1.2 Onboarding &amp; Exit</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-1-2" class="pl-3.5 space-y-1 block">
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">New Joinee Information Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">240 KB</span></div>
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Exit Clearance Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">195 KB</span></div>
-</div></div>
 
-</div></div>
 
-<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-ops')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-ops-arrow">chevron_right</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">02 Operations &amp; Store Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">3 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 hidden" id="folder-ops">
+</div>
+<p class="no-match hidden px-2.5 py-1 text-[11px] font-sans text-on-surface-variant/80 italic">Nothing here matches your search.</p>
 
-<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-2-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-2-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">2.1 Incident &amp; Safety</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">1</span></button><div id="sub-2-1" class="pl-3.5 space-y-1 block">
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Incident Report Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">310 KB</span></div>
-</div></div>
+</div>
+<div class="pt-3 border-t border-border-warm/60 flex items-center justify-between text-xs text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-tertiary">lock</span><span class="">Employees only (sign-in required)</span></span><span class="font-semibold text-primary">1 Total File</span></div></aside>
+<section class="col-span-12 lg:col-span-8 xl:col-span-8 space-y-space-md">
+<div class="rounded-xl bg-surface-cream border border-border-warm shadow-sm p-space-md space-y-space-md" id="docPanel">
 
-<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-2-2')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-2-2-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">2.2 Maintenance &amp; Facilities</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-2-2" class="pl-3.5 space-y-1 block">
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Maintenance Request Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">150 KB</span></div>
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-indigo-50 text-indigo-700 shrink-0 uppercase tracking-wide">DOC</span><span class="text-body-sm text-xs truncate text-[#231917]">Equipment Breakdown Log.docx</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">130 KB</span></div>
-</div></div>
+<!-- Nothing opens until a document is clicked in the list. -->
+<div id="docChoose" class="min-h-[320px] flex flex-col items-center justify-center gap-3 text-center p-space-lg">
+<span class="material-symbols-outlined text-[44px] text-accent-brass">description</span>
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">Select a document</h2>
+<p class="text-[13px] font-sans text-on-surface-variant max-w-md">Click a file in the Document Hierarchy to open it here.</p>
+</div>
+<div id="docViewer" class="space-y-space-md" hidden>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm border-b border-border-warm/60">
+<div class="space-y-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold tracking-wider" id="docBadgeType"></span>
+<span class="text-xs text-on-surface-variant" id="docSizeModified"></span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight break-words" id="previewTitle"></h2>
+</div>
+<!-- Always here, top right, whatever the file is. A plain link, not a
+     button: the browser downloads it by itself, so nothing can get in
+     the way. -->
+<a id="docDownloadTop" href="#" download
+   class="shrink-0 self-start md:self-auto inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-[#2D6A4F] hover:bg-[#22533D] text-white font-label-md text-label-md shadow-sm transition-all no-underline">
+<span class="material-symbols-outlined text-[18px]">download</span><span>Download</span></a>
+</div>
+<div id="docPreviewBox" class="rounded-xl bg-surface-sand/50 border border-border-warm p-space-md space-y-3">
+<iframe id="docFrame" title="Document preview" class="w-full h-[640px] bg-white rounded-lg border border-border-warm shadow-inner" hidden></iframe>
 
-</div></div>
+<!-- Excel and Word are turned into readable HTML here, in the visitor's own
+     browser, by the two libraries in static/portal/vendor/. -->
+<div id="docSheetTabs" class="flex flex-wrap gap-1.5" hidden></div>
+<div id="docRender" class="doc-render w-full max-h-[640px] overflow-auto bg-white rounded-lg border border-border-warm shadow-inner p-4" hidden></div>
+<p id="docRenderMsg" class="text-[12px] font-sans text-on-surface-variant" hidden></p>
 
-<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-fin')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-fin-arrow">chevron_right</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">03 Finance &amp; Procurement Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">2 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 hidden" id="folder-fin">
+<!-- Types no browser can show (old .doc, .ppt): offer the file itself. -->
+<div id="docDownloadPanel" class="min-h-[280px] flex flex-col items-center justify-center gap-3 text-center p-space-lg" hidden>
+<span class="material-symbols-outlined text-[44px] text-accent-brass">file_present</span>
+<p class="font-title-md text-title-md text-primary font-semibold" id="docDownloadName"></p>
+<p class="text-[13px] font-sans text-on-surface-variant max-w-sm" id="docDownloadNote"></p>
+<a id="docDownloadNow" href="#" download
+   class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-[#2D6A4F] hover:bg-[#22533D] text-white font-label-md text-label-md shadow-sm transition-all no-underline">
+<span class="material-symbols-outlined text-[18px]">download</span><span>Download</span></a>
+</div>
+</div>
+</div>
 
-<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-3-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-3-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">3.1 Purchase &amp; Reimbursement</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-3-1" class="pl-3.5 space-y-1 block">
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Purchase Requisition Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">175 KB</span></div>
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Petty Cash Reimbursement Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">160 KB</span></div>
-</div></div>
-
-</div></div>
-
-<div class="folder-group rounded-lg bg-surface-cream border border-border-warm/60 overflow-hidden"><button onclick="toggleBranch('folder-admin')" class="w-full flex items-center justify-between p-2.5 hover:bg-surface-sand transition-colors text-left"><div class="flex items-center gap-2 min-w-0"><span class="material-symbols-outlined text-[18px] text-accent-brass transition-transform" id="folder-admin-arrow">chevron_right</span><span class="material-symbols-outlined text-[20px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-title-md text-title-md text-[#231917] font-semibold truncate">04 Administrative Forms</span></div><span class="font-label-sm text-xs bg-surface-sand text-on-surface-variant font-semibold px-2 py-0.5 rounded-full shrink-0">2 forms</span></button><div class="pl-3.5 pr-2 py-2 space-y-2.5 bg-surface-linen/40 border-t border-border-warm/40 hidden" id="folder-admin">
-
-<div class="subfolder-group border-l-2 border-border-warm pl-2.5 space-y-1.5"><button onclick="toggleBranch('sub-4-1')" class="w-full flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface-sand/70 text-left transition-colors"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-[16px] text-accent-brass transition-transform" id="sub-4-1-arrow">expand_more</span><span class="material-symbols-outlined text-[18px] text-accent-brass" style="font-variation-settings: 'FILL' 1;">folder</span><span class="font-label-md text-xs font-semibold text-on-surface truncate">4.1 Visitor &amp; Asset Management</span></div><span class="font-label-sm text-[10px] bg-surface-sand text-on-surface-variant px-1.5 py-0.2 rounded-full font-medium">2</span></button><div id="sub-4-1" class="pl-3.5 space-y-1 block">
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Visitor Pass Request Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">120 KB</span></div>
-<div class="tree-doc-row flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all bg-white hover:bg-surface-sand/80 text-on-surface border border-border-warm/50"><div class="flex items-center gap-2 min-w-0"><span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-50 text-red-700 shrink-0 uppercase tracking-wide">PDF</span><span class="text-body-sm text-xs truncate text-[#231917]">Asset Issue &amp; Return Form.pdf</span></div><span class="text-[10px] font-label-sm text-on-surface-variant shrink-0 font-mono">140 KB</span></div>
-</div></div>
-
-</div></div>
-
-</div><div class="pt-3 border-t border-border-warm/60 flex items-center justify-between text-xs text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-tertiary">shield</span><span class="">Internal Use Only</span></span><span class="font-semibold text-primary">11 Total Forms</span></div></aside><section class="col-span-12 lg:col-span-8 xl:col-span-8 space-y-space-md"><div class="rounded-xl bg-surface-cream border border-border-warm shadow-sm p-space-md space-y-space-md"><div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm border-b border-border-warm/60"><div class="space-y-1"><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold tracking-wider" id="docBadgeType">PDF</span><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-sm text-[11px] font-semibold" id="docBadgeStatus"><span class="material-symbols-outlined text-[14px]">verified</span>Current Version</span><span class="text-xs text-on-surface-variant" id="docSizeModified">210 KB &middot; Updated Apr 1, 2024</span></div><h2 class="font-headline-md text-headline-md text-primary tracking-tight" id="previewTitle">Leave Application Form.pdf</h2></div><div class="flex items-center gap-1.5 shrink-0"><button onclick="alert('Downloading selected form...')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm transition-all" type="button"><span class="material-symbols-outlined text-[16px]">download</span><span class="">Download</span></button><button onclick="window.print()" class="p-1.5 rounded-full hover:bg-surface-sand text-on-surface-variant hover:text-primary transition-colors border border-border-warm/60" title="Print Form" type="button"><span class="material-symbols-outlined text-[18px]">print</span></button><button onclick="alert('Form direct link copied to clipboard.')" class="p-1.5 rounded-full hover:bg-surface-sand text-on-surface-variant hover:text-primary transition-colors border border-border-warm/60" title="Share Link" type="button"><span class="material-symbols-outlined text-[18px]">share</span></button><button onclick="alert('Opening fillable form in a new window.')" class="p-1.5 rounded-full hover:bg-surface-sand text-on-surface-variant hover:text-primary transition-colors border border-border-warm/60" title="Open in New Window" type="button"><span class="material-symbols-outlined text-[18px]">open_in_new</span></button></div></div><div class="grid grid-cols-2 md:grid-cols-4 gap-3 p-3 rounded-lg bg-surface-linen/80 border border-border-warm/60 text-body-sm"><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Form Code</div><div class="font-semibold text-on-surface text-xs truncate" id="metaDocId">HR-LV-01</div></div><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Department Owner</div><div class="font-semibold text-on-surface text-xs truncate" id="metaCustodian">Human Resources</div></div><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Last Updated</div><div class="font-semibold text-on-surface text-xs truncate" id="metaEffectiveDate">1 April 2024</div></div><div class="space-y-0.5"><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] font-bold">Current Version</div><div class="font-semibold text-emerald-800 text-xs truncate" id="metaRenewalDate">v3 (In Use)</div></div></div><div class="rounded-xl bg-surface-sand/50 border border-border-warm p-space-md space-y-3"><div class="flex items-center justify-between px-space-sm py-1.5 bg-surface-cream rounded-lg border border-border-warm/70 shadow-sm"><div class="flex items-center gap-3 text-xs text-on-surface-variant"><span class="flex items-center gap-1 text-primary font-semibold"><span class="material-symbols-outlined text-[16px]">menu_book</span>Page <span id="pageCurrent" class="">1</span> of <span id="pageTotal" class="">1</span></span><div class="h-4 w-px bg-border-warm"></div><div class="flex items-center gap-1"><button onclick="adjustZoom(-10)" class="p-1 hover:bg-surface-sand rounded-full text-on-surface-variant" title="Zoom Out"><span class="material-symbols-outlined text-[16px]">zoom_out</span></button><span class="font-label-sm text-xs" id="zoomVal">100%</span><button onclick="adjustZoom(10)" class="p-1 hover:bg-surface-sand rounded-full text-on-surface-variant" title="Zoom In"><span class="material-symbols-outlined text-[16px]">zoom_in</span></button></div></div><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-surface-linen text-on-surface-variant text-[11px] font-label-sm flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-accent-brass">description</span>Fillable Template</span></div></div><div class="w-full min-h-[580px] bg-white rounded-lg border border-border-warm shadow-inner p-space-lg relative overflow-hidden transition-all duration-200 flex flex-col justify-between" id="docViewerCanvas"><div class="space-y-5" id="docCanvasContent"><div class="flex items-center justify-between border-b-2 border-primary/20 pb-4"><div class="flex items-center gap-3"><div class="w-12 h-12 rounded-full border-2 border-accent-brass/80 flex items-center justify-center p-1 bg-surface-cream"><span class="material-symbols-outlined text-primary text-[28px]">assignment</span></div><div><div class="font-headline-sm text-primary tracking-tight font-bold text-[18px]">HUNGER PANGS LIMITED</div><div class="font-label-sm text-accent-moss uppercase tracking-wider text-[11px]">Human Resources &middot; Mingalaba Workspace</div></div></div><div class="text-right"><div class="font-label-sm text-xs text-on-surface-variant">Form No. HR-LV-01</div><div class="font-label-md text-xs font-bold text-primary">Version 3</div></div></div><div class="text-center py-1 space-y-1"><div class="font-label-sm uppercase tracking-widest text-accent-brass font-bold text-xs">Employee Request</div><h3 class="font-headline-md text-primary text-2xl font-bold">LEAVE APPLICATION FORM</h3></div><div class="grid grid-cols-2 md:grid-cols-4 gap-3 p-3 rounded-lg bg-surface-cream/60 border border-border-warm/60 text-body-sm"><div class="space-y-0.5 col-span-2"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Employee Name</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Employee ID</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Department</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Designation</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Store / Location</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5 col-span-2"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Leave Type</span><span class="text-xs text-on-surface block">&#9633; Casual &nbsp; &#9633; Sick &nbsp; &#9633; Earned &nbsp; &#9633; Unpaid</span></div></div><div class="grid grid-cols-3 gap-3 p-3 rounded-lg bg-surface-cream/60 border border-border-warm/60 text-body-sm"><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">From Date</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">To Date</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div><div class="space-y-0.5"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">No. of Days</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1">&nbsp;</span></div></div><div class="p-3 rounded-lg bg-surface-cream/60 border border-border-warm/60 space-y-1"><span class="font-label-sm text-accent-moss uppercase tracking-wider text-[10px] block font-bold">Reason for Leave</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-3 pt-1">&nbsp;</span><span class="text-xs text-on-surface block border-b border-dashed border-border-warm pb-1 pt-1">&nbsp;</span></div><div class="grid grid-cols-2 gap-6 pt-4 items-end"><div class="space-y-1.5"><div class="text-xs text-on-surface border-b border-dashed border-border-warm pb-1">&nbsp;</div><p class="text-[11px] text-on-surface-variant leading-tight">Employee Signature &amp; Date</p></div><div class="space-y-1.5"><div class="text-xs text-on-surface border-b border-dashed border-border-warm pb-1">&nbsp;</div><p class="text-[11px] text-on-surface-variant leading-tight">Reporting Manager Signature, Date &amp; Decision</p></div></div><div class="pt-3 mt-2 border-t border-border-warm/50 flex items-center justify-between text-xs text-on-surface-variant"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-accent-brass">lock</span><span class="">HR Use Only &middot; Leave balance updated on approval</span></div><span class="text-[11px]">Internal Template &middot; Mingalaba Forms Library</span></div></div></div><div class="flex items-center justify-between px-space-sm pt-2 text-xs text-on-surface-variant"><div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">history</span><span class="">Last reviewed by HR on Apr 1, 2024</span></div></div></div></section></div></div>
+</div>
+</section>
+</div>
+<p class="pt-space-sm text-xs text-on-surface-variant"><span class="font-semibold text-primary">1</span> file in Operations &middot; Forms.</p>
+</div>
 </div>
 <script>
   // Document Hierarchy: expand/collapse + filter.
@@ -433,10 +630,9 @@ Log Out
     if (arrow) arrow.textContent = willExpand ? 'expand_more' : 'chevron_right';
   }
 
-  // "Expand" / "Collapse" links at the top of the panel act on every
-  // branch (folders and subfolders) at once.
+  // "Expand" / "Collapse" links at the top of the panel act on every subfolder.
   function toggleAllFolders(expand) {
-    document.querySelectorAll('#interactiveTree [id^="folder-"], #interactiveTree [id^="sub-"]').forEach((content) => {
+    document.querySelectorAll('#interactiveTree [id^="sub-"]').forEach((content) => {
       if (content.id.endsWith('-arrow')) return;
       const arrow = document.getElementById(content.id + '-arrow');
       content.classList.toggle('hidden', !expand);
@@ -445,39 +641,275 @@ Log Out
     });
   }
 
-  // Shared by both the toolbar search box and the sidebar filter box.
-  // Hides folders/files that don't match, and auto-expands whatever does
-  // match so results are actually visible rather than hidden inside a
-  // collapsed branch.
+  // Shared by the toolbar search box and the sidebar filter box: hides the
+  // files and folders of this department that don't match, and opens up
+  // whatever does match so the result is actually visible.
   function filterHierarchy(query) {
     const q = query.trim().toLowerCase();
-    document.querySelectorAll('#interactiveTree > .folder-group').forEach((group) => {
-      const matches = !q || group.textContent.toLowerCase().includes(q);
-      group.style.display = matches ? '' : 'none';
-      if (matches && q) {
-        group.querySelectorAll('[id^="folder-"], [id^="sub-"]').forEach((content) => {
-          if (content.id.endsWith('-arrow')) return;
-          content.classList.remove('hidden');
-          content.classList.add('block');
-          const arrow = document.getElementById(content.id + '-arrow');
-          if (arrow) arrow.textContent = 'expand_more';
-        });
+    const searching = q.length > 0;
+    let showing = 0;
+    document.querySelectorAll('#interactiveTree [data-doc]').forEach((row) => {
+      const match = !searching || row.textContent.toLowerCase().includes(q);
+      row.style.display = match ? '' : 'none';
+      if (match) showing += 1;
+    });
+    document.querySelectorAll('#interactiveTree .subfolder-group').forEach((group) => {
+      const name = (group.querySelector('.truncate') || {}).textContent || '';
+      const nameMatch = searching && name.toLowerCase().includes(q);
+      if (nameMatch) {                       // folder name matches: show all its files
+        group.querySelectorAll('[data-doc]').forEach((row) => { row.style.display = ''; });
       }
+      const visible = !searching || nameMatch ||
+        [...group.querySelectorAll('[data-doc]')].some((row) => row.style.display !== 'none');
+      group.style.display = visible ? '' : 'none';
+      if (visible && searching) openBranch(group.querySelector('[id^="sub-"]'));
+    });
+    const none = document.querySelector('.no-match');
+    if (none) none.classList.toggle('hidden', !(searching && showing === 0));
+  }
+
+  function openBranch(content) {
+    if (!content) return;
+    content.classList.remove('hidden');
+    content.classList.add('block');
+    const arrow = document.getElementById(content.id + '-arrow');
+    if (arrow) arrow.textContent = 'expand_more';
+  }
+
+  // ---------------------------------------------------------------- documents
+  // Clicking a file in the hierarchy shows it in the preview on the right.
+  // The preview's own built-in buttons handle zoom, print and download.
+  const DOC_VIEW_URL = '/documents/view/';
+  const DOC_DOWNLOAD_URL = '/documents/download/';
+  // PDFs can't be shown inside a page on most phones (they download instead).
+  const CAN_SHOW_PDF = navigator.pdfViewerEnabled !== false;
+
+  let currentRow = null;  // the file now open in the preview
+
+  function docLink(base, path) { return 'data/files/' + path.split('/').map(encodeURIComponent).join('/'); }
+
+  // Close the open document and go back to "Select a document".
+  function closeDoc() {
+    if (!currentRow) return;
+    currentRow = null;
+    document.querySelectorAll('[data-doc]').forEach((r) => highlightRow(r, false));
+    const frame = document.getElementById('docFrame');
+    frame.removeAttribute('src');
+    frame.hidden = true;
+    document.getElementById('docViewer').hidden = true;
+    document.getElementById('docChoose').classList.remove('hidden');
+  }
+
+  function highlightRow(r, on) {
+    r.classList.toggle('bg-primary/10', on);
+    r.classList.toggle('border-primary/30', on);
+    r.classList.toggle('bg-white', !on);
+    r.classList.toggle('border-border-warm/50', !on);
+    r.querySelector('.doc-name').classList.toggle('text-primary', on);
+    r.querySelector('.doc-name').classList.toggle('font-medium', on);
+  }
+
+  // How each type is shown:
+  //   pdf, image  the browser itself, inside the frame
+  //   sheet       xlsx.full.min.js  -> a table per worksheet
+  //   word        mammoth.browser.min.js -> readable HTML
+  //   text        as it is
+  //   (nothing)   old .doc / .ppt: the file is offered for download
+  const SHEET_LIB = 'static/portal/vendor/xlsx.full.min.js';
+  const WORD_LIB = 'static/portal/vendor/mammoth.browser.min.js';
+  const loaded = {};
+
+  function loadLibrary(url) {
+    // Fetched the first time a file needs it, so opening a PDF stays light.
+    if (loaded[url]) return loaded[url];
+    loaded[url] = new Promise((resolve, reject) => {
+      const tag = document.createElement('script');
+      tag.src = url;
+      tag.onload = resolve;
+      tag.onerror = () => reject(new Error('The preview tool could not be loaded.'));
+      document.head.appendChild(tag);
+    });
+    return loaded[url];
+  }
+
+  function panels(which) {
+    const frame = document.getElementById('docFrame');
+    document.getElementById('docPreviewBox').hidden = which === 'none';
+    frame.hidden = which !== 'frame';
+    if (which !== 'frame') frame.removeAttribute('src');
+    document.getElementById('docRender').hidden = which !== 'render';
+    document.getElementById('docSheetTabs').hidden = which !== 'render';
+    document.getElementById('docDownloadPanel').hidden = which !== 'download';
+    if (which !== 'render') {
+      document.getElementById('docRender').innerHTML = '';
+      document.getElementById('docSheetTabs').innerHTML = '';
+    }
+  }
+
+  function renderMessage(text, bad) {
+    const el = document.getElementById('docRenderMsg');
+    el.hidden = !text;
+    el.textContent = text || '';
+    el.style.color = bad ? '#a73923' : '';
+  }
+
+  function showDownloadPanel(d, note) {
+    panels('download');
+    document.getElementById('docDownloadName').textContent = d.name;
+    document.getElementById('docDownloadNote').textContent = note ||
+      'This file type opens in its own app. Download it to read it.';
+  }
+
+  // Both Download links (the one in the header and the one in the panel)
+  // point straight at the file, so a click downloads it with no script.
+  function setDownloadLinks(d) {
+    const url = docLink(DOC_DOWNLOAD_URL, d.path);
+    ['docDownloadTop', 'docDownloadNow'].forEach((id) => {
+      const link = document.getElementById(id);
+      if (!link) return;
+      link.href = url;
+      link.setAttribute('download', d.name);   // keep the file's own name
+      link.title = 'Download ' + d.name;
     });
   }
 
-  function adjustZoom(delta) {
-    var el = document.getElementById('zoomVal');
-    if (!el) return;
-    var val = parseInt(el.textContent, 10) || 100;
-    val = Math.max(50, Math.min(200, val + delta));
-    el.textContent = val + '%';
-    var canvas = document.getElementById('docCanvasContent');
-    if (canvas) canvas.style.zoom = (val / 100);
+  function fetchDoc(d) {
+    return fetch(docLink(DOC_VIEW_URL, d.path), { credentials: 'include' }).then((res) => {
+      if (!res.ok) throw new Error('The document could not be opened.');
+      return res.arrayBuffer();
+    });
   }
+
+  function showSheet(d) {
+    panels('render');
+    renderMessage('Opening ' + d.name + '\u2026');
+    const box = document.getElementById('docRender');
+    const tabs = document.getElementById('docSheetTabs');
+    Promise.all([loadLibrary(SHEET_LIB), fetchDoc(d)]).then((both) => {
+      const book = XLSX.read(both[1], { type: 'array' });
+      if (!book.SheetNames.length) throw new Error('That file has no sheets.');
+      const show = (name) => {
+        box.innerHTML = XLSX.utils.sheet_to_html(book.Sheets[name], { editable: false });
+        Array.prototype.forEach.call(tabs.children, (t) => {
+          t.setAttribute('aria-selected', t.textContent === name ? 'true' : 'false');
+        });
+      };
+      tabs.innerHTML = '';
+      book.SheetNames.forEach((name) => {
+        const tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'sheet-tab';
+        tab.textContent = name;
+        tab.addEventListener('click', () => show(name));
+        tabs.appendChild(tab);
+      });
+      tabs.hidden = book.SheetNames.length < 2;
+      show(book.SheetNames[0]);
+      renderMessage(book.SheetNames.length > 1
+        ? book.SheetNames.length + ' sheets. Colours, charts and formulas are not shown \u2014 download the file for those.'
+        : 'Colours, charts and formulas are not shown \u2014 download the file for those.');
+    }).catch((err) => showDownloadPanel(d, err.message + ' You can still download it.'));
+  }
+
+  function showWord(d) {
+    panels('render');
+    renderMessage('Opening ' + d.name + '\u2026');
+    const box = document.getElementById('docRender');
+    Promise.all([loadLibrary(WORD_LIB), fetchDoc(d)]).then((both) => {
+      return mammoth.convertToHtml({ arrayBuffer: both[1] });
+    }).then((result) => {
+      box.innerHTML = result.value || '<p>This document has no text in it.</p>';
+      renderMessage('Page layout, headers and footers are not shown \u2014 download the file for those.');
+    }).catch((err) => showDownloadPanel(d, err.message + ' You can still download it.'));
+  }
+
+  function showText(d) {
+    panels('render');
+    renderMessage('');
+    fetchDoc(d).then((buffer) => {
+      const text = new TextDecoder('utf-8').decode(buffer);
+      const pre = document.createElement('pre');
+      pre.textContent = text;
+      const box = document.getElementById('docRender');
+      box.innerHTML = '';
+      box.appendChild(pre);
+    }).catch((err) => showDownloadPanel(d, err.message + ' You can still download it.'));
+  }
+
+  function selectDoc(row) {
+    if (!row) return;
+    // Make sure the folders around the selected file are open.
+    for (let el = row.parentElement; el && el.id !== 'interactiveTree'; el = el.parentElement) {
+      if (el.id && el.classList.contains('hidden')) toggleBranch(el.id);
+    }
+    const d = row.dataset;
+    currentRow = row;
+    document.querySelectorAll('[data-doc]').forEach((r) => highlightRow(r, r === row));
+    const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+    set('docBadgeType', d.label);
+    set('docSizeModified', d.size + ' \u00b7 Updated ' + d.modified);
+    set('previewTitle', d.name);
+    document.getElementById('docChoose').classList.add('hidden');
+    document.getElementById('docViewer').hidden = false;
+    renderMessage('');
+    setDownloadLinks(d);          // the Download link at the top right
+
+    const kind = d.preview || '';
+    if ((kind === 'pdf' && !CAN_SHOW_PDF)) {
+      // Phones cannot show a PDF inside a page: offer it instead.
+      showDownloadPanel(d, 'Your browser cannot show a PDF inside the page. Open or download it.');
+      return;
+    }
+    if (kind === 'pdf' || kind === 'image') {
+      panels('frame');
+      // navpanes=0: start without the page-thumbnail strip on the left, so the
+      // page itself gets the space. view=FitH: fit the page to the box width.
+      document.getElementById('docFrame').src =
+        docLink(DOC_VIEW_URL, d.path) + (kind === 'pdf' ? '#navpanes=0&view=FitH' : '');
+      return;
+    }
+    if (kind === 'sheet') { showSheet(d); return; }
+    if (kind === 'word') { showWord(d); return; }
+    if (kind === 'text') { showText(d); return; }
+    showDownloadPanel(d);
+  }
+
+  // Everything except an old .doc / .ppt is now shown inside the page.
+  function canShowInPage(d) {
+    const kind = d.preview || '';
+    if (!kind) return false;
+    return kind !== 'pdf' || CAN_SHOW_PDF;
+  }
+
+  // Clicking a folder or subfolder closes the open document when that folder
+  // is a different one, or when it's the open document's own folder being collapsed.
+  document.getElementById('interactiveTree').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-branch]');
+    if (!button || !currentRow) return;
+    const branch = document.getElementById(button.dataset.branch);
+    if (!branch || !branch.contains(currentRow) || branch.classList.contains('hidden')) closeDoc();
+  });
+  // "Collapse" at the top hides every folder, so the open document closes too.
+  const collapseAllFolders = toggleAllFolders;
+  toggleAllFolders = function (expand) {
+    collapseAllFolders(expand);
+    if (!expand) closeDoc();
+  };
+
+  document.querySelectorAll('[data-doc]').forEach((row) => {
+    row.addEventListener('click', () => {
+      selectDoc(row);
+      // On phones the preview sits below the list, so bring it into view.
+      if (window.innerWidth < 1024) {
+        const panel = document.getElementById('docPanel');
+        window.scrollTo({ top: panel.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+      }
+    });
+  });
 </script>
 <script>
-  // header search landing: ?q=<form name> shows only the folder that holds it and highlights the file.
+  // Header search landing: ?q=<document name> shows only the folder that holds it,
+  // highlights the file and opens it (PDFs/images) the same as a click would.
   (function () {
     var q = new URLSearchParams(location.search).get('q');
     if (!q) return;
@@ -485,12 +917,20 @@ Log Out
     if (box) box.value = q;
     filterHierarchy(q);
     var want = q.toLowerCase();
-    var row = Array.prototype.slice.call(document.querySelectorAll('.tree-doc-row')).filter(function (r) { return r.textContent.toLowerCase().indexOf(want) >= 0; })[0];
+    var rows = Array.prototype.slice.call(document.querySelectorAll('[data-doc]'));
+    var row = rows.filter(function (r) { return (r.dataset.name || '').toLowerCase() === want; })[0]
+      || rows.filter(function (r) { return (r.dataset.name || '').toLowerCase().indexOf(want) >= 0; })[0];
     if (!row) return;
+    if (canShowInPage(row.dataset)) selectDoc(row);
     row.style.transition = 'box-shadow .3s';
-    row.style.boxShadow = '0 0 0 3px rgba(15,118,110,.5)';
+    row.style.boxShadow = '0 0 0 3px rgba(45,106,79,.5)';
     setTimeout(function () { row.style.boxShadow = ''; }, 2600);
     row.scrollIntoView({ block: 'center' });
   })();
-</script>
+</script></main></div>
+
+
+
+
+
 </body></html>

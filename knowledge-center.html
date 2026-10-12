@@ -247,11 +247,11 @@ Log Out
     sopPolicies: "sop-policies.html",
     forms: "forms.html",
     companyForms: "/company-forms/",
-    logBook: "log-book.html",
-    music: "music.html",
-    jobApplication: "jobs-apply.html",
+    logBook: "task-checklist.html",
+    music: "music-player.html",
+    jobApplication: "job-application.html",
     menuGuide: "#",
-    compliance: "compliance.html",
+    compliance: "compliance-dashboard.html",
     hrCompliance: "#",
     orgChart: "#",
     sales: "sales.html",
@@ -259,17 +259,17 @@ Log Out
     spine: "https://hungerpangs.spinehrms.in/",
     posist: "https://hungerpangs.restroworks.biz/login",
     announcements: "announcements.html",
-    manageAnnouncements: "announcements-manage.html",
-    jobs: "jobs.html",
-    manageJobs: "jobs-manage.html",
-    restaurants: "restaurants.html",
+    manageAnnouncements: "manage-announcements.html",
+    jobs: "job-openings.html",
+    manageJobs: "manage-job-postings.html",
+    restaurants: "restaurant-details-directory.html",
     login: "dashboard.html",
     searchIndex: "/api/search/index/",
-    annJs: "static/portal/js/announcements-data.js",
-    jobsJs: "static/portal/js/jobs-data.js"
+    annJs: "announcements-data.js",
+    jobsJs: "jobs-data.js"
   };
 </script>
-<script src="static/portal/js/site-search.js" defer></script>
+<script src="site-search.js" defer></script>
 <script>
   // The bell: asks /api/notifications/ now and every 2 minutes (only while the tab is in view).
   (function () {
@@ -289,7 +289,7 @@ Log Out
     }
     // "View all ..." only for the pages this person may open.
     var PAGES = { announcements: ['announcements.html', 'View all announcements'],
-                  jobs: ['jobs.html', 'View all job openings'] };
+                  jobs: ['job-openings.html', 'View all job openings'] };
     function drawFoot(can) {
       var foot = document.getElementById('notifFoot');
       var links = Object.keys(PAGES).filter(function (k) { return can && can[k]; }).map(function (k) {
@@ -392,7 +392,7 @@ Log Out
 </a>
 
 <!-- 2: Restaurant Details -->
-<a href="restaurants.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FEF4ED] hover:bg-[#FDE8DB] rounded-xl p-space-xl border border-[#FCD7C0] hover:border-[#C05621]/40 shadow-[0_2px_10px_rgba(192,86,33,0.06)] hover:shadow-[0_8px_24px_rgba(192,86,33,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#C05621">
+<a href="restaurant-details-directory.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FEF4ED] hover:bg-[#FDE8DB] rounded-xl p-space-xl border border-[#FCD7C0] hover:border-[#C05621]/40 shadow-[0_2px_10px_rgba(192,86,33,0.06)] hover:shadow-[0_8px_24px_rgba(192,86,33,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#C05621">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#C05621] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">storefront</span>
 </div>
@@ -428,7 +428,7 @@ Log Out
 </a>
 
 <!-- 6: Compliance Dashboard -->
-<a href="compliance.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0F5FA] hover:bg-[#E2ECF5] rounded-xl p-space-xl border border-[#CBE0F2] hover:border-[#1A365D]/40 shadow-[0_2px_10px_rgba(26,54,93,0.06)] hover:shadow-[0_8px_24px_rgba(26,54,93,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#1A365D">
+<a href="compliance-dashboard.html" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#F0F5FA] hover:bg-[#E2ECF5] rounded-xl p-space-xl border border-[#CBE0F2] hover:border-[#1A365D]/40 shadow-[0_2px_10px_rgba(26,54,93,0.06)] hover:shadow-[0_8px_24px_rgba(26,54,93,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#1A365D">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#1A365D] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">verified</span>
 </div>
@@ -437,7 +437,7 @@ Log Out
 </a>
 
 <!-- 7: Music -->
-<a href="music.html" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FDF0F7] hover:bg-[#FBE0EF] rounded-xl p-space-xl border border-[#F5C6E0] hover:border-[#A6337A]/40 shadow-[0_2px_10px_rgba(166,51,122,0.06)] hover:shadow-[0_8px_24px_rgba(166,51,122,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#A6337A">
+<a href="music-player.html" target="_blank" rel="noopener noreferrer" class="kc-tile group w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.8333rem)] relative bg-[#FDF0F7] hover:bg-[#FBE0EF] rounded-xl p-space-xl border border-[#F5C6E0] hover:border-[#A6337A]/40 shadow-[0_2px_10px_rgba(166,51,122,0.06)] hover:shadow-[0_8px_24px_rgba(166,51,122,0.12)] flex flex-col items-center justify-center text-center cursor-pointer" style="--tint-solid:#A6337A">
 <div class="kc-ic w-16 h-16 shrink-0 rounded-full bg-[#A6337A] text-white flex items-center justify-center shadow-sm mb-space-md">
 <span class="material-symbols-outlined text-[32px]">music_note</span>
 </div>

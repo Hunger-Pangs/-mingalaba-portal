@@ -13,23 +13,32 @@
 $root = $PSScriptRoot
 $sourceFile = Join-Path $root "header.html"
 $targets = @(
-    "dashboard.html",
-    "knowledge-center.html",
-    "sop-policies.html",
-    "company-info-directory.html",
-    "forms.html",
-    "company-forms-directory.html",
-    "quick-links.html",
-    "compliance-dashboard.html",
-    "restaurant-details-directory.html",
-    "task-checklist.html",
+    "announcements-store-targets.html",
     "announcements.html",
-    "sales.html",
-    "music-player.html",
-    "job-openings.html",
+    "company-forms-directory.html",
+    "company-info-directory.html",
+    "compliance-dashboard.html",
+    "dashboard.html",
+    "forms-finance-sales.html",
+    "forms-operations.html",
+    "forms-people-hr.html",
+    "forms-store.html",
+    "forms.html",
     "job-application.html",
+    "job-openings.html",
+    "knowledge-center.html",
+    "manage-announcements.html",
     "manage-job-postings.html",
-    "manage-announcements.html"
+    "music-player.html",
+    "quick-links.html",
+    "restaurant-details-directory.html",
+    "sales.html",
+    "sop-finance-sales.html",
+    "sop-operations.html",
+    "sop-people-hr.html",
+    "sop-policies.html",
+    "sop-store.html",
+    "task-checklist.html"
 )
 
 $startMarker = "<!-- HEADER:START -->"

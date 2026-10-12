@@ -8,15 +8,18 @@
  *   - Job openings .......... from jobs-data.js (open, not-expired roles only)
  *   - Tasks & checklists .... the checklist tools (built-in list, or your own list from /api/checklist-icons/ when
  *                             USE_BACKEND_SEARCH is true)
- *   - Documents ............. the Company Information document tree
+ *   - Documents ............. files in the SOP / Policies and Forms libraries
  *   - Restaurants & people .. the 23 restaurants and their general managers
  * Picking a result opens the right page and, where the page supports it, jumps to the item
  * (?ann=<id> opens the notice, #job-<id> selects the role, ?tool=<name> highlights the checklist,
  * ?q=<text> filters the restaurant list or the document tree).
  *
- * Keeping it current: the restaurant, document and tool lists below are copies of what is on those pages.
- * When a restaurant, document or checklist is added or renamed on its page, update the list here too.
- * Announcements and job openings are always read live from their own data files.
+ * Mingalaba Portal (Django) version:
+ *   - Restaurants, managers and documents are LIVE: they come from the portal's search index
+ *     (PORTAL_URLS.searchIndex -> the outlets table and the company documents folder), so nothing
+ *     here needs updating when a restaurant or document is added.
+ *   - Page addresses come from window.PORTAL_URLS, set by the shared header template.
+ *   - Announcements and job openings are read from their own data files (sample data for now).
  *
  * USE_BACKEND_SEARCH = false -> checklist tools come from the built-in list below.
  * USE_BACKEND_SEARCH = true  -> checklist tools come from /api/checklist-icons/, so people only find the tools they
@@ -25,6 +28,10 @@
  */
 (function () {
   var USE_BACKEND_SEARCH = false;
+  var URLS = window.PORTAL_URLS || {};
+  function U(key) { return URLS[key] || '#'; }
+  // A page entry is either a key in PORTAL_URLS or a full https:// address.
+  function pageUrl(entry) { return /^https?:\/\//.test(entry) ? entry : U(entry); }
 
   var input = document.getElementById('siteSearch');
   if (!input) return;
@@ -32,106 +39,44 @@
   /* ------------------------------------------------------------------ */
   /* Static content                                                      */
   /* ------------------------------------------------------------------ */
-  // Dashboard icon order: Knowledge Center, Job Openings, Announcements, Sales, Quick Links, Log Book.
+  // [title, page, subtitle, keywords, icon, suffix]
+  // [title, page key in PORTAL_URLS (or a full https:// address), subtitle, keywords, icon, suffix]
   var PAGES = [
-    ['Dashboard', 'dashboard.html', 'Home', 'home overview shortcuts', 'dashboard'],
-    ['Knowledge Center', 'knowledge-center.html', 'SOP/Policies, restaurants, menu, forms, music, compliance', 'hub sop policies restaurant menu forms music compliance knowledge base', 'hub'],
-    ['SOP / Policies', 'sop-policies.html', 'Pick a department to open the repository', 'sop policies department operations store finance sales hr knowledge center', 'policy'],
-    ['Statutory Documents', 'company-info-directory.html', 'Statutory documents and policies', 'company information statutory documents licences licenses repository files sops policies vault sop knowledge center', 'description'],
-    // The other Knowledge Center tiles have no page of their own yet -- they just take you to the hub.
-    ['Menu Items & Allergens', 'https://app.notion.com/p/Burma-Burma-Kitchen-Guide-3641c5ec80c98067ad66fe1323b5cc79', 'Opens in a new tab (Notion)', 'menu details items allergens ingredients kitchen guide notion knowledge center', 'restaurant_menu'],
-    ['Forms', 'forms.html', 'Pick a department to open the forms library', 'forms department operations store finance sales hr knowledge center', 'assignment'],
-    ['Company Forms', 'company-forms-directory.html', 'HR, operations, finance & store forms', 'company forms library hr operations finance store templates knowledge center', 'assignment'],
-    ['Music', 'music-player.html', 'Play the restaurant ambience playlist', 'music player playlist ambience songs tracks knowledge center', 'music_note'],
-    ['Org Chart', 'https://script.google.com/a/macros/burmaburma.in/s/AKfycbwiLkliosJp9Jo2y2vrUuQdgvJ2WGA9I1O3G0UoBffRWS8K_wZaxv-JeeRhz7G8IjS95Q/exec', 'Opens in a new tab (Google Apps Script)', 'org chart hierarchy organisation organization knowledge center', 'account_tree'],
-    ['Compliance Dashboard', 'compliance-dashboard.html', 'Licenses Compliance & HR Compliance', 'compliance dashboard licenses hr knowledge center', 'verified'],
-    ['Licenses Compliance', 'https://script.google.com/a/macros/burmaburma.in/s/AKfycbxPGI-Imm9AiWNiry8JZpfx369Pce_aBTZINwRa88sp8OXhZb5PF1QtVx3S0HrDSJTBdA/exec', 'Opens in a new tab (Google Apps Script)', 'licenses license compliance knowledge center', 'gavel'],
-    ['HR Compliance', 'https://hungerpangs-hr-compliance.streamlit.app/', 'Opens in a new tab (Streamlit)', 'hr compliance streamlit knowledge center', 'verified'],
-    ['Job Openings', 'job-openings.html', 'Open positions by department', 'jobs careers hiring vacancies recruitment positions apply', 'badge'],
-    ['Announcements', 'announcements.html', 'Notice board', 'notices news updates circulars board', 'campaign'],
-    ['Sales', 'sales.html', 'Store targets and the sales dashboard', 'sales dashboard revenue', 'monitoring'],
-    ['Store Targets', 'sales.html#targets', 'Month-to-date sales against target', 'sales target achievement performance cities stores revenue', 'track_changes'],
-    ['Quick Links', 'quick-links.html', 'Peak Scale, Frontlyne, Spine, POSIST, Omni Cards', 'quick links peak scale frontlyne spine posist omni cards', 'link'],
-    // Individual tools on the Quick Links page -- no destination yet, but still reachable by name.
-    ['Peak Scale', 'quick-links.html', 'Quick Links', 'peak scale quick links', 'monitor_weight'],
-    ['Frontlyne', 'https://bbacademy.gofrontlyne.com/my-learning', 'Opens in a new tab (BB Academy)', 'frontlyne bb academy learning training quick links', 'support_agent'],
-    ['Spine', 'https://hungerpangs.spinehrms.in/', 'Opens in a new tab (Spine HRMS)', 'spine hrms quick links', 'account_tree'],
-    ['POSIST', 'https://hungerpangs.restroworks.biz/login', 'Opens in a new tab', 'posist pos restroworks quick links', 'point_of_sale'],
-    ['Omni Cards', 'quick-links.html', 'Quick Links', 'omni cards quick links', 'credit_card'],
-    ['Log Book', 'task-checklist.html', 'Checklists for your department', 'tasks checklists registers daily opening closing hygiene task checklist', 'checklist'],
-    // Not on the dashboard grid right now -- reached via the Knowledge Center hub instead -- but still reachable by name.
-    ['Restaurant Details', 'restaurant-details-directory.html', 'All 23 restaurants', 'restaurants stores outlets directory locations managers addresses quick links', 'storefront']
+    ['Dashboard', 'dashboard', 'Home', 'home overview shortcuts tiles', 'dashboard', ''],
+    ['Knowledge Center', 'knowledgeCenter', 'SOP/Policies, restaurants, menu, forms, music, compliance', 'hub knowledge base sop policies restaurants menu forms music compliance org chart', 'hub', ''],
+    ['SOP / Policies', 'sopPolicies', 'Pick a department to open the repository', 'sop policies department operations store finance sales hr knowledge center', 'menu_book', ''],
+    ['Forms', 'forms', 'Pick a department to open the forms library', 'forms department operations store finance sales hr knowledge center', 'description', ''],
+    ['Company Forms', 'companyForms', 'HR, operations, finance & store forms', 'company forms library hr operations finance store templates', 'folder_open', ''],
+    ['Restaurant Details', 'restaurants', 'All restaurants', 'restaurants stores outlets directory locations managers addresses knowledge center', 'storefront', ''],
+    ['Menu Items & Allergens', 'menuGuide', 'Opens in a new tab (Notion)', 'menu details items allergens ingredients kitchen guide notion knowledge center', 'restaurant_menu', ''],
+    ['Org Chart', 'orgChart', 'Opens in a new tab', 'org chart organisation organization hierarchy reporting knowledge center', 'account_tree', ''],
+    ['Music', 'music', 'Play the restaurant ambience playlist', 'music player playlist ambience songs tracks knowledge center', 'music_note', ''],
+    ['Compliance Dashboard', 'compliance', 'Licenses Compliance & HR Compliance', 'compliance dashboard licenses hr knowledge center', 'verified', ''],
+    ['Licenses Compliance', '#', 'Opens in a new tab (Google Apps Script)', 'licenses compliance fssai permits knowledge center', 'gavel', ''],
+    ['HR Compliance', 'hrCompliance', 'Opens in a new tab', 'hr compliance people statutory knowledge center', 'badge', ''],
+    ['Job Openings', 'jobs', 'Open positions by department', 'jobs careers hiring vacancies recruitment positions apply', 'badge', ''],
+    ['Announcements', 'announcements', 'Notice board', 'notices news updates circulars board', 'campaign', ''],
+    ['Sales', 'sales', 'Store targets and the sales dashboard', 'sales dashboard revenue power bi targets', 'monitoring', ''],
+    ['Store Targets', 'sales', 'Month-to-date sales against target', 'sales target achievement performance cities stores revenue', 'track_changes', '#targets'],
+    ['Quick Links', 'quickLinks', 'Peak Scale, Frontlyne, Spine, POSIST, Omni Cards, PMS', 'quick links tools peak scale frontlyne spine posist omni cards pms performance management', 'link', ''],
+    ['Peak Scale', 'quickLinks', 'Quick Links', 'peak scale quick links', 'monitor_weight', ''],
+    ['Frontlyne', 'https://bbacademy.gofrontlyne.com/my-learning', 'Opens in a new tab (BB Academy)', 'frontlyne bb academy learning training quick links', 'support_agent', ''],
+    ['Spine', 'spine', 'Opens in a new tab (Spine HRMS)', 'spine hrms payroll attendance quick links', 'account_balance', ''],
+    ['POSIST', 'posist', 'Opens in a new tab', 'posist pos restroworks billing quick links', 'point_of_sale', ''],
+    ['Omni Cards', 'quickLinks', 'Quick Links', 'omni cards gift vouchers quick links', 'credit_card', ''],
+    ['Performance Management System (PMS)', 'quickLinks', 'Quick Links - coming soon', 'pms performance management system appraisal review quick links', 'insights', ''],
+    ['Log Book', 'logBook', 'Checklists for the store', 'tasks checklists registers daily opening closing hygiene log book', 'checklist', '']
   ];
   var MANAGE_PAGES = {
-    jobs: ['Manage Job Postings', 'manage-job-postings.html', 'Add, edit or close job postings', 'post new job posting hiring hr manage vacancies', 'edit_note'],
-    announcements: ['Manage Announcements', 'manage-announcements.html', 'Post or edit announcements', 'post new announcement notice publish pin archive manage', 'edit_note']
+    jobs: ['Manage Job Postings', 'manageJobs', 'Add, edit or close job postings', 'post new job posting hiring hr manage vacancies', 'edit_note'],
+    announcements: ['Manage Announcements', 'manageAnnouncements', 'Post or edit announcements', 'post new announcement notice publish pin archive manage', 'edit_note']
   };
 
-  // [name, department]
-  // The Log Book page now only shows the Store checklists (departments and
-  // the rest of the icons were removed from task-checklist.html).
+  // [name, department] -- the Log Book now shows the Store checklists only.
   var TOOLS = [
     ['Food Safety Temperature Log', 'Store'], ['Tips Register', 'Store'], ['Aggregators Order Register', 'Store'],
-    ['Uniform Register', 'Store'], ['Spoilage Register', 'Store'], ['Lost and Found Register', 'Store'], ['Pest Control Register', 'Store'],
-    ['Shift Handover Register', 'Store'], ['Banking Slip', 'Store']
-  ];
-
-  // [document, folder, sub-folder]
-  var DOCS = [
-    ['Certificate of Incorporation & CIN Master.pdf', '01 Corporate & Governance', '1.1 Incorporation & Charters'],
-    ['Memorandum & Articles of Association.pdf', '01 Corporate & Governance', '1.1 Incorporation & Charters'],
-    ['Registered Office Proof & Municipal Khata.pdf', '01 Corporate & Governance', '1.2 Proof of Office & Premises'],
-    ['Board Resolution - Corporate Office.pdf', '01 Corporate & Governance', '1.2 Proof of Office & Premises'],
-    ['FSSAI Central License 2024-2029.pdf', '02 Statutory Licenses & Food Safety', '2.1 FSSAI & Food Standards'],
-    ['Fire Safety Compliance NOC Mum-HQ.pdf', '02 Statutory Licenses & Food Safety', '2.2 Safety & Fire Approvals'],
-    ['State Excise FL-III Hospitality Permit.pdf', '02 Statutory Licenses & Food Safety', '2.3 Excise & Hospitality'],
-    ['Staff Code of Conduct & POSH Policy.pdf', '03 HR & Workforce Policies', '3.1 Employee Handbooks & POSH'],
-    ['Internal Complaints Committee Charter.docx', '03 HR & Workforce Policies', '3.1 Employee Handbooks & POSH'],
-    ['Cloud Kitchen HACCP Sanitation SOP.pdf', '04 Operations & SOPs', '4.1 Kitchen & Hygiene SOPs'],
-    ['Oil Recycling & Wet Waste Log 2024.pdf', '04 Operations & SOPs', '4.1 Kitchen & Hygiene SOPs'],
-    ['GST Registration Certificate (REG-06).pdf', '05 Financial & Tax Filings', '5.1 GST & Annual MCA Filings']
-  ];
-
-  // [form, folder, sub-folder]
-  var FORM_DOCS = [
-    ['Leave Application Form.pdf', '01 HR & Workforce Forms', '1.1 Leave & Attendance'],
-    ['Attendance Regularisation Form.docx', '01 HR & Workforce Forms', '1.1 Leave & Attendance'],
-    ['New Joinee Information Form.pdf', '01 HR & Workforce Forms', '1.2 Onboarding & Exit'],
-    ['Exit Clearance Form.pdf', '01 HR & Workforce Forms', '1.2 Onboarding & Exit'],
-    ['Incident Report Form.pdf', '02 Operations & Store Forms', '2.1 Incident & Safety'],
-    ['Maintenance Request Form.pdf', '02 Operations & Store Forms', '2.2 Maintenance & Facilities'],
-    ['Equipment Breakdown Log.docx', '02 Operations & Store Forms', '2.2 Maintenance & Facilities'],
-    ['Purchase Requisition Form.pdf', '03 Finance & Procurement Forms', '3.1 Purchase & Reimbursement'],
-    ['Petty Cash Reimbursement Form.pdf', '03 Finance & Procurement Forms', '3.1 Purchase & Reimbursement'],
-    ['Visitor Pass Request Form.pdf', '04 Administrative Forms', '4.1 Visitor & Asset Management'],
-    ['Asset Issue & Return Form.pdf', '04 Administrative Forms', '4.1 Visitor & Asset Management']
-  ];
-
-  // [code, name, locality, city, general manager, phone, email]
-  var STORES = [
-    ['BB-MUM-001', 'Burma Burma Restaurant & Tea Room', 'Fort, Kala Ghoda', 'Mumbai', 'Rajesh Sharma', '+91 22 4003 6600', 'fort.mumbai@burmaburma.in'],
-    ['BB-MUM-002', 'Burma Burma - Santacruz West', 'Santacruz West', 'Mumbai', 'Kunal Mehra', '+91 22 4003 7711', 'santacruz@burmaburma.in'],
-    ['BB-MUM-003', 'Burma Burma - Palladium Mall', 'Lower Parel', 'Mumbai', 'Siddharth Nair', '+91 22 4003 8844', 'palladium.mum@burmaburma.in'],
-    ['BB-MUM-004', 'Burma Burma - Inorbit Mall Malad', 'Malad West', 'Mumbai', 'Varun Shetty', '+91 22 4003 9922', 'malad.mum@burmaburma.in'],
-    ['BB-MUM-005', 'Burma Burma - Oberoi Mall', 'Goregaon East', 'Mumbai', 'Rohit Sawant', '+91 22 4003 5511', 'goregaon@burmaburma.in'],
-    ['BB-DEL-001', 'Burma Burma - Cyber Hub', 'DLF Cyber Hub', 'Delhi NCR', 'Amitava Roy', '+91 124 437 2999', 'cyberhub@burmaburma.in'],
-    ['BB-DEL-002', 'Burma Burma - Select CITYWALK', 'Saket', 'Delhi NCR', 'Neha Kapoor', '+91 11 4914 5807', 'saket.del@burmaburma.in'],
-    ['BB-DEL-003', 'Burma Burma - Mall of India', 'Sector 18', 'Delhi NCR', 'Prateek Mathur', '+91 120 622 9410', 'noida.del@burmaburma.in'],
-    ['BB-DEL-004', 'Burma Burma - Khan Market', 'Khan Market', 'Delhi NCR', 'Raman Bhalla', '+91 11 4160 5514', 'khanmarket@burmaburma.in'],
-    ['BB-BLR-001', 'Burma Burma - Indiranagar', '100 Feet Road', 'Bengaluru', 'Karthik R.', '+91 80 4300 8120', 'indiranagar@burmaburma.in'],
-    ['BB-BLR-002', 'Burma Burma - Forum Rex Walk', 'Brigade Road', 'Bengaluru', 'Suresh Menon', '+91 80 4300 9500', 'rexwalk.blr@burmaburma.in'],
-    ['BB-BLR-003', 'Burma Burma - Phoenix Mall of Asia', 'Hebbal', 'Bengaluru', 'Anand Swamy', '+91 80 4300 7811', 'mallofasia@burmaburma.in'],
-    ['BB-BLR-004', 'Burma Burma - Whitefield', 'VR Bengaluru', 'Bengaluru', 'Deepak Gowda', '+91 80 4300 6622', 'whitefield@burmaburma.in'],
-    ['BB-CCU-001', 'Burma Burma - Park Street', 'Park Street', 'Kolkata', 'Subhasish Das', '+91 33 4008 2001', 'parkstreet@burmaburma.in'],
-    ['BB-CCU-002', 'Burma Burma - Quest Mall', 'Ballygunge', 'Kolkata', 'Debolina Sen', '+91 33 4008 3400', 'quest.ccu@burmaburma.in'],
-    ['BB-CCU-003', 'Burma Burma - Salt Lake Sector V', 'Salt Lake', 'Kolkata', 'Arup Mukherjee', '+91 33 4008 5522', 'saltlake.ccu@burmaburma.in'],
-    ['BB-HYD-001', 'Burma Burma - Knowledge City', 'Hitec City / Madhapur', 'Hyderabad', 'M. Venkat Reddy', '+91 40 4859 2200', 'knowledgecity@burmaburma.in'],
-    ['BB-HYD-002', 'Burma Burma - Jubilee Hills', 'Road No. 36', 'Hyderabad', 'Gautam Rao', '+91 40 4859 4410', 'jubileehills@burmaburma.in'],
-    ['BB-AMD-001', 'Burma Burma - Palladium Ahmedabad', 'Thaltej', 'Ahmedabad', 'Bhavin Patel', '+91 79 4912 6001', 'ahmedabad@burmaburma.in'],
-    ['BB-PUN-001', 'Burma Burma - The Mills', 'Bund Garden Road', 'Pune', 'Sameer Joshi', '+91 20 4860 8820', 'pune@burmaburma.in'],
-    ['BB-IXC-001', 'Burma Burma - Nexus Elante Mall', 'Industrial Area Phase I', 'Chandigarh', 'Harpreet Singh', '+91 172 405 7710', 'chandigarh@burmaburma.in'],
-    ['BB-MAA-001', 'Burma Burma - Express Avenue', 'Royapettah', 'Chennai', 'R. Muralidharan', '+91 44 4801 3320', 'chennai@burmaburma.in'],
-    ['BB-JAI-001', 'Burma Burma - C-Scheme', 'C-Scheme', 'Jaipur', 'Vikram Rathore', '+91 141 409 5500', 'jaipur@burmaburma.in'],
+    ['Uniform Register', 'Store'], ['Spoilage Register', 'Store'], ['Lost and Found Register', 'Store'],
+    ['Pest Control Register', 'Store'], ['Shift Handover Register', 'Store'], ['Banking Slip', 'Store']
   ];
 
   /* ------------------------------------------------------------------ */
@@ -141,7 +86,7 @@
     page:         { label: 'Pages',                color: '#5b1614', order: 0 },
     announcement: { label: 'Announcements',        color: '#5B2C6F', order: 1 },
     job:          { label: 'Job openings',         color: '#B45309', order: 2 },
-    tool:         { label: 'Tasks & checklists',   color: '#8E281F', order: 3 },
+    tool:         { label: 'Log Book',              color: '#8E281F', order: 3 },
     doc:          { label: 'Documents',            color: '#2D5A27', order: 4 },
     store:        { label: 'Restaurants',          color: '#A66E2E', order: 5 },
     person:       { label: 'People',               color: '#6B4B5A', order: 6 }
@@ -156,16 +101,10 @@
 
   function buildStatic() {
     entries = [];
-    PAGES.forEach(function (p) { add('page', p[0], p[2], p[1], p[4], p[3]); });
+    PAGES.forEach(function (p) { add('page', p[0], p[2], pageUrl(p[1]) + p[5], p[4], p[3]); });
     if (!USE_BACKEND_SEARCH) {
-      TOOLS.forEach(function (t) { add('tool', t[0], t[1] + ' · Log Book', 'task-checklist.html?tool=' + encodeURIComponent(t[0]), 'checklist', t[1]); });
+      TOOLS.forEach(function (t) { add('tool', t[0], t[1] + ' · Log Book', U('logBook') + '?tool=' + encodeURIComponent(t[0]), 'checklist', t[1]); });
     }
-    DOCS.forEach(function (d) { add('doc', d[0], d[1] + ' › ' + d[2], 'company-info-directory.html?q=' + encodeURIComponent(d[0]), 'description', d[1] + ' ' + d[2]); });
-    FORM_DOCS.forEach(function (d) { add('doc', d[0], d[1] + ' › ' + d[2], 'company-forms-directory.html?q=' + encodeURIComponent(d[0]), 'assignment', d[1] + ' ' + d[2]); });
-    STORES.forEach(function (s) {
-      add('store', s[1], s[0] + ' · ' + s[2] + ', ' + s[3], 'restaurant-details-directory.html?q=' + encodeURIComponent(s[0]), 'storefront', s[0] + ' ' + s[2] + ' ' + s[3] + ' ' + s[5] + ' ' + s[6]);
-      add('person', s[4], 'General Manager · ' + s[1].replace(/^Burma Burma\s*[-–]?\s*/i, '') + ', ' + s[3], 'restaurant-details-directory.html?q=' + encodeURIComponent(s[4]), 'person', 'general manager gm ' + s[0] + ' ' + s[3] + ' ' + s[5] + ' ' + s[6]);
-    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -186,24 +125,24 @@
     var manage = { jobs: false, announcements: false };
 
     function announcements() {
-      return (window.AnnouncementsStore ? Promise.resolve(true) : loadScript('announcements-data.js')).then(function (ok) {
+      return (window.AnnouncementsStore ? Promise.resolve(true) : loadScript(U('annJs'))).then(function (ok) {
         if (!ok || !window.AnnouncementsStore) return;
         return window.AnnouncementsStore.load().then(function (data) {
           manage.announcements = !!data.canManage;
           data.announcements.filter(window.AnnouncementsStore.isVisible).forEach(function (a) {
             add('announcement', a.title, a.category + ' · ' + a.audience + (a.date ? ' · ' + fmtDay(a.date) : ''),
-              'announcements.html?ann=' + a.id, 'campaign', [a.category, a.audience, a.author, a.body, a.action].join(' '));
+              U('announcements') + '?ann=' + a.id, 'campaign', [a.category, a.audience, a.author, a.body, a.action].join(' '));
           });
         });
       }).catch(function () { /* announcements just won't be searchable */ });
     }
     function jobs() {
-      return (window.JobsStore ? Promise.resolve(true) : loadScript('jobs-data.js')).then(function (ok) {
+      return (window.JobsStore ? Promise.resolve(true) : loadScript(U('jobsJs'))).then(function (ok) {
         if (!ok || !window.JobsStore) return;
         return window.JobsStore.load().then(function (data) {
           manage.jobs = !!data.canManage;
           data.jobs.filter(window.JobsStore.isLive).forEach(function (j) {
-            add('job', j.title, j.department + ' · ' + j.city + (j.place ? ' · ' + j.place : '') + ' · ' + j.type, 'job-openings.html#job-' + j.id, 'badge',
+            add('job', j.title, j.department + ' · ' + j.city + (j.place ? ' · ' + j.place : '') + ' · ' + j.type, U('jobs') + '#job-' + j.id, 'badge',
               [j.department, j.city, j.place, j.type, j.experience, j.summary, j.requirements.join(' ')].join(' '));
           });
         });
@@ -213,13 +152,26 @@
       if (!USE_BACKEND_SEARCH) return Promise.resolve();
       return fetch('/api/checklist-icons/', { credentials: 'include' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
         if (!data) return;
-        data.icons.forEach(function (t) { add('tool', t.name, t.department + ' · Log Book', 'task-checklist.html?tool=' + encodeURIComponent(t.name), 'checklist', t.department); });
+        data.icons.forEach(function (t) { add('tool', t.name, t.department + ' · Log Book', U('logBook') + '?tool=' + encodeURIComponent(t.name), 'checklist', t.department); });
       }).catch(function () { /* tools just won't be searchable */ });
     }
 
-    dynamicLoading = Promise.all([announcements(), jobs(), tools()]).then(function () {
-      if (manage.jobs) add('page', MANAGE_PAGES.jobs[0], MANAGE_PAGES.jobs[2], MANAGE_PAGES.jobs[1], MANAGE_PAGES.jobs[4], MANAGE_PAGES.jobs[3]);
-      if (manage.announcements) add('page', MANAGE_PAGES.announcements[0], MANAGE_PAGES.announcements[2], MANAGE_PAGES.announcements[1], MANAGE_PAGES.announcements[4], MANAGE_PAGES.announcements[3]);
+    // Live documents, restaurants and people from the portal (only what this employee can see).
+    function portalIndex() {
+      if (!URLS.searchIndex) return Promise.resolve();
+      return fetch(URLS.searchIndex, { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          (data.docs || []).forEach(function (d) { add('doc', d.title, d.sub, d.url, 'description', d.kw); });
+          (data.stores || []).forEach(function (d) { add('store', d.title, d.sub, d.url, 'storefront', d.kw); });
+          (data.people || []).forEach(function (d) { add('person', d.title, d.sub, d.url, 'person', d.kw); });
+        }).catch(function () { /* documents and restaurants just won't be searchable */ });
+    }
+
+    dynamicLoading = Promise.all([announcements(), jobs(), tools(), portalIndex()]).then(function () {
+      if (manage.jobs) add('page', MANAGE_PAGES.jobs[0], MANAGE_PAGES.jobs[2], U(MANAGE_PAGES.jobs[1]), MANAGE_PAGES.jobs[4], MANAGE_PAGES.jobs[3]);
+      if (manage.announcements) add('page', MANAGE_PAGES.announcements[0], MANAGE_PAGES.announcements[2], U(MANAGE_PAGES.announcements[1]), MANAGE_PAGES.announcements[4], MANAGE_PAGES.announcements[3]);
       dynamicLoaded = true;
       dynamicLoading = null;
     });
@@ -384,16 +336,7 @@
     else active = -1;
   }
 
-  // Pages that intentionally open in their own tab even though they're part
-  // of this site (e.g. a music player that should keep playing while you
-  // browse elsewhere), same treatment as a true external link.
-  var NEW_TAB_PAGES = ['music-player.html'];
-
-  function go(e) {
-    if (!e || !e.url) return;
-    if (/^https?:\/\//i.test(e.url) || NEW_TAB_PAGES.indexOf(e.url) !== -1) window.open(e.url, '_blank', 'noopener');
-    else window.location.href = e.url;
-  }
+  function go(e) { if (e && e.url) window.location.href = e.url; }
 
   var typing = null;
   function refresh() {
@@ -431,11 +374,11 @@
   window.addEventListener('resize', function () { if (!panel.hidden) place(); });
   window.addEventListener('scroll', function () { if (!panel.hidden) place(); }, { passive: true });
 
-  // "/" or Ctrl/Cmd+K jumps to the search box from anywhere.
+  // "dashboard.html" or Ctrl/Cmd+K jumps to the search box from anywhere.
   document.addEventListener('keydown', function (e) {
     var t = e.target, typingInField = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable);
     if ((e.key === 'k' || e.key === 'K') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); input.focus(); input.select(); }
-    else if (e.key === '/' && !typingInField && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); input.focus(); }
+    else if (e.key === 'dashboard.html' && !typingInField && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); input.focus(); }
   });
 
   buildStatic();

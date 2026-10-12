@@ -1,24 +1,25 @@
-# Mingalaba Portal - front-end demo
+# Mingalaba Portal - front-end site (updated)
 
-A frozen copy of the portal's screens as plain HTML, with sample data, for showing the front end.
-No server and no database are needed, and nothing here is real: every name, outlet, number and
-document is made up.
+Same layout as the earlier version (dashboard.html, knowledge-center.html, task-checklist.html, ...), now updated with
+everything built since: the new Log Book registers and reports, Announcements and Jobs boards, document libraries by
+department, Restaurant Details, and the full Admin portal.
 
-## Put it on GitHub Pages
-1. Create a repository and upload **everything in this folder** (keep the `static` and `data` folders and `demo.js`).
-2. Repository **Settings > Pages > Build and deployment**: Source = *Deploy from a branch*,
-   Branch = `main`, folder = `/ (root)`. Save.
-3. After a minute the demo opens at `https://<your-user>.github.io/<repository>/` (start page: `index.html`).
+* `index.html` is the sign-in page. Any ID and password opens the Dashboard (demo mode).
+* `all-pages.html` lists every screen, including the Admin pages (`admin-*.html`).
+* `sop-<department>.html` and `forms-<department>.html` are the department pages of the document libraries.
+  `company-info-directory.html` and `company-forms-directory.html` open the Operations department of each library.
+* `header.html` is still the single source of the header; edit it and run `sync-header.ps1` to copy it into every page.
+* `data/` holds the sample data; `static/` the Admin styles and document viewers; `demo.js` switches the pages to sample data.
+* All names, outlets, numbers and documents are made up. Anything that saves, sends or downloads shows "Demo only".
 
-Or open `index.html` through any web server (for example `python -m http.server` in this folder).
-Opening the files straight from disk (double-click) will not load the sample data.
+Preview locally: double-click `start-local-server.bat` (needs Python). On GitHub: upload everything to the repository root and turn on
+Settings > Pages (branch `main`, folder `/ (root)`). Fonts and styles load from the internet, as before.
+`announcements-store-targets.html` is the old designer page, kept unchanged because the portal has no newer version of it.
 
-## How it behaves
-- The pages use the internet for fonts and Tailwind (the same CDN the real portal uses), so show it online.
-- Sign in with any employee ID and password: the demo accepts it and opens the Dashboard.
-- Anything that saves, sends or downloads shows "Demo only" and stores nothing.
-- Log Book reports, jobs, announcements, outlets and the Admin usage numbers come from the sample files in `data/`.
-
-## Use a private repository
-The screens carry the company's branding and layout. If the demo should not be public, make the repository private
-(GitHub Pages from a private repository needs a paid GitHub plan) or share the zip instead.
+## Updating the GitHub repository (important)
+The earlier upload contained only the .html and .js files, so the `data` and `static` folders were missing on GitHub
+(no sample data, no Admin styles). Upload the **folders** too:
+1. In the repository click **Add file > Upload files** and drag the whole contents of this zip (after unzipping), including the `data` and `static`
+   folders, into the page. Commit to `main`.
+2. Delete the old duplicate files listed in `FILES-TO-DELETE.txt` (open each file > trash icon > Commit).
+3. Settings > Pages: Branch `main`, folder `/ (root)`.
